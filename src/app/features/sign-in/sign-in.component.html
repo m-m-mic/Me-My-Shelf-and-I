@@ -1,10 +1,31 @@
-<h2>Sign In</h2>
-<div>
-  <input type="email" />
-  <input type="password" />
-</div>
-<button>Sign In</button>
-<div>
-  Don't have an account?
-  <a routerLink="sign-up">Sign up here.</a>
-</div>
+<form [formGroup]="loginForm" class="sign-in-container">
+  <h2>Sign In</h2>
+  <div class="sign-in-inputs">
+    <span class="p-float-label">
+      <input pInputText type="email" id="email" formControlName="email" />
+      <label htmlFor="email">Email</label>
+    </span>
+    <span class="p-float-label">
+      <input
+        pInputText
+        type="password"
+        id="password"
+        formControlName="password"
+      />
+      <label htmlFor="password">Password</label>
+    </span>
+  </div>
+  <div *ngIf="areCredentialsIncorrect" class="invalid-disclaimer">
+    The entered email or password is incorrect.
+  </div>
+  <p-button
+    id="login-button"
+    [disabled]="!loginForm.valid"
+    label="Log In"
+    (click)="signIn()"
+  ></p-button>
+  <div class="sign-up-disclaimer">
+    Don't have an account?
+    <a routerLink="/sign-up">Sign up here.</a>
+  </div>
+</form>
