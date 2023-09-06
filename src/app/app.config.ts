@@ -4,6 +4,8 @@ import { provideRouter } from '@angular/router';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { ROUTES } from './app.routes';
+import { provideStore } from '@ngrx/store';
+import { authReducer } from './core/states/auth.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,5 +23,6 @@ export const appConfig: ApplicationConfig = {
       AngularFireAuthModule,
     ),
     provideRouter(ROUTES),
+    provideStore({ auth: authReducer }),
   ],
 };
