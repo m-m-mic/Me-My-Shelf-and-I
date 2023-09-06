@@ -16,7 +16,7 @@
     </span>
   </div>
   <div *ngIf="areCredentialsIncorrect" class="invalid-disclaimer">
-    The entered email or password is incorrect.
+    {{ errorMessage }}
   </div>
   <p-button
     id="login-button"

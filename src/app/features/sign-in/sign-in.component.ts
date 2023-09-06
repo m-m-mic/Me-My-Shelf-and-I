@@ -1,37 +1,35 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
+import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
   FormGroup,
-  FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { NgIf } from '@angular/common';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
 import { AuthenticationService } from '../../core/services/authentication.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  standalone: true,
   selector: 'app-sign-in',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    InputTextModule,
+    ButtonModule,
+    RouterLink,
+  ],
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.scss'],
-  imports: [
-    RouterModule,
-    ButtonModule,
-    InputTextModule,
-    FormsModule,
-    NgIf,
-    ReactiveFormsModule,
-  ],
 })
 export class SignInComponent implements OnInit {
   loginForm!: FormGroup;
   @Input() email = '';
   @Input() password = '';
-  areInputsValid = false;
   areCredentialsIncorrect = false;
+  errorMessage = 'An unexpected error occurred.';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -47,12 +45,15 @@ export class SignInComponent implements OnInit {
 
   signIn() {
     this.authenticationService
-      .signIn(this.loginForm.value.email, this.loginForm.value.password)
+      .signInWithEmailPassword(
+        this.loginForm.value.email,
+        this.loginForm.value.password,
+      )
       .subscribe({
         next: () => console.log('success!'),
         error: (error) => {
           this.areCredentialsIncorrect = true;
-          console.log(error);
+          this.errorMessage = error.message;
         },
       });
   }
