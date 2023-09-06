@@ -1,1 +1,54 @@
-<p>sign-up works!</p>
+<form [formGroup]="registrationForm" class="form-container">
+  <h2>Sign Up</h2>
+  <div class="form-inputs">
+    <span class="p-float-label">
+      <input pInputText type="email" id="email" formControlName="email" />
+      <label htmlFor="email">Email</label>
+    </span>
+    <span class="p-float-label">
+      <input
+        pInputText
+        type="password"
+        id="password"
+        formControlName="password"
+      />
+      <label htmlFor="password">Password</label>
+      <small *ngIf="password.errors?.['minlength']"
+        >Has to be at least 8 characters long</small
+      >
+      <small
+        *ngIf="
+          password.errors?.['insufficientStrength'] &&
+          !password.errors?.['minlength']
+        "
+        >Should contain at least one uppercase letter, one lowercase letter and
+        one number</small
+      >
+    </span>
+    <span class="p-float-label">
+      <input
+        pInputText
+        type="password"
+        id="confirm-password"
+        formControlName="confirmPassword"
+      />
+      <label htmlFor="confirm-password">Repeat password</label>
+      <small *ngIf="registrationForm.errors?.['notSame']">
+        Passwords do not match
+      </small>
+    </span>
+  </div>
+  <div *ngIf="isError" class="error-disclaimer">
+    {{ errorMessage }}
+  </div>
+  <p-button
+    id="register-button"
+    [disabled]="!registrationForm.valid || isFetching"
+    label="REGISTER"
+    (click)="signUp()"
+  ></p-button>
+  <div class="sign-up-disclaimer">
+    Don't have an account?
+    <a routerLink="/sign-up">Sign up here.</a>
+  </div>
+</form>

@@ -1,0 +1,49 @@
+.form-container {
+  max-width: 440px;
+  width: 100%;
+  background: var(--highlight-bg);
+  display: flex;
+  flex-flow: column;
+  gap: 16px;
+  padding: 24px 48px;
+  border-radius: 12px;
+  align-items: center;
+
+  h2 {
+    width: 100%;
+    margin: 0;
+  }
+
+  .form-inputs {
+    display: flex;
+    flex-flow: column;
+    width: 100%;
+    gap: 4px;
+    span {
+      margin-top: 24px;
+      display: flex;
+      flex-flow: column;
+
+      input {
+        width: 100%;
+      }
+
+      small {
+        margin-top: 4px;
+        width: 100%;
+        text-align: right;
+        color: var(--red-100);
+      }
+    }
+  }
+
+  .error-disclaimer {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 12px;
+    border-radius: 6px;
+    color: var(--red-100);
+    border: 2px solid var(--red-100);
+  }
+}

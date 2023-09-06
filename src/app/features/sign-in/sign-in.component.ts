@@ -22,13 +22,11 @@ import { RouterLink } from '@angular/router';
     RouterLink,
   ],
   templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.scss'],
+  styleUrls: ['./sign-in.component.scss', '../../shared/styles/form.scss'],
 })
 export class SignInComponent implements OnInit {
   loginForm!: FormGroup;
-  @Input() email = '';
-  @Input() password = '';
-  areCredentialsIncorrect = false;
+  isError = false;
   errorMessage = 'An unexpected error occurred.';
 
   constructor(
@@ -50,9 +48,9 @@ export class SignInComponent implements OnInit {
         this.loginForm.value.password,
       )
       .subscribe({
-        next: () => console.log('success!'),
+        next: (res) => console.log(res),
         error: (error) => {
-          this.areCredentialsIncorrect = true;
+          this.isError = true;
           this.errorMessage = error.message;
         },
       });
