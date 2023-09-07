@@ -6,11 +6,11 @@ import {
   from,
   map,
   Observable,
-  tap,
   throwError,
 } from 'rxjs';
 import firebase from 'firebase/compat';
 import FirebaseError = firebase.FirebaseError;
+import { UsersService } from './users.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +18,10 @@ import FirebaseError = firebase.FirebaseError;
 export class AuthenticationService {
   loggedIn = new BehaviorSubject<boolean>(false);
   loggedIn$ = this.loggedIn.asObservable();
-  constructor(private auth: AngularFireAuth) {
+  constructor(
+    private auth: AngularFireAuth,
+    private usersService: UsersService,
+  ) {
     this.auth.onAuthStateChanged((user) => {
       if (user) {
         this.loggedIn.next(true);
@@ -44,6 +47,10 @@ export class AuthenticationService {
     return from(this.auth.createUserWithEmailAndPassword(email, password)).pipe(
       map((result) => {
         result.user?.updateProfile({ displayName: displayName });
+        this.usersService.create({
+          id: result.user?.uid,
+          collection: { games: [], movies: [], music: [] },
+        });
       }),
       catchError((err: FirebaseError) =>
         throwError(() => new Error(this.convertSignUpError(err))),

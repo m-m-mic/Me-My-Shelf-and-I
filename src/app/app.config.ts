@@ -13,6 +13,8 @@ import { environment } from '../environments/environment';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AuthenticationGuard } from './core/services/authentication.guard';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,10 +22,12 @@ export const appConfig: ApplicationConfig = {
       BrowserModule,
       AngularFireModule.initializeApp(environment.firebaseConfig),
       AngularFireAuthModule,
+      AngularFirestoreModule,
     ),
     provideRouter(ROUTES),
     provideStore(),
     provideEffects([AuthEffects]),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
+    AuthenticationGuard,
   ],
 };

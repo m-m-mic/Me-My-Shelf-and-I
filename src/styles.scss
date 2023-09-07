@@ -1,7 +1,13 @@
-@import "primeng/resources/themes/lara-dark-purple/theme.css";
-@import "primeng/resources/primeng.css";
+@import 'primeng/resources/themes/lara-dark-purple/theme.css';
+@import 'primeng/resources/primeng.css';
 
 body {
   font-family: var(--font-family);
   margin: 0;
+
+  app-root {
+    min-height: 100vh;
+    display: flex;
+    flex-flow: column;
+  }
 }

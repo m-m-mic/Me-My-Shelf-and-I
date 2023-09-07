@@ -56,7 +56,7 @@ export class AuthEffects {
         mergeMap(() => {
           return this.authenticationService.signOut().pipe(
             tap(() => {
-              this.router.navigate(['/']);
+              this.router.navigate(['/welcome']);
             }),
           );
         }),
