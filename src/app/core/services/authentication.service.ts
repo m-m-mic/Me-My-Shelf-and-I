@@ -26,6 +26,10 @@ export class AuthenticationService {
     );
   }
 
+  signOut(): Observable<any> {
+    return from(this.auth.signOut());
+  }
+
   private convertSignUpError(error: FirebaseError) {
     if (error.code === 'auth/email-already-in-use') {
       return 'The entered email is already in use.';

@@ -1,15 +1,19 @@
 export interface AuthState {
   token: string;
-  user: UserData | null;
+  user: UserData;
 }
 
 export interface UserData {
-  displayName?: string;
+  displayName: string;
   email: string;
   uid: string;
 }
 
 export const initialAuthState: AuthState = {
   token: '',
-  user: null,
+  user: {
+    displayName: '',
+    email: '',
+    uid: '',
+  },
 };

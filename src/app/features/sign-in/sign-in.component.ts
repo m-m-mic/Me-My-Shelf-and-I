@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -8,8 +8,9 @@ import {
 } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
-import { AuthenticationService } from '../../core/services/authentication.service';
 import { RouterLink } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { signIn } from '../../core/states/auth.actions';
 
 @Component({
   selector: 'app-sign-in',
@@ -31,7 +32,7 @@ export class SignInComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private authenticationService: AuthenticationService,
+    private store: Store,
   ) {}
 
   ngOnInit() {
@@ -42,17 +43,11 @@ export class SignInComponent implements OnInit {
   }
 
   signIn() {
-    this.authenticationService
-      .signInWithEmailPassword(
-        this.loginForm.value.email,
-        this.loginForm.value.password,
-      )
-      .subscribe({
-        next: (res) => console.log(res),
-        error: (error) => {
-          this.isError = true;
-          this.errorMessage = error.message;
-        },
-      });
+    this.store.dispatch(
+      signIn({
+        email: this.loginForm.value.email,
+        password: this.loginForm.value.password,
+      }),
+    );
   }
 }

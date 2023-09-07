@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { UserData } from './auth.state';
+import { AuthState, UserData } from './auth.state';
 
 export const setToken = createAction(
   '[Auth] Set Token',
@@ -12,3 +12,20 @@ export const setUser = createAction(
 );
 
 export const removeToken = createAction('[Auth] Remove Token');
+
+export const signIn = createAction(
+  '[Auth] Sign In',
+  props<{ email: string; password: string }>(),
+);
+
+export const signUp = createAction(
+  '[Auth] Sign Up',
+  props<{ email: string; password: string }>(),
+);
+
+export const successfulAuthentication = createAction(
+  '[Auth] Successful Authentication',
+  props<{ data: AuthState; redirect: boolean }>(),
+);
+
+export const signOut = createAction('[Auth] Sign Out');

@@ -1,0 +1,6 @@
+<ng-template [ngIf]="isLoggedIn">
+  <button (click)="signOut()">SIGN OUT</button>
+</ng-template>
+<ng-template [ngIf]="!isLoggedIn">
+  <a routerLink="/sign-in">SIGN IN</a>
+</ng-template>
