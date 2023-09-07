@@ -1,9 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { signOut } from '../../states/auth.actions';
-import { CookieService } from 'ngx-cookie-service';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-header',
@@ -13,17 +13,15 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  @Input() isLoggedIn!: boolean;
-
+  isLoggedIn!: boolean;
   constructor(
     private store: Store,
-    private cookieService: CookieService,
-    private router: Router,
+    private authenticationService: AuthenticationService,
   ) {}
 
   ngOnInit() {
-    this.router.events.subscribe(
-      () => (this.isLoggedIn = !!this.cookieService.get('token')),
+    this.authenticationService.loggedIn$.subscribe(
+      (value) => (this.isLoggedIn = value),
     );
   }
 

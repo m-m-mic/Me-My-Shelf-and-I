@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { LandingPageComponent } from '../landing-page/landing-page.component';
 import { Store } from '@ngrx/store';
-import { selectToken } from '../../core/states/auth.selectors';
 import { NgIf } from '@angular/common';
 import { DashboardComponent } from '../dashboard/dashboard.component';
+import { AuthenticationService } from '../../core/services/authentication.service';
 
 @Component({
   standalone: true,
@@ -14,8 +14,10 @@ import { DashboardComponent } from '../dashboard/dashboard.component';
 })
 export class IndexComponent implements OnInit {
   isLoggedIn!: boolean;
-  constructor(private store: Store) {}
+  constructor(private authenticationService: AuthenticationService) {}
   ngOnInit() {
-    this.isLoggedIn = !!this.store.select(selectToken);
+    this.authenticationService.loggedIn$.subscribe(
+      (value) => (this.isLoggedIn = value),
+    );
   }
 }

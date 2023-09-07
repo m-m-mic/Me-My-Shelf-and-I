@@ -1,6 +1,14 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { catchError, from, Observable, throwError } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  from,
+  map,
+  Observable,
+  tap,
+  throwError,
+} from 'rxjs';
 import firebase from 'firebase/compat';
 import FirebaseError = firebase.FirebaseError;
 
@@ -8,7 +16,17 @@ import FirebaseError = firebase.FirebaseError;
   providedIn: 'root',
 })
 export class AuthenticationService {
-  constructor(private auth: AngularFireAuth) {}
+  loggedIn = new BehaviorSubject<boolean>(false);
+  loggedIn$ = this.loggedIn.asObservable();
+  constructor(private auth: AngularFireAuth) {
+    this.auth.onAuthStateChanged((user) => {
+      if (user) {
+        this.loggedIn.next(true);
+      } else {
+        this.loggedIn.next(false);
+      }
+    });
+  }
 
   signInWithEmailPassword(email: string, password: string): Observable<any> {
     return from(this.auth.signInWithEmailAndPassword(email, password)).pipe(
@@ -18,8 +36,15 @@ export class AuthenticationService {
     );
   }
 
-  signUpWithEmailPassword(email: string, password: string): Observable<any> {
+  signUpWithEmailPassword(
+    email: string,
+    password: string,
+    displayName: string,
+  ): Observable<any> {
     return from(this.auth.createUserWithEmailAndPassword(email, password)).pipe(
+      map((result) => {
+        result.user?.updateProfile({ displayName: displayName });
+      }),
       catchError((err: FirebaseError) =>
         throwError(() => new Error(this.convertSignUpError(err))),
       ),
@@ -28,6 +53,10 @@ export class AuthenticationService {
 
   signOut(): Observable<any> {
     return from(this.auth.signOut());
+  }
+
+  public getUser() {
+    return from(this.auth.authState);
   }
 
   private convertSignUpError(error: FirebaseError) {

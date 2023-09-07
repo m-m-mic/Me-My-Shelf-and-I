@@ -14,6 +14,8 @@ import {
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AuthenticationService } from '../../core/services/authentication.service';
+import { Store } from '@ngrx/store';
+import { signUp } from '../../core/states/auth.actions';
 
 @Component({
   standalone: true,
@@ -37,13 +39,14 @@ export class SignUpComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private authenticationService: AuthenticationService,
+    private store: Store,
   ) {}
 
   ngOnInit() {
     this.registrationForm = this.formBuilder.group(
       {
-        email: ['', [Validators.required]],
+        displayName: ['', [Validators.required, Validators.maxLength(12)]],
+        email: ['', [Validators.required, Validators.email]],
         password: [
           '',
           {
@@ -87,6 +90,10 @@ export class SignUpComponent implements OnInit {
     return passwordValid ? null : { insufficientStrength: true };
   };
 
+  get displayName() {
+    return this.registrationForm.controls['displayName'];
+  }
+
   get email() {
     return this.registrationForm.controls['email'];
   }
@@ -98,18 +105,12 @@ export class SignUpComponent implements OnInit {
   signUp() {
     this.isFetching = true;
     this.isError = false;
-    this.authenticationService
-      .signUpWithEmailPassword(
-        this.registrationForm.value.email,
-        this.registrationForm.value.password,
-      )
-      .subscribe({
-        next: (res) => console.log(res),
-        error: (error) => {
-          this.isError = true;
-          this.isFetching = false;
-          this.errorMessage = error.message;
-        },
-      });
+    this.store.dispatch(
+      signUp({
+        email: this.registrationForm.value.email,
+        password: this.registrationForm.value.password,
+        displayName: this.registrationForm.value.displayName,
+      }),
+    );
   }
 }
