@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import {
   BehaviorSubject,
@@ -15,6 +15,7 @@ import { UsersService } from './users.service';
 import { Store } from '@ngrx/store';
 import { removeToken, setToken } from '../states/auth/auth.actions';
 import { resolveError, setErrorMessage } from '../states/error/error.actions';
+import UserCredential = firebase.auth.UserCredential;
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +37,10 @@ export class AuthenticationService {
     });
   }
 
-  signInWithEmailPassword(email: string, password: string): Observable<any> {
+  signInWithEmailPassword(
+    email: string,
+    password: string,
+  ): Observable<UserCredential> {
     return from(this.auth.signInWithEmailAndPassword(email, password)).pipe(
       tap(
         (result) =>
@@ -61,7 +65,7 @@ export class AuthenticationService {
     email: string,
     password: string,
     displayName: string,
-  ): Observable<any> {
+  ): Observable<void> {
     return from(this.auth.createUserWithEmailAndPassword(email, password)).pipe(
       map((result) => {
         result.user?.updateProfile({ displayName: displayName });
@@ -86,7 +90,7 @@ export class AuthenticationService {
     );
   }
 
-  signOut(): Observable<any> {
+  signOut(): Observable<void> {
     return from(
       this.auth.signOut().then(() => this.store.dispatch(removeToken())),
     );

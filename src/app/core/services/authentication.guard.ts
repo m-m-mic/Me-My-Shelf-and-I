@@ -5,22 +5,20 @@ import {
   Router,
   RouterStateSnapshot,
 } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { selectToken } from '../states/auth/auth.selectors';
 import { map } from 'rxjs';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate {
   constructor(
     private router: Router,
-    private store: Store,
+    private authenticationService: AuthenticationService,
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    return this.store.select(selectToken).pipe(
-      map((token) => {
-        console.log(token);
-        return token ? true : this.router.parseUrl('/welcome');
+    return this.authenticationService.getUser().pipe(
+      map((user) => {
+        return user ? true : this.router.parseUrl('/welcome');
       }),
     );
   }

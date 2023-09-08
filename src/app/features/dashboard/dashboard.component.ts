@@ -5,7 +5,6 @@ import firebase from 'firebase/compat';
 import User = firebase.User;
 import { ButtonModule } from 'primeng/button';
 import { Store } from '@ngrx/store';
-import { removeToken, setToken } from '../../core/states/auth/auth.actions';
 import { selectToken } from '../../core/states/auth/auth.selectors';
 
 @Component({
@@ -18,6 +17,7 @@ import { selectToken } from '../../core/states/auth/auth.selectors';
 export class DashboardComponent {
   userData: User | null = null;
   storeToken$ = this.store.select(selectToken);
+
   constructor(
     private authenticationService: AuthenticationService,
     private store: Store,
