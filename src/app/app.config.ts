@@ -17,11 +17,13 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AuthenticationGuard } from './core/services/authentication.guard';
 import { authReducer } from './core/states/auth/auth.reducer';
 import { errorReducer } from './core/states/error/error.reducer';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     importProvidersFrom(
       BrowserModule,
+      BrowserAnimationsModule,
       AngularFireModule.initializeApp(environment.firebaseConfig),
       AngularFireAuthModule,
       AngularFirestoreModule,
