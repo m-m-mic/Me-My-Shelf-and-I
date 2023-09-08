@@ -1,9 +1,9 @@
-:host {
-  display: contents;
+@mixin contentBody {
+  display: flex;
   box-sizing: border-box;
   flex: 1;
   width: 100%;
   flex-flow: column;
   gap: 16px;
-  padding: 0 12px;
+  padding: 16px 12px;
 }
