@@ -19,8 +19,7 @@ export class AuthenticationGuard implements CanActivate {
     return this.authenticationService.getUser().pipe(
       map((user) => {
         if (route.data['blockAuthenticated']) {
-          console.log('Test');
-          return user ? this.router.parseUrl('/') : true;
+          return user ? this.router.parseUrl('/') : false;
         }
         return user
           ? true
