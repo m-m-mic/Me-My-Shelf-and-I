@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { signOut } from '../../states/auth.actions';
+import { signOut } from '../../states/auth/auth.actions';
 import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({

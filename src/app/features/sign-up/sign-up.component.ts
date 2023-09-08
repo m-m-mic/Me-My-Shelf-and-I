@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { NgIf } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { PaginatorModule } from 'primeng/paginator';
 import {
   AbstractControl,
@@ -13,9 +13,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { AuthenticationService } from '../../core/services/authentication.service';
 import { Store } from '@ngrx/store';
-import { signUp } from '../../core/states/auth.actions';
+import { signUp } from '../../core/states/auth/auth.actions';
+import { resolveError } from '../../core/states/error/error.actions';
+import { selectErrorMessage } from '../../core/states/error/error.selectors';
 
 @Component({
   standalone: true,
@@ -29,13 +30,12 @@ import { signUp } from '../../core/states/auth.actions';
     PaginatorModule,
     ReactiveFormsModule,
     RouterLink,
+    AsyncPipe,
   ],
 })
-export class SignUpComponent implements OnInit {
+export class SignUpComponent implements OnInit, OnDestroy {
   registrationForm!: FormGroup;
-  isFetching = false;
-  isError = false;
-  errorMessage = 'An unexpected error occurred.';
+  errorMessage$ = this.store.select(selectErrorMessage({ error: 'signUp' }));
 
   constructor(
     private formBuilder: FormBuilder,
@@ -62,6 +62,12 @@ export class SignUpComponent implements OnInit {
       },
       { validators: this.matchPasswords },
     );
+  }
+
+  ngOnDestroy() {
+    this.errorMessage$.subscribe((value) => {
+      if (value) this.store.dispatch(resolveError({ errorType: 'signIn' }));
+    });
   }
 
   matchPasswords: ValidatorFn = (
@@ -103,8 +109,6 @@ export class SignUpComponent implements OnInit {
   }
 
   signUp() {
-    this.isFetching = true;
-    this.isError = false;
     this.store.dispatch(
       signUp({
         email: this.registrationForm.value.email,

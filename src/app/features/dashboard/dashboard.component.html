@@ -1,6 +1,9 @@
-<p>dashboard works!</p>
+<h1>Dashboard</h1>
 <div>
-  {{ userData?.email }}
-  {{ userData?.uid }}
-  {{ userData?.displayName }}
+  <div>Email: {{ userData?.email }}</div>
+  <div>UID: {{ userData?.uid }}</div>
+  <div>Name: {{ userData?.displayName }}</div>
+</div>
+<div>
+  <div>Current store Token: {{ storeToken$ | async }}</div>
 </div>

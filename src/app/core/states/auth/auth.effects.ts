@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { AuthenticationService } from '../services/authentication.service';
-import { signIn, signUp, signOut } from './auth.actions';
-import { mergeMap, tap } from 'rxjs';
+import {
+  Actions,
+  createEffect,
+  ofType,
+  ROOT_EFFECTS_INIT,
+} from '@ngrx/effects';
+import { AuthenticationService } from '../../services/authentication.service';
+import { signIn, signUp, signOut, setToken } from './auth.actions';
+import { map, mergeMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class AuthEffects {
@@ -11,6 +17,7 @@ export class AuthEffects {
     private actions$: Actions,
     private authenticationService: AuthenticationService,
     private router: Router,
+    private store: Store,
   ) {}
 
   signIn$ = createEffect(
@@ -59,6 +66,29 @@ export class AuthEffects {
               this.router.navigate(['/welcome']);
             }),
           );
+        }),
+      );
+    },
+    { dispatch: false },
+  );
+
+  init$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(ROOT_EFFECTS_INIT),
+        mergeMap(() => {
+          return this.authenticationService
+            .getUser()
+            .pipe(
+              map(
+                (user) =>
+                  user
+                    ?.getIdToken()
+                    .then((token) =>
+                      this.store.dispatch(setToken({ token: token })),
+                    ),
+              ),
+            );
         }),
       );
     },

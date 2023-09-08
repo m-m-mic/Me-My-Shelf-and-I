@@ -6,11 +6,15 @@ import {
   from,
   map,
   Observable,
+  tap,
   throwError,
 } from 'rxjs';
 import firebase from 'firebase/compat';
 import FirebaseError = firebase.FirebaseError;
 import { UsersService } from './users.service';
+import { Store } from '@ngrx/store';
+import { removeToken, setToken } from '../states/auth/auth.actions';
+import { resolveError, setErrorMessage } from '../states/error/error.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +25,7 @@ export class AuthenticationService {
   constructor(
     private auth: AngularFireAuth,
     private usersService: UsersService,
+    private store: Store,
   ) {
     this.auth.onAuthStateChanged((user) => {
       if (user) {
@@ -33,8 +38,21 @@ export class AuthenticationService {
 
   signInWithEmailPassword(email: string, password: string): Observable<any> {
     return from(this.auth.signInWithEmailAndPassword(email, password)).pipe(
+      tap(
+        (result) =>
+          result.user
+            ?.getIdToken()
+            .then((token) => this.store.dispatch(setToken({ token: token }))),
+      ),
+      tap(() => this.store.dispatch(resolveError({ errorType: 'signIn' }))),
       catchError((err: FirebaseError) =>
-        throwError(() => new Error(this.convertSignInError(err))),
+        throwError(() =>
+          this.store.dispatch(
+            setErrorMessage({
+              error: { error: 'signIn', message: this.convertSignInError(err) },
+            }),
+          ),
+        ),
       ),
     );
   }
@@ -51,15 +69,27 @@ export class AuthenticationService {
           id: result.user?.uid,
           collection: { games: [], movies: [], music: [] },
         });
+        result.user
+          ?.getIdToken()
+          .then((token) => this.store.dispatch(setToken({ token: token })));
       }),
+      tap(() => this.store.dispatch(resolveError({ errorType: 'signUp' }))),
       catchError((err: FirebaseError) =>
-        throwError(() => new Error(this.convertSignUpError(err))),
+        throwError(() =>
+          this.store.dispatch(
+            setErrorMessage({
+              error: { error: 'signUp', message: this.convertSignUpError(err) },
+            }),
+          ),
+        ),
       ),
     );
   }
 
   signOut(): Observable<any> {
-    return from(this.auth.signOut());
+    return from(
+      this.auth.signOut().then(() => this.store.dispatch(removeToken())),
+    );
   }
 
   public getUser() {

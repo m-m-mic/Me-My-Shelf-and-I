@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -10,7 +10,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { signIn } from '../../core/states/auth.actions';
+import { signIn } from '../../core/states/auth/auth.actions';
+import { selectErrorMessage } from '../../core/states/error/error.selectors';
+import { resolveError } from '../../core/states/error/error.actions';
 
 @Component({
   selector: 'app-sign-in',
@@ -25,10 +27,9 @@ import { signIn } from '../../core/states/auth.actions';
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.scss', '../../shared/styles/form.scss'],
 })
-export class SignInComponent implements OnInit {
+export class SignInComponent implements OnInit, OnDestroy {
   loginForm!: FormGroup;
-  isError = false;
-  errorMessage = 'An unexpected error occurred.';
+  errorMessage$ = this.store.select(selectErrorMessage({ error: 'signIn' }));
 
   constructor(
     private formBuilder: FormBuilder,
@@ -39,6 +40,12 @@ export class SignInComponent implements OnInit {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required]],
       password: ['', [Validators.required]],
+    });
+  }
+
+  ngOnDestroy() {
+    this.errorMessage$.subscribe((value) => {
+      if (value) this.store.dispatch(resolveError({ errorType: 'signIn' }));
     });
   }
 

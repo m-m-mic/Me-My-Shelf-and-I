@@ -51,12 +51,12 @@
       </small>
     </span>
   </div>
-  <div *ngIf="isError" class="error-disclaimer">
-    {{ errorMessage }}
+  <div *ngIf="errorMessage$ | async" class="error-disclaimer">
+    {{ errorMessage$ | async }}
   </div>
   <p-button
     id="register-button"
-    [disabled]="!registrationForm.valid || isFetching"
+    [disabled]="!registrationForm.valid"
     label="REGISTER"
     (click)="signUp()"
   ></p-button>

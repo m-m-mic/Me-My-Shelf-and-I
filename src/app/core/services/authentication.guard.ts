@@ -4,31 +4,24 @@ import {
   CanActivate,
   Router,
   RouterStateSnapshot,
-  UrlTree,
 } from '@angular/router';
-import { AuthenticationService } from './authentication.service';
+import { Store } from '@ngrx/store';
+import { selectToken } from '../states/auth/auth.selectors';
+import { map } from 'rxjs';
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate {
   constructor(
     private router: Router,
-    private authenticationService: AuthenticationService,
+    private store: Store,
   ) {}
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot,
-  ): boolean | UrlTree {
-    let loggedIn;
-
-    this.authenticationService.loggedIn$.subscribe(
-      (value) => (loggedIn = value),
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    return this.store.select(selectToken).pipe(
+      map((token) => {
+        console.log(token);
+        return token ? true : this.router.parseUrl('/welcome');
+      }),
     );
-
-    if (!loggedIn) {
-      this.router.navigate(['welcome']);
-      return false;
-    }
-    return true;
   }
 }

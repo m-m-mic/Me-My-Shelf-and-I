@@ -8,13 +8,15 @@ import { provideRouter } from '@angular/router';
 import { ROUTES } from './app.routes';
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
-import { AuthEffects } from './core/states/auth.effects';
+import { AuthEffects } from './core/states/auth/auth.effects';
 import { environment } from '../environments/environment';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AuthenticationGuard } from './core/services/authentication.guard';
+import { authReducer } from './core/states/auth/auth.reducer';
+import { errorReducer } from './core/states/error/error.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,7 +27,7 @@ export const appConfig: ApplicationConfig = {
       AngularFirestoreModule,
     ),
     provideRouter(ROUTES),
-    provideStore(),
+    provideStore({ auth: authReducer, error: errorReducer }),
     provideEffects([AuthEffects]),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     AuthenticationGuard,
