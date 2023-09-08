@@ -1,6 +1,10 @@
 @import 'primeng/resources/themes/lara-dark-purple/theme.css';
 @import 'primeng/resources/primeng.css';
 
+@font-face {
+  font-family: 'Bungee Regular';
+  src: url('assets/fonts/Bungee-Regular.ttf');
+}
 body {
   font-family: var(--font-family);
   margin: 0;
@@ -13,6 +17,11 @@ h4,
 h5,
 h6 {
   margin: 0;
+}
+
+h1 {
+  font-family: 'Bungee Regular', sans-serif;
+  font-size: 56px;
 }
 
 .p-menu.account-button-menu {

@@ -1,11 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthenticationService } from '../../core/services/authentication.service';
-import firebase from 'firebase/compat';
-import User = firebase.User;
 import { ButtonModule } from 'primeng/button';
-import { Store } from '@ngrx/store';
-import { selectToken } from '../../core/states/auth/auth.selectors';
+import { UsersService } from '../../core/services/users.service';
+import { AuthenticationService } from '../../core/services/authentication.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,15 +12,13 @@ import { selectToken } from '../../core/states/auth/auth.selectors';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent {
-  userData: User | null = null;
-  storeToken$ = this.store.select(selectToken);
-
+  userCollection!: object;
   constructor(
     private authenticationService: AuthenticationService,
-    private store: Store,
+    private usersService: UsersService,
   ) {
-    authenticationService.getUser().subscribe((user) => {
-      this.userData = user;
+    this.authenticationService.getUser().subscribe((user) => {
+      if (user) console.log(this.usersService.getOne(user.uid));
     });
   }
 }
