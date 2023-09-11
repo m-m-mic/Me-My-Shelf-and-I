@@ -13,7 +13,7 @@ npm-debug.log
 yarn-error.log
 
 # IDEs and editors
-../.idea/
+.idea/
 .project
 .classpath
 .c9/
@@ -37,6 +37,7 @@ frontend/.vscode/tasks.json
 /libpeerconnection.log
 testem.log
 /typings
+.firebase
 
 # System files
 .DS_Store
