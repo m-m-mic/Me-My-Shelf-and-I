@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
@@ -6,6 +6,8 @@ import { MmsaiAccountButtonComponent } from '../../components/mmsai-account-butt
 import { MenuItem } from 'primeng/api';
 import { Store } from '@ngrx/store';
 import { signOut } from '../../states/auth/auth.actions';
+import { Subscription } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-header',
@@ -15,35 +17,45 @@ import { signOut } from '../../states/auth/auth.actions';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  isLoggedIn!: boolean;
-  displayName?: string | null;
+  authenticationService = inject(AuthenticationService);
+  store = inject(Store);
+  destroyRef = inject(DestroyRef);
+  isLoggedIn = false;
+  displayName = 'Account';
   menuItems!: MenuItem[];
-
-  constructor(
-    private authenticationService: AuthenticationService,
-    private store: Store,
-  ) {}
+  authSubscription!: Subscription;
 
   ngOnInit() {
-    this.authenticationService.getUser().subscribe((user) => {
-      if (user) {
-        this.isLoggedIn = true;
-        this.displayName = user.displayName ? user.displayName : user.email;
+    this.authSubscription = this.authenticationService
+      .getUser()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((user) => {
+        if (user) {
+          this.isLoggedIn = true;
+          this.displayName = user.displayName ?? (user.email as string);
+        } else {
+          this.isLoggedIn = false;
+          this.displayName = 'Account';
+        }
         this.menuItems = [
+          {
+            label: 'Sign In',
+            routerLink: '/sign-in',
+            visible: !this.isLoggedIn,
+          },
+          {
+            label: 'Sign Up',
+            routerLink: '/sign-up',
+            visible: !this.isLoggedIn,
+          },
           {
             label: 'Sign Out',
             command: () => {
               this.store.dispatch(signOut());
             },
+            visible: this.isLoggedIn,
           },
         ];
-      } else {
-        this.isLoggedIn = false;
-        this.menuItems = [
-          { label: 'Sign In', routerLink: '/sign-in' },
-          { label: 'Sign Up', routerLink: '/sign-up' },
-        ];
-      }
-    });
+      });
   }
 }

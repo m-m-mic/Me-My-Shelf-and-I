@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
@@ -15,7 +15,7 @@ import { MenuItem } from 'primeng/api';
   viewProviders: [provideIcons({ ionPerson })],
 })
 export class MmsaiAccountButtonComponent {
-  @Input() isLoggedIn!: boolean;
-  @Input() displayName!: string | null | undefined;
+  @Input() isLoggedIn = false;
+  @Input() displayName = 'Account';
   @Input() menuItems!: MenuItem[];
 }
