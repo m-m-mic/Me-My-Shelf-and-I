@@ -4,18 +4,15 @@ import {
   BehaviorSubject,
   catchError,
   from,
-  map,
   Observable,
-  tap,
   throwError,
 } from 'rxjs';
 import firebase from 'firebase/compat';
 import FirebaseError = firebase.FirebaseError;
-import { UsersService } from './users.service';
 import { Store } from '@ngrx/store';
-import { removeToken, setToken } from '../states/auth/auth.actions';
 import { resolveError, setErrorMessage } from '../states/error/error.actions';
 import UserCredential = firebase.auth.UserCredential;
+import { AuthCredentials } from '../../shared/types/authCredentials.type';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +22,6 @@ export class AuthenticationService {
   loggedIn$ = this.loggedIn.asObservable();
   constructor(
     private auth: AngularFireAuth,
-    private usersService: UsersService,
     private store: Store,
   ) {
     this.auth.onAuthStateChanged((user) => {
@@ -37,23 +33,17 @@ export class AuthenticationService {
     });
   }
 
-  signInWithEmailPassword(
-    email: string,
-    password: string,
-  ): Observable<UserCredential> {
+  signIn({ email, password }: AuthCredentials): Observable<UserCredential> {
+    this.store.dispatch(resolveError({ errorType: 'signIn' }));
     return from(this.auth.signInWithEmailAndPassword(email, password)).pipe(
-      tap(
-        (result) =>
-          result.user
-            ?.getIdToken()
-            .then((token) => this.store.dispatch(setToken({ token: token }))),
-      ),
-      tap(() => this.store.dispatch(resolveError({ errorType: 'signIn' }))),
-      catchError((err: FirebaseError) =>
+      catchError((err) =>
         throwError(() =>
           this.store.dispatch(
             setErrorMessage({
-              error: { error: 'signIn', message: this.convertSignInError(err) },
+              error: {
+                error: 'signIn',
+                message: this.convertSignInError(err),
+              },
             }),
           ),
         ),
@@ -61,23 +51,9 @@ export class AuthenticationService {
     );
   }
 
-  signUpWithEmailPassword(
-    email: string,
-    password: string,
-    displayName: string,
-  ): Observable<void> {
+  signUp({ email, password }: AuthCredentials) {
+    this.store.dispatch(resolveError({ errorType: 'signUp' }));
     return from(this.auth.createUserWithEmailAndPassword(email, password)).pipe(
-      map((result) => {
-        result.user?.updateProfile({ displayName: displayName });
-        this.usersService.create({
-          id: result.user?.uid,
-          collection: { games: [], movies: [], music: [] },
-        });
-        result.user
-          ?.getIdToken()
-          .then((token) => this.store.dispatch(setToken({ token: token })));
-      }),
-      tap(() => this.store.dispatch(resolveError({ errorType: 'signUp' }))),
       catchError((err: FirebaseError) =>
         throwError(() =>
           this.store.dispatch(
@@ -90,37 +66,39 @@ export class AuthenticationService {
     );
   }
 
-  signOut(): Observable<void> {
-    return from(
-      this.auth.signOut().then(() => this.store.dispatch(removeToken())),
-    );
+  signOut() {
+    return from(this.auth.signOut());
   }
 
   public getUser() {
     return from(this.auth.authState);
   }
 
-  private convertSignUpError(error: FirebaseError) {
-    if (error.code === 'auth/email-already-in-use') {
-      return 'The entered email is already in use.';
-    } else if (error.code === 'auth/invalid-email') {
-      return 'The entered email is invalid.';
-    } else if (error.code === 'auth/weak-password') {
-      return 'The entered password is not strong enough.';
+  convertSignUpError(error: FirebaseError): string {
+    switch (error.code) {
+      case 'auth/email-already-in-use':
+        return 'The entered email is already in use.';
+      case 'auth/invalid-email':
+        return 'The entered email is invalid.';
+      case 'auth/weak-password':
+        return 'The entered password is not strong enough.';
+      default:
+        return 'An unexpected error occurred.';
     }
-    return 'An unexpected error occurred.';
   }
 
-  private convertSignInError(error: FirebaseError) {
-    if (
-      error.code === 'auth/user-not-found' ||
-      error.code === 'auth/wrong-password' ||
-      error.code === 'auth/invalid-email'
-    ) {
-      return 'Entered email or password is incorrect.';
-    } else if (error.code === 'auth/user-disabled') {
-      return 'The entered account is currently disabled.';
+  convertSignInError(error: FirebaseError): string {
+    switch (error.code) {
+      case 'auth/user-not-found':
+        return 'Entered email or password is incorrect.';
+      case 'auth/wrong-password':
+        return 'Entered email or password is incorrect.';
+      case 'auth/invalid-email':
+        return 'Entered email or password is incorrect.';
+      case 'auth/user-disabled':
+        return 'The entered account is currently disabled.';
+      default:
+        return 'An unexpected error occurred.';
     }
-    return 'An unexpected error occurred.';
   }
 }

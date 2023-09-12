@@ -1,55 +1,55 @@
-import { Injectable } from '@angular/core';
-import {
-  Actions,
-  createEffect,
-  ofType,
-  ROOT_EFFECTS_INIT,
-} from '@ngrx/effects';
+import { inject, Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AuthenticationService } from '../../services/authentication.service';
-import { signIn, signUp, signOut, setToken } from './auth.actions';
-import { map, mergeMap, tap } from 'rxjs';
+import { signIn, signUp, signOut, authSuccess } from './auth.actions';
+import { exhaustMap, map, mergeMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { UsersService } from '../../services/users.service';
 
 @Injectable()
 export class AuthEffects {
-  constructor(
-    private actions$: Actions,
-    private authenticationService: AuthenticationService,
-    private router: Router,
-    private store: Store,
-  ) {}
+  private actions$ = inject(Actions);
+  private authenticationService = inject(AuthenticationService);
+  private router = inject(Router);
+  private usersService = inject(UsersService);
 
-  signIn$ = createEffect(
+  signIn$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(signIn),
+      exhaustMap(({ email, password }) => {
+        return this.authenticationService.signIn({ email, password }).pipe(
+          map(() => {
+            return authSuccess({ redirect: true });
+          }),
+        );
+      }),
+    );
+  });
+
+  signUp$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(signUp),
+      exhaustMap(({ email, password, displayName }) => {
+        return this.authenticationService.signUp({ email, password }).pipe(
+          map((result) => {
+            result.user?.updateProfile({ displayName: displayName });
+            this.usersService.create({
+              id: result.user?.uid,
+              collection: { games: [], movies: [], music: [] },
+            });
+            return authSuccess({ redirect: true });
+          }),
+        );
+      }),
+    );
+  });
+
+  authSuccess$ = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(signIn),
-        mergeMap(({ email, password }) => {
-          return this.authenticationService
-            .signInWithEmailPassword(email, password)
-            .pipe(
-              tap(() => {
-                this.router.navigate(['/']);
-              }),
-            );
-        }),
-      );
-    },
-    { dispatch: false },
-  );
-
-  signUp$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(signUp),
-        mergeMap(({ email, password, displayName }) => {
-          return this.authenticationService
-            .signUpWithEmailPassword(email, password, displayName)
-            .pipe(
-              tap(() => {
-                this.router.navigate(['/']);
-              }),
-            );
+        ofType(authSuccess),
+        tap(({ redirect }) => {
+          if (redirect) this.router.navigate(['/']);
         }),
       );
     },
@@ -66,29 +66,6 @@ export class AuthEffects {
               this.router.navigate(['/welcome']);
             }),
           );
-        }),
-      );
-    },
-    { dispatch: false },
-  );
-
-  init$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(ROOT_EFFECTS_INIT),
-        mergeMap(() => {
-          return this.authenticationService
-            .getUser()
-            .pipe(
-              map(
-                (user) =>
-                  user
-                    ?.getIdToken()
-                    .then((token) =>
-                      this.store.dispatch(setToken({ token: token })),
-                    ),
-              ),
-            );
         }),
       );
     },
