@@ -1,0 +1,31 @@
+<form [formGroup]="loginForm" class="form-container">
+  <h2>Sign In</h2>
+  <div class="form-inputs">
+    <span class="p-float-label">
+      <input pInputText type="email" id="email" formControlName="email" />
+      <label htmlFor="email">Email</label>
+    </span>
+    <span class="p-float-label">
+      <input
+        pInputText
+        type="password"
+        id="password"
+        formControlName="password"
+      />
+      <label htmlFor="password">Password</label>
+    </span>
+  </div>
+  <div *ngIf="errorMessage$ | async" class="error-disclaimer">
+    {{ errorMessage$ | async }}
+  </div>
+  <p-button
+    id="login-button"
+    [disabled]="!loginForm.valid"
+    label="Log In"
+    (click)="signIn()"
+  ></p-button>
+  <div class="sign-up-disclaimer">
+    Don't have an account?
+    <a routerLink="/sign-up">Sign up here.</a>
+  </div>
+</form>

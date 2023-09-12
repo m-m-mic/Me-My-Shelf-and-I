@@ -1,0 +1,7 @@
+@import '../../shared/styles/contentBody';
+
+:host {
+  @include contentBody;
+  justify-content: center;
+  align-items: center;
+}

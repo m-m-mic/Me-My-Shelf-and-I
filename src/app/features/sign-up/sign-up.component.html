@@ -1,0 +1,51 @@
+<form [formGroup]="registrationForm" class="form-container">
+  <h2>Sign Up</h2>
+  <div class="form-inputs">
+    <span class="p-float-label">
+      <input
+        pInputText
+        type="text"
+        id="displayName"
+        formControlName="displayName" />
+      <label htmlFor="displayName">Name *</label>
+      <small *ngIf="displayName.errors?.['maxlength']">
+        Can't be longer than 12 characters
+      </small>
+    </span>
+    <span class="p-float-label">
+      <input pInputText type="email" id="email" formControlName="email" />
+      <label htmlFor="email">Email *</label>
+      <small *ngIf="email.errors?.['email']">Has to be a valid email</small>
+    </span>
+    <span class="p-float-label">
+      <input
+        pInputText
+        type="password"
+        id="password"
+        formControlName="password" />
+      <label htmlFor="password">Password *</label>
+      <small *ngIf="password.errors?.['minlength']">
+        Has to be at least 8 characters long
+      </small>
+    </span>
+    <span class="p-float-label">
+      <input
+        pInputText
+        type="password"
+        id="confirm-password"
+        formControlName="confirmPassword" />
+      <label htmlFor="confirm-password">Repeat password *</label>
+      <small *ngIf="registrationForm.errors?.['notSame']">
+        Passwords do not match
+      </small>
+    </span>
+  </div>
+  <div *ngIf="errorMessage$ | async" class="error-disclaimer">
+    {{ errorMessage$ | async }}
+  </div>
+  <p-button
+    id="register-button"
+    [disabled]="!registrationForm.valid"
+    label="REGISTER"
+    (click)="signUp()"></p-button>
+</form>
