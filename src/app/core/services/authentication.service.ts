@@ -12,7 +12,7 @@ import FirebaseError = firebase.FirebaseError;
 import { Store } from '@ngrx/store';
 import { resolveError, setErrorMessage } from '../states/error/error.actions';
 import UserCredential = firebase.auth.UserCredential;
-import { AuthCredentials } from '../../shared/types/authCredentials.type';
+import { AuthCredentials } from '../models/authCredentials.interface';
 
 @Injectable({
   providedIn: 'root',

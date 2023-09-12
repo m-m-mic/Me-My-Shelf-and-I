@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { selectErrorMessage } from '../../core/states/error/error.selectors';
 import { resolveError } from '../../core/states/error/error.actions';
-import { AuthCredentials } from '../../shared/types/authCredentials.type';
+import { AuthCredentials } from '../../core/models/authCredentials.interface';
 import { signIn } from '../../core/states/auth/auth.actions';
 
 @Injectable({ providedIn: 'root' })
