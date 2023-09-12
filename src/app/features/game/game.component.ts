@@ -4,7 +4,7 @@ import { GamesService } from '../../core/services/games.service';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { take } from 'rxjs';
-import { Game } from '../../core/models/game.interface';
+import { GameType } from '../../core/models/game.interface';
 
 @Component({
   selector: 'app-game',
@@ -15,7 +15,7 @@ import { Game } from '../../core/models/game.interface';
 })
 export class GameComponent {
   private id!: string;
-  gameData!: Game;
+  gameData!: GameType;
 
   constructor(
     private gamesService: GamesService,

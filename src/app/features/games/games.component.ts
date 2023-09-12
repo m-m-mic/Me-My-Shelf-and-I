@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GamesService } from '../../core/services/games.service';
-import { GameWithId } from '../../core/models/game.interface';
+import { GameTypeWithId } from '../../core/models/game.interface';
 import { take } from 'rxjs';
 import { MmsaiCardComponent } from '../../core/components/mmsai-card/mmsai-card.component';
 
@@ -13,7 +13,7 @@ import { MmsaiCardComponent } from '../../core/components/mmsai-card/mmsai-card.
   styleUrls: ['./games.component.scss'],
 })
 export class GamesComponent {
-  gamesList: GameWithId[] = [];
+  gamesList: GameTypeWithId[] = [];
 
   constructor(private gamesService: GamesService) {
     this.gamesService
@@ -21,7 +21,7 @@ export class GamesComponent {
       .snapshotChanges()
       .pipe(take(1))
       .subscribe((games) => {
-        const gamesWithIds: GameWithId[] = [];
+        const gamesWithIds: GameTypeWithId[] = [];
         games.map((game) => {
           gamesWithIds.push({
             id: game.payload.doc.id,

@@ -4,3 +4,10 @@
   margin-top: 72px;
   @include contentBody;
 }
+
+.games-results {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-auto-rows: auto;
+  gap: 20px;
+}

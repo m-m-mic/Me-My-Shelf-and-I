@@ -1,0 +1,24 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.mmsai-card {
+  display: flex;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  background: var(--highlight-bg);
+  padding: 12px;
+  border-radius: 12px;
+  transition: 0.2s;
+
+  &:hover,
+  &:focus {
+    background: var(--primary-900);
+  }
+
+  &:active {
+    background: var(--primary-800);
+  }
+}

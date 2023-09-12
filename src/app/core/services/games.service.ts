@@ -3,14 +3,14 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
-import { Game } from '../models/game.interface';
+import { GameType, UserGameType } from '../models/game.interface';
 import { UsersService } from './users.service';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class GamesService {
   private gamesPath = '/games';
-  gamesRef: AngularFirestoreCollection<Game>;
+  gamesRef: AngularFirestoreCollection<GameType>;
   constructor(
     private usersService: UsersService,
     private db: AngularFirestore,
@@ -23,11 +23,18 @@ export class GamesService {
   }
 
   getGame(id: string) {
-    return this.gamesRef.doc(id).valueChanges() as Observable<Game | undefined>;
+    return this.gamesRef.doc(id).valueChanges() as Observable<
+      GameType | undefined
+    >;
   }
 
   saveGameToCollection(gameId: string, userId: string) {
-    const game = this.gamesRef.doc(gameId).ref;
+    const game: UserGameType = {
+      ref: this.gamesRef.doc(gameId).ref,
+      media: 'physical',
+      progress: 'not-started',
+      in_collection: true,
+    };
     return this.usersService.addGameToUser(userId, game);
   }
 

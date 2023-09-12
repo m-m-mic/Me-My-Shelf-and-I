@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { UsersService } from '../../core/services/users.service';
 import { AuthenticationService } from '../../core/services/authentication.service';
-import { Game } from '../../core/models/game.interface';
+import { GameType, UserGameType } from '../../core/models/game.interface';
 import { GamesService } from '../../core/services/games.service';
 import { take } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -17,7 +17,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class DashboardComponent {
   private uid!: string;
-  gamesCollection: Game[] = [];
+  gamesCollection: { general: GameType; user: UserGameType }[] = [];
   constructor(
     private authenticationService: AuthenticationService,
     private usersService: UsersService,
@@ -34,15 +34,20 @@ export class DashboardComponent {
             .pipe(takeUntilDestroyed(destroyRef))
             .subscribe((value) => {
               if (value) {
+                console.log(value);
                 this.uid = user.uid;
                 this.gamesCollection = [];
                 for (const game of value.collection.games) {
-                  game
-                    .get()
-                    .then((result: any) =>
-                      this.gamesCollection.push(result.data()),
+                  if (game.in_collection) {
+                    game.ref.get().then((result) =>
+                      this.gamesCollection.push({
+                        general: result.data() as GameType,
+                        user: game,
+                      }),
                     );
+                  }
                 }
+                console.log(this.gamesCollection);
               }
             });
         }
