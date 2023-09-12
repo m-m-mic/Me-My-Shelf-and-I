@@ -1,8 +1,15 @@
-<h1>Me, My Shelf & I</h1>
-<h2>Collection</h2>
-<h3>Video Games</h3>
+<h1>Dashboard</h1>
+<h2>Video Games</h2>
+<div>
+  <div *ngFor="let game of gamesCollection">
+    {{ game.name }}
+  </div>
+  <p-button (click)="saveGame('z45baeezQPrOW4oFs3WH')">
+    Add SM64 (ID: z45baeezQPrOW4oFs3WH)
+  </p-button>
+  <p-button (click)="removeGame('z45baeezQPrOW4oFs3WH')">Remove SM64</p-button>
+</div>
+<h2>Music</h2>
 <div></div>
-<h3>Music</h3>
-<div></div>
-<h3>Movies</h3>
+<h2>Movies</h2>
 <div></div>

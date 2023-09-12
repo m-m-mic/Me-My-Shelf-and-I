@@ -4,6 +4,7 @@ import {
   BehaviorSubject,
   catchError,
   from,
+  map,
   Observable,
   throwError,
 } from 'rxjs';
@@ -70,7 +71,7 @@ export class AuthenticationService {
     return from(this.auth.signOut());
   }
 
-  public getUser() {
+  getUser() {
     return from(this.auth.authState);
   }
 

@@ -33,7 +33,7 @@ export class AuthEffects {
         return this.authenticationService.signUp({ email, password }).pipe(
           map((result) => {
             result.user?.updateProfile({ displayName: displayName });
-            this.usersService.create({
+            this.usersService.createUser({
               id: result.user?.uid,
               collection: { games: [], movies: [], music: [] },
             });

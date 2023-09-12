@@ -5,11 +5,18 @@ import { NotFoundComponent } from './features/not-found/not-found.component';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { AuthenticationGuard } from './core/services/authentication.guard';
+import { OverviewComponent } from './features/overview/overview.component';
 
 export const ROUTES: Routes = [
   {
     path: '',
     component: DashboardComponent,
+    canActivate: [AuthenticationGuard],
+    data: { blockAuthenticated: false, redirectToSignIn: false },
+  },
+  {
+    path: 'overview',
+    component: OverviewComponent,
     canActivate: [AuthenticationGuard],
     data: { blockAuthenticated: false, redirectToSignIn: false },
   },

@@ -8,11 +8,17 @@ import { Store } from '@ngrx/store';
 import { signOut } from '../../states/auth/auth.actions';
 import { Subscription } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MmsaiTabSelectionComponent } from '../../components/mmsai-tab-selection/mmsai-tab-selection.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterLink, MmsaiAccountButtonComponent],
+  imports: [
+    CommonModule,
+    RouterLink,
+    MmsaiAccountButtonComponent,
+    MmsaiTabSelectionComponent,
+  ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })

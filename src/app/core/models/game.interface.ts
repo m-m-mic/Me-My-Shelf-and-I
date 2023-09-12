@@ -6,4 +6,5 @@ export interface Game {
   platform?: string;
   media?: Media;
   progress?: Progress;
+  saved_by: number;
 }
