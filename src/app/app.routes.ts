@@ -19,13 +19,13 @@ export const ROUTES: Routes = [
     path: 'games',
     component: GamesComponent,
     canActivate: [AuthenticationGuard],
-    data: { blockAuthenticated: false, redirectToSignIn: false },
+    data: { blockAuthenticated: false, redirectToSignIn: true },
   },
   {
     path: 'games/:gameId',
     component: GameComponent,
     canActivate: [AuthenticationGuard],
-    data: { blockAuthenticated: false, redirectToSignIn: false },
+    data: { blockAuthenticated: false, redirectToSignIn: true },
   },
   {
     path: 'welcome',
