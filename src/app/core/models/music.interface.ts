@@ -1,8 +1,11 @@
 import { MusicType } from './attribute.types';
 
 export interface Music {
-  id: string;
-  name: string;
+  title: string;
   artist: string;
   type?: MusicType;
+}
+
+export interface MusicWithId extends Music {
+  id: string;
 }

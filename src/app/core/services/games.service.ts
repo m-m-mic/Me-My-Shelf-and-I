@@ -5,6 +5,7 @@ import {
 } from '@angular/fire/compat/firestore';
 import { Game } from '../models/game.interface';
 import { UsersService } from './users.service';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class GamesService {
@@ -15,6 +16,14 @@ export class GamesService {
     private db: AngularFirestore,
   ) {
     this.gamesRef = db.collection(this.gamesPath);
+  }
+
+  getAll() {
+    return this.gamesRef;
+  }
+
+  getGame(id: string) {
+    return this.gamesRef.doc(id).valueChanges() as Observable<Game | undefined>;
   }
 
   saveGameToCollection(gameId: string, userId: string) {

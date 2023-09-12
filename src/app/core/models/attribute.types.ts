@@ -1,6 +1,8 @@
-export type Media = 'physical' | 'digital';
+export type MediaType = 'game' | 'movie' | 'music';
 
-export type Progress = 'not-started' | 'in-progress' | 'completed';
+export type FormatType = 'physical' | 'digital';
+
+export type ProgressType = 'not-started' | 'in-progress' | 'completed';
 
 export type MusicType =
   | 'Album'

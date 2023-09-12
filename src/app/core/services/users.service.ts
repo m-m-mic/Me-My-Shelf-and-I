@@ -59,7 +59,6 @@ export class UsersService {
               gamesCollection.push(data.collection.games[i]);
             }
           }
-          console.log(gamesCollection);
           data.collection.games = gamesCollection;
           return this.usersRef.doc(userId).update(data);
         } else {

@@ -1,10 +1,13 @@
-import { Media, Progress } from './attribute.types';
+import { FormatType, ProgressType } from './attribute.types';
 
 export interface Game {
-  id: string;
-  name: string;
+  title: string;
   platform?: string;
-  media?: Media;
-  progress?: Progress;
+  media?: FormatType;
+  progress?: ProgressType;
   saved_by: number;
+}
+
+export interface GameWithId extends Game {
+  id: string;
 }

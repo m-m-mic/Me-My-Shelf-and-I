@@ -1,5 +1,8 @@
 export interface Movie {
-  id: string;
-  name: string;
+  title: string;
   director?: string;
+}
+
+export interface MovieWithId extends Movie {
+  id: string;
 }

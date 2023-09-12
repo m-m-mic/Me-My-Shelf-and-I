@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OverviewComponent } from './overview.component';
+import { MmsaiCardComponent } from './mmsai-card.component';
 
-describe('OverviewComponent', () => {
-  let component: OverviewComponent;
-  let fixture: ComponentFixture<OverviewComponent>;
+describe('MmsaiCardComponent', () => {
+  let component: MmsaiCardComponent;
+  let fixture: ComponentFixture<MmsaiCardComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [OverviewComponent]
+      imports: [MmsaiCardComponent]
     });
-    fixture = TestBed.createComponent(OverviewComponent);
+    fixture = TestBed.createComponent(MmsaiCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

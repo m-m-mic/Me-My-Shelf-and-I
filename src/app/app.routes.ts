@@ -5,7 +5,8 @@ import { NotFoundComponent } from './features/not-found/not-found.component';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { AuthenticationGuard } from './core/services/authentication.guard';
-import { OverviewComponent } from './features/overview/overview.component';
+import { GamesComponent } from './features/games/games.component';
+import { GameComponent } from './features/game/game.component';
 
 export const ROUTES: Routes = [
   {
@@ -15,8 +16,14 @@ export const ROUTES: Routes = [
     data: { blockAuthenticated: false, redirectToSignIn: false },
   },
   {
-    path: 'overview',
-    component: OverviewComponent,
+    path: 'games',
+    component: GamesComponent,
+    canActivate: [AuthenticationGuard],
+    data: { blockAuthenticated: false, redirectToSignIn: false },
+  },
+  {
+    path: 'games/:gameId',
+    component: GameComponent,
     canActivate: [AuthenticationGuard],
     data: { blockAuthenticated: false, redirectToSignIn: false },
   },
