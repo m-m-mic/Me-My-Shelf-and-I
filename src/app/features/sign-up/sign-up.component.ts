@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { AsyncPipe, NgIf } from '@angular/common';
@@ -13,10 +13,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { signUp } from '../../core/states/auth/auth.actions';
-import { resolveError } from '../../core/states/error/error.actions';
-import { selectErrorMessage } from '../../core/states/error/error.selectors';
+import { SignUpStoreFacade } from './sign-up.store-facade';
+import { signUpForm } from './sign-up.form';
+import { matchPasswords } from './sign-up.validators';
 
 @Component({
   standalone: true,
@@ -34,40 +33,19 @@ import { selectErrorMessage } from '../../core/states/error/error.selectors';
   ],
 })
 export class SignUpComponent implements OnInit, OnDestroy {
+  private formBuilder = inject(FormBuilder);
+  private store = inject(SignUpStoreFacade);
   registrationForm!: FormGroup;
-  errorMessage$ = this.store.select(selectErrorMessage({ error: 'signUp' }));
-
-  constructor(
-    private formBuilder: FormBuilder,
-    private store: Store,
-  ) {}
+  errorMessage$ = this.store.errorMessage$;
 
   ngOnInit() {
-    this.registrationForm = this.formBuilder.group(
-      {
-        displayName: ['', [Validators.required, Validators.maxLength(12)]],
-        email: ['', [Validators.required, Validators.email]],
-        password: [
-          '',
-          {
-            validators: [
-              Validators.required,
-              Validators.minLength(8),
-              this.verifyPasswordStrength,
-            ],
-            updateOn: 'blur',
-          },
-        ],
-        confirmPassword: ['', [Validators.required]],
-      },
-      { validators: this.matchPasswords },
-    );
+    this.registrationForm = this.formBuilder.group(signUpForm, {
+      validators: matchPasswords,
+    });
   }
 
   ngOnDestroy() {
-    this.errorMessage$.subscribe((value) => {
-      if (value) this.store.dispatch(resolveError({ errorType: 'signIn' }));
-    });
+    this.store.resolveError();
   }
 
   matchPasswords: ValidatorFn = (
@@ -80,20 +58,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
       confirmPassword === ''
       ? null
       : { notSame: true };
-  };
-
-  verifyPasswordStrength: ValidatorFn = (
-    control: AbstractControl,
-  ): ValidationErrors | null => {
-    const password = control.value;
-    if (!password) {
-      return null;
-    }
-    const hasUpperCase = /[A-Z]+/.test(password);
-    const hasLowerCase = /[a-z]+/.test(password);
-    const hasNumeric = /[0-9]+/.test(password);
-    const passwordValid = hasUpperCase && hasLowerCase && hasNumeric;
-    return passwordValid ? null : { insufficientStrength: true };
   };
 
   get displayName() {
@@ -109,12 +73,10 @@ export class SignUpComponent implements OnInit, OnDestroy {
   }
 
   signUp() {
-    this.store.dispatch(
-      signUp({
-        email: this.registrationForm.value.email,
-        password: this.registrationForm.value.password,
-        displayName: this.registrationForm.value.displayName,
-      }),
-    );
+    this.store.signUp({
+      email: this.registrationForm.value.email,
+      password: this.registrationForm.value.password,
+      displayName: this.registrationForm.value.displayName,
+    });
   }
 }
