@@ -3,7 +3,6 @@ import {
   importProvidersFrom,
   isDevMode,
 } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import { ROUTES } from './app.routes';
 import { provideStore } from '@ngrx/store';
@@ -16,13 +15,11 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AuthenticationGuard } from './core/services/authentication.guard';
 import { errorReducer } from './core/states/error/error.reducer';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     importProvidersFrom(
-      BrowserModule,
-      BrowserAnimationsModule,
       AngularFireModule.initializeApp(environment.firebaseConfig),
       AngularFireAuthModule,
       AngularFirestoreModule,
@@ -31,6 +28,7 @@ export const appConfig: ApplicationConfig = {
     provideStore({ error: errorReducer }),
     provideEffects([AuthEffects]),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
+    provideAnimations(),
     AuthenticationGuard,
   ],
 };

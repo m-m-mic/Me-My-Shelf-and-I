@@ -10,7 +10,6 @@ import {
   ReactiveFormsModule,
   ValidationErrors,
   ValidatorFn,
-  Validators,
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { SignUpStoreFacade } from './sign-up.store-facade';
