@@ -1,5 +1,9 @@
 @import '../../shared/styles/contentBody';
 
 :host {
+  margin-top: 72px;
   @include contentBody;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
 }
