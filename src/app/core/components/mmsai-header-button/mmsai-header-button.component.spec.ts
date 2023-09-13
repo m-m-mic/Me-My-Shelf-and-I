@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MmsaiAccountButtonComponent } from './mmsai-account-button.component';
+import { MmsaiHeaderButtonComponent } from './mmsai-header-button.component';
 
 describe('MmsaiAccountButtonComponent', () => {
-  let component: MmsaiAccountButtonComponent;
-  let fixture: ComponentFixture<MmsaiAccountButtonComponent>;
+  let component: MmsaiHeaderButtonComponent;
+  let fixture: ComponentFixture<MmsaiHeaderButtonComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [MmsaiAccountButtonComponent]
+      imports: [MmsaiHeaderButtonComponent],
     });
-    fixture = TestBed.createComponent(MmsaiAccountButtonComponent);
+    fixture = TestBed.createComponent(MmsaiHeaderButtonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

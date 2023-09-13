@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
-import { MmsaiAccountButtonComponent } from '../../components/mmsai-account-button/mmsai-account-button.component';
+import { MmsaiHeaderButtonComponent } from '../../components/mmsai-header-button/mmsai-header-button.component';
 import { MenuItem } from 'primeng/api';
 import { Store } from '@ngrx/store';
 import { signOut } from '../../states/auth/auth.actions';
@@ -16,7 +16,7 @@ import { MmsaiTabSelectionComponent } from '../../components/mmsai-tab-selection
   imports: [
     CommonModule,
     RouterLink,
-    MmsaiAccountButtonComponent,
+    MmsaiHeaderButtonComponent,
     MmsaiTabSelectionComponent,
   ],
   templateUrl: './header.component.html',

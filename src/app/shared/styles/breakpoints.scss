@@ -1,0 +1,11 @@
+@mixin breakpoint-min($query) {
+  @media only screen and (min-width: $query) {
+    @content;
+  }
+}
+
+@mixin breakpoint-max($query) {
+  @media only screen and (max-width: $query) {
+    @content;
+  }
+}

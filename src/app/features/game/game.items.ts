@@ -10,14 +10,17 @@ export const gameItems = {
     {
       label: 'Not started',
       value: 'not-started',
+      icon: 'pi pi-times',
     },
     {
       label: 'In Progress',
       value: 'in-progress',
+      icon: 'pi pi-ellipsis-h',
     },
     {
       label: 'Completed',
       value: 'completed',
+      icon: 'pi pi-check',
     },
   ],
 };

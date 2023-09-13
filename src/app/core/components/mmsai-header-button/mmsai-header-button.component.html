@@ -1,0 +1,73 @@
+<button type="button" class="account-button" (click)="menu.toggle($event)">
+  <span class="account-button-label">{{ displayName }}</span>
+  <span class="account-icon">
+    <ng-icon name="ionPerson" size="24"></ng-icon>
+  </span>
+</button>
+<p-menu
+  #menu
+  [model]="menuItems"
+  styleClass="account-button-menu"
+  [popup]="true"></p-menu>
+
+<button class="burger-menu" (click)="sidebarVisible = true">
+  <ng-icon name="ionMenu" size="24"></ng-icon>
+</button>
+<p-sidebar [(visible)]="sidebarVisible" position="right">
+  <div class="sidebar-content">
+    <ng-template [ngIf]="isLoggedIn">
+      <a
+        class="sidebar-button"
+        [routerLink]="['/']"
+        [routerLinkActive]="['active']"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="sidebarVisible = false">
+        Dashboard
+      </a>
+      <a
+        class="sidebar-button"
+        [routerLink]="['/games']"
+        [routerLinkActive]="['active']"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="sidebarVisible = false">
+        Games
+      </a>
+      <a
+        class="sidebar-button"
+        [routerLink]="['/movies']"
+        [routerLinkActive]="['active']"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="sidebarVisible = false">
+        Movies
+      </a>
+      <a
+        class="sidebar-button"
+        [routerLink]="['/albums']"
+        [routerLinkActive]="['active']"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="sidebarVisible = false">
+        Albums
+      </a>
+      <p-divider></p-divider>
+      <button class="sidebar-button" (click)="signOut()">Sign Out</button>
+    </ng-template>
+    <ng-template [ngIf]="!isLoggedIn">
+      <a
+        class="sidebar-button"
+        [routerLink]="['/sign-in']"
+        [routerLinkActive]="['active']"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="sidebarVisible = false">
+        Sign In
+      </a>
+      <a
+        class="sidebar-button"
+        [routerLink]="['/sign-up']"
+        [routerLinkActive]="['active']"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="sidebarVisible = false">
+        Sign Up
+      </a>
+    </ng-template>
+  </div>
+</p-sidebar>
