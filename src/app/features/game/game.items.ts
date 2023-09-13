@@ -1,5 +1,5 @@
 export const gameItems = {
-  media: [
+  format: [
     {
       label: 'Physical',
       value: 'physical',

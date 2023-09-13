@@ -62,7 +62,7 @@ export class GamesService {
     const game: UserGameType = {
       ref: this.gamesRef.doc(gameId).ref,
       in_collection: true,
-      media: 'physical',
+      format: 'physical',
       progress: 'not-started',
       notes: '',
     };

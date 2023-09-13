@@ -17,7 +17,7 @@ export interface UserGameType {
   ref: DocumentReference<GameType>;
   in_collection: boolean;
   progress?: ProgressType;
-  media?: FormatType;
+  format?: FormatType;
   notes?: string;
 }
 

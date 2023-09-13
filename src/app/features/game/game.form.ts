@@ -1,4 +1,6 @@
-import { UserGameType } from '../../core/models/game.interface';
+import { GameType, UserGameType } from '../../core/models/game.interface';
+import { FormGroup } from '@angular/forms';
+import { DocumentReference } from '@angular/fire/compat/firestore';
 
 export function createGameForm(
   inUserCollection: boolean,
@@ -6,15 +8,28 @@ export function createGameForm(
 ) {
   if (userGameData) {
     return {
-      media: [{ value: userGameData.media, disabled: !inUserCollection }],
+      format: [{ value: userGameData.format, disabled: !inUserCollection }],
       progress: [{ value: userGameData.progress, disabled: !inUserCollection }],
       notes: [{ value: userGameData.notes, disabled: !inUserCollection }],
     };
   } else {
     return {
-      media: [{ value: 'physical', disabled: !inUserCollection }],
+      format: [{ value: 'physical', disabled: !inUserCollection }],
       progress: [{ value: 'not-started', disabled: !inUserCollection }],
       notes: [{ value: '', disabled: !inUserCollection }],
     };
   }
+}
+
+export function createGameObject(
+  ref: DocumentReference<GameType>,
+  gameForm: FormGroup,
+): UserGameType {
+  return {
+    ref: ref,
+    in_collection: true,
+    format: gameForm.value.format,
+    progress: gameForm.value.progress,
+    notes: gameForm.value.notes,
+  };
 }
