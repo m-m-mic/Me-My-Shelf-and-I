@@ -1,5 +1,5 @@
 import { Component, DestroyRef, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { GamesService } from '../../core/services/games.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -14,6 +14,9 @@ import { createGameForm, createGameObject } from './game.form';
 import { gameItems } from './game.items';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { ChipModule } from 'primeng/chip';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { ionAdd, ionBookmark, ionRemove } from '@ng-icons/ionicons';
 
 @Component({
   selector: 'app-game',
@@ -25,14 +28,19 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     ReactiveFormsModule,
     SelectButtonModule,
     InputTextareaModule,
+    ChipModule,
+    NgOptimizedImage,
+    NgIconComponent,
   ],
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.scss'],
+  viewProviders: [provideIcons({ ionAdd, ionRemove, ionBookmark })],
 })
 export class GameComponent implements OnInit {
   private id!: string;
   private uid!: string;
   inUserCollection!: boolean;
+  hasFormChanged = false;
   gameData!: GameType;
   userGameData?: UserGameType;
   gameForm!: FormGroup;
@@ -94,6 +102,11 @@ export class GameComponent implements OnInit {
                 this.gameForm = this.formBuilder.group(
                   createGameForm(this.inUserCollection, this.userGameData),
                 );
+                this.gameForm.valueChanges
+                  .pipe(takeUntilDestroyed(this.destroyRef))
+                  .subscribe(() => {
+                    this.hasFormChanged = true;
+                  });
               }
             });
         } else {
@@ -112,6 +125,7 @@ export class GameComponent implements OnInit {
         this.uid,
         createGameObject(this.userGameData.ref, this.gameForm),
       );
+      this.hasFormChanged = false;
     }
   }
 

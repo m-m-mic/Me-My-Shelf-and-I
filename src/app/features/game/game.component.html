@@ -1,35 +1,64 @@
 <ng-template [ngIf]="gameData">
-  <h1>{{ gameData.title }}</h1>
-  <div>Platform: {{ gameData.platform }}</div>
-  <div>
-    In {{ gameData.saved_by.length }}
-    {{ gameData.saved_by.length === 1 ? 'collection' : 'collections' }}
+  <div class="media-header">
+    <div class="media-image">
+      <span [ngClass]="{ bookmark: true, visible: inUserCollection }">
+        <ng-icon name="ionBookmark" size="24"></ng-icon>
+      </span>
+      <img src="assets/no_cover_placeholder.jpg" alt="Cover" />
+    </div>
+    <div class="media-info">
+      <h1>{{ gameData.title }}</h1>
+      <div class="media-data">
+        <span>
+          Platform:
+          <b>{{ gameData.platform }}</b>
+        </span>
+        <span>|</span>
+        <span>
+          In
+          <b>{{ gameData.saved_by.length }}</b>
+          {{ gameData.saved_by.length === 1 ? 'collection' : 'collections' }}
+        </span>
+      </div>
+    </div>
+    <button
+      *ngIf="!inUserCollection"
+      class="media-button add"
+      (click)="addToCollection()">
+      <ng-icon name="ionAdd" size="36"></ng-icon>
+      <span class="media-button-title">Add</span>
+    </button>
+    <button
+      *ngIf="inUserCollection"
+      class="media-button remove"
+      (click)="removeFromCollection()">
+      <ng-icon name="ionRemove" size="36"></ng-icon>
+      <span class="media-button-title">Remove</span>
+    </button>
   </div>
-  <p-button
-    *ngIf="!inUserCollection"
-    class="p-button-success"
-    label="Add to your collection"
-    (click)="addToCollection()"></p-button>
-  <p-button
-    *ngIf="inUserCollection"
-    class="p-button-danger"
-    label="Remove from your collection"
-    (click)="removeFromCollection()"></p-button>
-  <p-divider></p-divider>
   <form
     *ngIf="gameForm"
     [formGroup]="gameForm"
     [ngClass]="{ 'form-group': true, disabled: !inUserCollection }">
-    <h2>Your Details</h2>
+    <div class="form-header">
+      <h2>Your Details</h2>
+      <p-button
+        [disabled]="!inUserCollection || !hasFormChanged"
+        class="p-button-success"
+        label="Save"
+        icon="pi pi-check"
+        styleClass="p-button-sm"
+        (click)="updateData()"></p-button>
+    </div>
     <div class="form-selection">
       <span class="form-container">
-        <h3>Media form:</h3>
+        <h3>Media form</h3>
         <p-selectButton
           [options]="selectItems.format"
           formControlName="format"></p-selectButton>
       </span>
       <span class="form-container">
-        <h3>Progress:</h3>
+        <h3>Progress</h3>
         <p-selectButton
           [options]="selectItems.progress"
           formControlName="progress"></p-selectButton>
@@ -37,7 +66,7 @@
     </div>
     <div class="form-notes">
       <span class="form-container">
-        <h3>Notes:</h3>
+        <h3>Notes</h3>
         <textarea
           pInputTextarea
           rows="3"
@@ -46,9 +75,4 @@
       </span>
     </div>
   </form>
-  <p-button
-    [disabled]="!inUserCollection"
-    class="p-button-success"
-    label="Update Details"
-    (click)="updateData()"></p-button>
 </ng-template>
