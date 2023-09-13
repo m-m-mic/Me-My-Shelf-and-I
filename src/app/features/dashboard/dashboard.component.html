@@ -1,13 +1,10 @@
 <h1>Dashboard</h1>
 <h2>Games</h2>
-<div>
-  <div *ngFor="let game of gamesCollection">
-    {{ game.general.title }}
-  </div>
-  <p-button (click)="saveGame('z45baeezQPrOW4oFs3WH')">
-    Add SM64 (ID: z45baeezQPrOW4oFs3WH)
-  </p-button>
-  <p-button (click)="removeGame('z45baeezQPrOW4oFs3WH')">Remove SM64</p-button>
+<div class="media-selection">
+  <app-mmsai-card
+    *ngFor="let game of gamesCollection"
+    cardType="game"
+    [data]="game.general"></app-mmsai-card>
 </div>
 <h2>Music</h2>
 <div></div>

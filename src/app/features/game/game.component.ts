@@ -69,13 +69,13 @@ export class GameComponent implements OnInit {
   getUserGameData() {
     this.authenticationService
       .getUser()
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(take(1))
       .subscribe((user) => {
         if (user) {
           this.uid = user.uid;
           this.usersService
             .getUser(this.uid)
-            .pipe(take(1))
+            .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe((value) => {
               if (value) {
                 this.inUserCollection = false;

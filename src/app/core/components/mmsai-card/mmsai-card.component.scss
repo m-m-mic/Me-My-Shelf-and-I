@@ -1,6 +1,8 @@
 :host {
   display: block;
-  min-width: 0;
+  min-width: 250px;
+  max-width: 450px;
+  flex: 1;
 }
 
 .mmsai-card {

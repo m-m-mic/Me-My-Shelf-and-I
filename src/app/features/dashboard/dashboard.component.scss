@@ -4,3 +4,9 @@
   margin-top: 72px;
   @include contentBody;
 }
+
+.media-selection {
+  display: flex;
+  overflow-x: scroll;
+  gap: 20px;
+}
