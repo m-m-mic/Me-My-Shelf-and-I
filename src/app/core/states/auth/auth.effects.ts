@@ -35,7 +35,7 @@ export class AuthEffects {
             result.user?.updateProfile({ displayName: displayName });
             this.usersService.createUser({
               id: result.user?.uid,
-              collection: { games: [], movies: [], music: [] },
+              collection: { games: [], movies: [], albums: [] },
             });
             return authSuccess({ redirect: true });
           }),

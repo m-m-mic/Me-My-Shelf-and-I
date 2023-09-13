@@ -4,9 +4,8 @@ import { ButtonModule } from 'primeng/button';
 import { UsersService } from '../../core/services/users.service';
 import { AuthenticationService } from '../../core/services/authentication.service';
 import {
-  GameType,
-  GameTypeWithId,
-  UserGameType,
+  CombinedGameType,
+  GameWithIdType,
 } from '../../core/models/game.interface';
 import { GamesService } from '../../core/services/games.service';
 import { take } from 'rxjs';
@@ -21,8 +20,8 @@ import { MmsaiCardComponent } from '../../core/components/mmsai-card/mmsai-card.
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent {
-  private uid!: string;
-  gamesCollection: { general: GameTypeWithId; user: UserGameType }[] = [];
+  games: CombinedGameType[] = [];
+
   constructor(
     private authenticationService: AuthenticationService,
     private usersService: UsersService,
@@ -39,16 +38,15 @@ export class DashboardComponent {
             .pipe(takeUntilDestroyed(destroyRef))
             .subscribe((value) => {
               if (value) {
-                this.uid = user.uid;
-                this.gamesCollection = [];
+                this.games = [];
                 for (const game of value.collection.games) {
                   if (game.in_collection) {
                     game.ref.get().then((result) =>
-                      this.gamesCollection.push({
+                      this.games.push({
                         general: {
                           ...result.data(),
                           id: game.ref.id,
-                        } as GameTypeWithId,
+                        } as GameWithIdType,
                         user: game,
                       }),
                     );

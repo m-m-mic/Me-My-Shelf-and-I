@@ -13,6 +13,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { createGameForm } from './game.form';
 import { gameItems } from './game.items';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 @Component({
   selector: 'app-game',
@@ -23,6 +24,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
     ButtonModule,
     ReactiveFormsModule,
     SelectButtonModule,
+    InputTextareaModule,
   ],
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.scss'],
@@ -58,7 +60,7 @@ export class GameComponent implements OnInit {
   getGameData() {
     this.gamesService
       .getGame(this.id)
-      .pipe(take(1))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((game) => {
         if (game) {
           this.gameData = game;
@@ -106,6 +108,7 @@ export class GameComponent implements OnInit {
         in_collection: true,
         progress: this.gameForm.value.progress,
         media: this.gameForm.value.media,
+        notes: this.gameForm.value.notes,
       };
       this.usersService.updateGameFromUser(this.uid, userGameData);
     }

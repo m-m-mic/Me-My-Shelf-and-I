@@ -1,0 +1,6 @@
+@import '../../shared/styles/contentBody';
+
+:host {
+  margin-top: 72px;
+  @include contentBody;
+}

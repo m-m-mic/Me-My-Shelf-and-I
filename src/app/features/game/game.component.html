@@ -1,22 +1,26 @@
 <ng-template [ngIf]="gameData">
   <h1>{{ gameData.title }}</h1>
   <div>Platform: {{ gameData.platform }}</div>
+  <div>
+    In {{ gameData.saved_by.length }}
+    {{ gameData.saved_by.length === 1 ? 'collection' : 'collections' }}
+  </div>
   <p-button
     *ngIf="!inUserCollection"
     class="p-button-success"
-    label="Add to collection"
+    label="Add to your collection"
     (click)="addToCollection()"></p-button>
   <p-button
     *ngIf="inUserCollection"
     class="p-button-danger"
-    label="Remove from collection"
+    label="Remove from your collection"
     (click)="removeFromCollection()"></p-button>
   <p-divider></p-divider>
   <form
     *ngIf="gameForm"
     [formGroup]="gameForm"
     [ngClass]="{ 'form-group': true, disabled: !inUserCollection }">
-    <h2>Your Data</h2>
+    <h2>Your Details</h2>
     <div class="form-selection">
       <span class="form-container">
         <h3>Media form:</h3>
@@ -31,10 +35,20 @@
           formControlName="progress"></p-selectButton>
       </span>
     </div>
+    <div class="form-notes">
+      <span class="form-container">
+        <h3>Notes:</h3>
+        <textarea
+          pInputTextarea
+          rows="3"
+          cols="30"
+          formControlName="notes"></textarea>
+      </span>
+    </div>
   </form>
   <p-button
     [disabled]="!inUserCollection"
     class="p-button-success"
-    label="Update Data"
+    label="Update Details"
     (click)="updateData()"></p-button>
 </ng-template>

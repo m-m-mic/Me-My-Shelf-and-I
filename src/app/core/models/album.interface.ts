@@ -1,9 +1,11 @@
-import { MusicType } from './attribute.types';
+import { RecordType } from './attribute.types';
 
 export interface Music {
   title: string;
   artist: string;
-  type?: MusicType;
+  record?: RecordType;
+  genres?: string[];
+  saved_by: number;
 }
 
 export interface MusicWithId extends Music {

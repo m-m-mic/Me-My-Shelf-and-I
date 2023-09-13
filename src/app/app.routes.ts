@@ -7,6 +7,10 @@ import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { AuthenticationGuard } from './core/services/authentication.guard';
 import { GamesComponent } from './features/games/games.component';
 import { GameComponent } from './features/game/game.component';
+import { MoviesComponent } from './features/movies/movies.component';
+import { MovieComponent } from './features/movie/movie.component';
+import { AlbumsComponent } from './features/albums/albums.component';
+import { AlbumComponent } from './features/album/album.component';
 
 export const ROUTES: Routes = [
   {
@@ -24,6 +28,30 @@ export const ROUTES: Routes = [
   {
     path: 'games/:gameId',
     component: GameComponent,
+    canActivate: [AuthenticationGuard],
+    data: { blockAuthenticated: false, redirectToSignIn: true },
+  },
+  {
+    path: 'movies',
+    component: MoviesComponent,
+    canActivate: [AuthenticationGuard],
+    data: { blockAuthenticated: false, redirectToSignIn: true },
+  },
+  {
+    path: 'movies/:movieId',
+    component: MovieComponent,
+    canActivate: [AuthenticationGuard],
+    data: { blockAuthenticated: false, redirectToSignIn: true },
+  },
+  {
+    path: 'albums',
+    component: AlbumsComponent,
+    canActivate: [AuthenticationGuard],
+    data: { blockAuthenticated: false, redirectToSignIn: true },
+  },
+  {
+    path: 'albums/:albumId',
+    component: AlbumComponent,
     canActivate: [AuthenticationGuard],
     data: { blockAuthenticated: false, redirectToSignIn: true },
   },

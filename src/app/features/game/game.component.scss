@@ -8,7 +8,7 @@
 .form-group {
   display: flex;
   flex-flow: column;
-  gap: 12px;
+  gap: 16px;
 
   &.disabled {
     color: rgba(255, 255, 255, 0.27);
@@ -25,4 +25,9 @@
   display: flex;
   flex-flow: column;
   gap: 16px;
+}
+
+.form-notes {
+  max-width: 550px;
+  width: 100%;
 }

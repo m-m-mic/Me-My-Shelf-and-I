@@ -5,10 +5,11 @@ export interface GameType {
   title: string;
   platform?: string;
   first_release?: string;
-  saved_by: number;
+  genres?: string[];
+  saved_by: string[];
 }
 
-export interface GameTypeWithId extends GameType {
+export interface GameWithIdType extends GameType {
   id: string;
 }
 
@@ -17,9 +18,10 @@ export interface UserGameType {
   in_collection: boolean;
   progress?: ProgressType;
   media?: FormatType;
+  notes?: string;
 }
 
 export interface CombinedGameType {
-  general: GameType;
+  general: GameWithIdType;
   user: UserGameType;
 }

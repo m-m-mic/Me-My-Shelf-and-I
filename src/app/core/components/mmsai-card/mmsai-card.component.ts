@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MediaType } from '../../models/attribute.types';
-import { GameTypeWithId } from '../../models/game.interface';
+import { GameWithIdType } from '../../models/game.interface';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -12,7 +12,7 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./mmsai-card.component.scss'],
 })
 export class MmsaiCardComponent implements OnInit {
-  @Input() data!: GameTypeWithId;
+  @Input() data!: GameWithIdType;
   @Input() cardType!: MediaType;
   url!: string;
 

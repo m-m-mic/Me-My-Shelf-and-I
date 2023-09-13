@@ -4,13 +4,8 @@ import {
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
 import { User } from '../models/user.interface';
-import { Observable, take } from 'rxjs';
-import {
-  CombinedGameType,
-  GameType,
-  UserGameType,
-} from '../models/game.interface';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Observable, take, throwError } from 'rxjs';
+import { UserGameType } from '../models/game.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -33,7 +28,7 @@ export class UsersService {
   createUser(user: User) {
     return this.usersRef
       .doc(user.id)
-      .set({ collection: { games: [], movies: [], music: [] } });
+      .set({ collection: { games: [], movies: [], albums: [] } });
   }
 
   addGameToUser(userId: string, gameData: UserGameType) {
@@ -55,6 +50,7 @@ export class UsersService {
           data.collection.games = gamesCollection;
           return this.usersRef.doc(userId).update(data);
         } else {
+          throwError(() => new Error('Could not find user'));
           return;
         }
       });
@@ -76,6 +72,7 @@ export class UsersService {
           data.collection.games = gamesCollection;
           return this.usersRef.doc(userId).update(data);
         } else {
+          throwError(() => new Error('Could not find user'));
           return;
         }
       });
@@ -102,6 +99,7 @@ export class UsersService {
           data.collection.games = gamesCollection;
           return this.usersRef.doc(userId).update(data);
         } else {
+          throwError(() => new Error('Could not find user'));
           return;
         }
       });

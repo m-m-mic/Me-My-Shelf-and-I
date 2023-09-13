@@ -4,7 +4,7 @@ export type FormatType = 'physical' | 'digital';
 
 export type ProgressType = 'not-started' | 'in-progress' | 'completed';
 
-export type MusicType =
+export type RecordType =
   | 'Album'
   | 'Single'
   | 'Extended Play'

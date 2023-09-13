@@ -1,6 +1,7 @@
 import firebase from 'firebase/compat';
 import DocumentReference = firebase.firestore.DocumentReference;
 import { UserGameType } from './game.interface';
+import { UserMovieType } from './movie.interface';
 
 export interface User {
   id?: string;
@@ -9,6 +10,6 @@ export interface User {
 
 interface Collection {
   games: UserGameType[];
-  movies: DocumentReference[];
-  music: DocumentReference[];
+  movies: UserMovieType[];
+  albums: DocumentReference[];
 }
