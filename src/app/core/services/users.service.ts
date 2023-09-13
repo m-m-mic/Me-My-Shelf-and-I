@@ -36,15 +36,43 @@ export class UsersService {
       .set({ collection: { games: [], movies: [], music: [] } });
   }
 
-  addGameToUser(userId: string, game: UserGameType) {
+  addGameToUser(userId: string, gameData: UserGameType) {
     this.getUser(userId)
       .pipe(take(1))
       .subscribe((user) => {
         if (user) {
-          // TODO: prevent duplicates
           const data = user;
           const gamesCollection = data.collection.games;
-          gamesCollection.push(game);
+          let isInArray = false;
+          for (let i = 0; i < gamesCollection.length; i++) {
+            if (gameData.ref.id == gamesCollection[i].ref.id) {
+              gamesCollection[i].in_collection = true;
+              isInArray = true;
+              break;
+            }
+          }
+          if (!isInArray) gamesCollection.push(gameData);
+          data.collection.games = gamesCollection;
+          return this.usersRef.doc(userId).update(data);
+        } else {
+          return;
+        }
+      });
+  }
+
+  updateGameFromUser(userId: string, gameData: UserGameType) {
+    this.getUser(userId)
+      .pipe(take(1))
+      .subscribe((user) => {
+        if (user) {
+          const data = user;
+          const gamesCollection = data.collection.games;
+          for (let i = 0; i < gamesCollection.length; i++) {
+            if (gameData.ref.id == gamesCollection[i].ref.id) {
+              gamesCollection[i] = gameData;
+              break;
+            }
+          }
           data.collection.games = gamesCollection;
           return this.usersRef.doc(userId).update(data);
         } else {

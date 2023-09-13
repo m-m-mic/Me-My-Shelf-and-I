@@ -31,9 +31,9 @@ export class GamesService {
   saveGameToCollection(gameId: string, userId: string) {
     const game: UserGameType = {
       ref: this.gamesRef.doc(gameId).ref,
+      in_collection: true,
       media: 'physical',
       progress: 'not-started',
-      in_collection: true,
     };
     return this.usersService.addGameToUser(userId, game);
   }

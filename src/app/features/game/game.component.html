@@ -1,4 +1,38 @@
 <ng-template [ngIf]="gameData">
   <h1>{{ gameData.title }}</h1>
   <div>Platform: {{ gameData.platform }}</div>
+  <p-divider></p-divider>
+  <form [formGroup]="gameForm" class="form-group">
+    <h2>Your Data</h2>
+    <div class="form-selection">
+      <span class="form-container">
+        <h3>Media form:</h3>
+        <p-selectButton
+          [options]="selectItems.media"
+          formControlName="media"></p-selectButton>
+      </span>
+      <span class="form-container">
+        <h3>Progress:</h3>
+        <p-selectButton
+          [options]="selectItems.progress"
+          formControlName="progress"></p-selectButton>
+      </span>
+    </div>
+  </form>
+  <p-divider></p-divider>
+  <p-button
+    *ngIf="!inUserCollection"
+    class="p-button-success"
+    label="Add to collection"
+    (click)="addToCollection()"></p-button>
+  <p-button
+    *ngIf="inUserCollection"
+    class="p-button-success"
+    label="Update Data"
+    (click)="updateData()"></p-button>
+  <p-button
+    *ngIf="inUserCollection"
+    class="p-button-danger"
+    label="Remove from collection"
+    (click)="removeFromCollection()"></p-button>
 </ng-template>
