@@ -10,12 +10,12 @@ import {
 import { GamesService } from '../../core/services/games.service';
 import { take } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MmsaiCardComponent } from '../../core/components/mmsai-card/mmsai-card.component';
+import { GameCardComponent } from '../../core/components/game-card/game-card.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, ButtonModule, MmsaiCardComponent],
+  imports: [CommonModule, ButtonModule, GameCardComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })

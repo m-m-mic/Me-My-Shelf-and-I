@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { GamesService } from '../../core/services/games.service';
 import { GameWithIdType } from '../../core/models/game.interface';
 import { take } from 'rxjs';
-import { MmsaiCardComponent } from '../../core/components/mmsai-card/mmsai-card.component';
+import { GameCardComponent } from '../../core/components/game-card/game-card.component';
 
 @Component({
   selector: 'app-games',
   standalone: true,
-  imports: [CommonModule, MmsaiCardComponent],
+  imports: [CommonModule, GameCardComponent],
   templateUrl: './games.component.html',
   styleUrls: ['./games.component.scss'],
 })

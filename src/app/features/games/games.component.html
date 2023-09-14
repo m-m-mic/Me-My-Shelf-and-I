@@ -1,7 +1,4 @@
 <h1>Games</h1>
 <div class="games-results">
-  <app-mmsai-card
-    *ngFor="let game of gamesList"
-    cardType="game"
-    [data]="game"></app-mmsai-card>
+  <app-game-card *ngFor="let game of gamesList" [data]="game"></app-game-card>
 </div>

@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MmsaiCardComponent } from './mmsai-card.component';
+import { GameCardComponent } from './game-card.component';
 
 describe('MmsaiCardComponent', () => {
-  let component: MmsaiCardComponent;
-  let fixture: ComponentFixture<MmsaiCardComponent>;
+  let component: GameCardComponent;
+  let fixture: ComponentFixture<GameCardComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [MmsaiCardComponent]
+      imports: [GameCardComponent],
     });
-    fixture = TestBed.createComponent(MmsaiCardComponent);
+    fixture = TestBed.createComponent(GameCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

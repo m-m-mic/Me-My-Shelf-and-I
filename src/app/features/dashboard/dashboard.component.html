@@ -1,10 +1,9 @@
 <h1>Dashboard</h1>
 <h2>Games</h2>
 <div class="media-selection">
-  <app-mmsai-card
+  <app-game-card
     *ngFor="let game of games"
-    cardType="game"
-    [data]="game.general"></app-mmsai-card>
+    [data]="game.general"></app-game-card>
 </div>
 <h2>Movies</h2>
 <div></div>

@@ -11,7 +11,7 @@ import { Store } from '@ngrx/store';
 import { signOut } from '../../states/auth/auth.actions';
 
 @Component({
-  selector: 'app-mmsai-header-button',
+  selector: 'app-header-button',
   standalone: true,
   imports: [
     CommonModule,
@@ -21,11 +21,11 @@ import { signOut } from '../../states/auth/auth.actions';
     DividerModule,
     SidebarModule,
   ],
-  templateUrl: './mmsai-header-button.component.html',
-  styleUrls: ['./mmsai-header-button.component.scss'],
+  templateUrl: './header-button.component.html',
+  styleUrls: ['./header-button.component.scss'],
   viewProviders: [provideIcons({ ionPerson, ionMenu })],
 })
-export class MmsaiHeaderButtonComponent {
+export class HeaderButtonComponent {
   @Input() isLoggedIn = false;
   @Input() displayName = 'Account';
   @Input() menuItems!: MenuItem[];

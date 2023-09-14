@@ -8,7 +8,7 @@ import { DividerModule } from 'primeng/divider';
 import { NgIconComponent } from '@ng-icons/core';
 
 @Component({
-  selector: 'app-mmsai-tab-selection',
+  selector: 'app-tab-selection',
   standalone: true,
   imports: [
     CommonModule,
@@ -20,7 +20,7 @@ import { NgIconComponent } from '@ng-icons/core';
     DividerModule,
     NgIconComponent,
   ],
-  templateUrl: './mmsai-tab-selection.component.html',
-  styleUrls: ['./mmsai-tab-selection.component.scss'],
+  templateUrl: './tab-selection.component.html',
+  styleUrls: ['./tab-selection.component.scss'],
 })
-export class MmsaiTabSelectionComponent {}
+export class TabSelectionComponent {}

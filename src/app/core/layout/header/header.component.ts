@@ -2,13 +2,13 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
-import { MmsaiHeaderButtonComponent } from '../../components/mmsai-header-button/mmsai-header-button.component';
+import { HeaderButtonComponent } from '../../components/header-button/header-button.component';
 import { MenuItem } from 'primeng/api';
 import { Store } from '@ngrx/store';
 import { signOut } from '../../states/auth/auth.actions';
 import { Subscription } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MmsaiTabSelectionComponent } from '../../components/mmsai-tab-selection/mmsai-tab-selection.component';
+import { TabSelectionComponent } from '../../components/tab-selection/tab-selection.component';
 
 @Component({
   selector: 'app-header',
@@ -16,8 +16,8 @@ import { MmsaiTabSelectionComponent } from '../../components/mmsai-tab-selection
   imports: [
     CommonModule,
     RouterLink,
-    MmsaiHeaderButtonComponent,
-    MmsaiTabSelectionComponent,
+    HeaderButtonComponent,
+    TabSelectionComponent,
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],

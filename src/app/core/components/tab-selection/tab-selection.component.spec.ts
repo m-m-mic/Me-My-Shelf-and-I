@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MmsaiTabSelectionComponent } from './mmsai-tab-selection.component';
+import { TabSelectionComponent } from './tab-selection.component';
 
 describe('MmsaiTabSelectionComponent', () => {
-  let component: MmsaiTabSelectionComponent;
-  let fixture: ComponentFixture<MmsaiTabSelectionComponent>;
+  let component: TabSelectionComponent;
+  let fixture: ComponentFixture<TabSelectionComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [MmsaiTabSelectionComponent]
+      imports: [TabSelectionComponent],
     });
-    fixture = TestBed.createComponent(MmsaiTabSelectionComponent);
+    fixture = TestBed.createComponent(TabSelectionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
