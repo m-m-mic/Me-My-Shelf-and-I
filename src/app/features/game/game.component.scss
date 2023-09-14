@@ -1,4 +1,5 @@
 @import '../../shared/styles/contentBody';
+@import '../../shared/styles/breakpoints';
 
 :host {
   margin-top: 72px;
@@ -15,6 +16,12 @@
   border-radius: 12px;
   box-sizing: border-box;
   overflow: hidden;
+  @include breakpoint-max(620px) {
+    flex-flow: column;
+    height: auto;
+    gap: 16px;
+    padding: 12px 0 0;
+  }
 }
 
 .media-info {
@@ -22,13 +29,14 @@
   display: flex;
   flex-flow: column;
   gap: 8px;
-}
+  @include breakpoint-max(620px) {
+    justify-content: center;
+    text-align: center;
+  }
 
-.form-header {
-  display: flex;
-  gap: 16px;
-  justify-content: space-between;
-  align-items: center;
+  h1 {
+    font-family: 'Bungee Regular', sans-serif;
+  }
 }
 
 .media-image {
@@ -38,6 +46,9 @@
   width: 130px;
   height: 160px;
   position: relative;
+  @include breakpoint-max(620px) {
+    height: 130px;
+  }
 
   .bookmark {
     bottom: 15px;
@@ -48,6 +59,9 @@
     padding: 4px;
     border-radius: 20px;
     transition: 0.2s;
+    @include breakpoint-max(620px) {
+      bottom: 0;
+    }
 
     &.visible {
       opacity: 1;
@@ -69,6 +83,15 @@
   display: flex;
   flex-flow: row wrap;
   gap: 8px;
+  @include breakpoint-max(620px) {
+    flex-flow: column;
+  }
+}
+
+.data-divider {
+  @include breakpoint-max(620px) {
+    display: none;
+  }
 }
 
 .media-button {
@@ -86,6 +109,11 @@
   align-items: center;
   cursor: pointer;
   transition: 0.2s;
+  @include breakpoint-max(620px) {
+    flex: 0 0 40px;
+    flex-flow: row;
+    width: 100%;
+  }
 
   &.add:hover,
   &.add:active {
@@ -96,6 +124,13 @@
   &.remove:active {
     background: #b05555;
   }
+}
+
+.form-header {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .form-group {

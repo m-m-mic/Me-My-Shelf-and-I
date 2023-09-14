@@ -4,7 +4,6 @@ import {
   BehaviorSubject,
   catchError,
   from,
-  map,
   Observable,
   throwError,
 } from 'rxjs';
