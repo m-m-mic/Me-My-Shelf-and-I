@@ -1,22 +1,18 @@
-import { Component, DestroyRef, OnInit } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { GamesService } from '../../core/services/games.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { take, throwError } from 'rxjs';
 import { GameType, UserGameType } from '../../core/models/game.interface';
-import { UsersService } from '../../core/services/users.service';
-import { AuthenticationService } from '../../core/services/authentication.service';
 import { DividerModule } from 'primeng/divider';
 import { ButtonModule } from 'primeng/button';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { createGameForm, createGameObject } from './game.form';
-import { gameItems } from './game.items';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ChipModule } from 'primeng/chip';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { ionAdd, ionBookmark, ionRemove } from '@ng-icons/ionicons';
+import { gameItems } from './game.items';
+import { createGameObject } from './game.form';
+import { GamesService } from '../../core/services/games.service';
+import { UsersService } from '../../core/services/users.service';
 
 @Component({
   selector: 'app-game',
@@ -36,100 +32,30 @@ import { ionAdd, ionBookmark, ionRemove } from '@ng-icons/ionicons';
   styleUrls: ['./game.component.scss'],
   viewProviders: [provideIcons({ ionAdd, ionRemove, ionBookmark })],
 })
-export class GameComponent implements OnInit {
-  private id!: string;
-  private uid!: string;
-  inUserCollection!: boolean;
-  hasFormChanged = false;
-  gameData!: GameType;
-  userGameData?: UserGameType;
-  gameForm!: FormGroup;
+export class GameComponent {
+  @Input() gameData?: GameType;
+  @Input() gameForm?: FormGroup;
+  @Input() userGameData?: UserGameType;
+  @Input() id?: string;
+
+  gamesService = inject(GamesService);
+  usersService = inject(UsersService);
+
   selectItems = gameItems;
 
-  constructor(
-    private gamesService: GamesService,
-    private usersService: UsersService,
-    private authenticationService: AuthenticationService,
-    private route: ActivatedRoute,
-    private destroyRef: DestroyRef,
-    private formBuilder: FormBuilder,
-    private router: Router,
-  ) {
-    this.route.paramMap.pipe(takeUntilDestroyed()).subscribe((params) => {
-      const paramId = params.get('gameId');
-      if (paramId) this.id = paramId;
-    });
-  }
-
-  ngOnInit() {
-    this.getGameData();
-    this.getUserGameData();
-  }
-
-  getGameData() {
-    this.gamesService
-      .getGame(this.id)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((game) => {
-        if (game) {
-          this.gameData = game;
-        } else {
-          this.router.navigate(['/404']);
-        }
-      });
-  }
-
-  getUserGameData() {
-    this.authenticationService
-      .getUser()
-      .pipe(take(1))
-      .subscribe((user) => {
-        if (user) {
-          this.uid = user.uid;
-          this.usersService
-            .getUser(this.uid)
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe((value) => {
-              if (value) {
-                this.inUserCollection = false;
-                for (const game of value.collection.games) {
-                  if (game.ref.id === this.id) {
-                    this.inUserCollection = game.in_collection;
-                    this.userGameData = game;
-                    break;
-                  }
-                }
-                this.gameForm = this.formBuilder.group(
-                  createGameForm(this.inUserCollection, this.userGameData),
-                );
-                this.gameForm.valueChanges
-                  .pipe(takeUntilDestroyed(this.destroyRef))
-                  .subscribe(() => {
-                    this.hasFormChanged = true;
-                  });
-              }
-            });
-        } else {
-          throwError(() => new Error('Could not find user'));
-        }
-      });
-  }
-
   addToCollection() {
-    this.gamesService.saveGameToCollection(this.id, this.uid);
+    if (this.id) this.gamesService.saveToUserCollection(this.id);
   }
 
   updateData() {
-    if (this.userGameData) {
-      this.usersService.updateGameFromUser(
-        this.uid,
+    if (this.userGameData && this.gameForm) {
+      this.usersService.updateGameFromCollection(
         createGameObject(this.userGameData.ref, this.gameForm),
       );
-      this.hasFormChanged = false;
     }
   }
 
   removeFromCollection() {
-    this.gamesService.removeGameFromCollection(this.id, this.uid);
+    if (this.id) this.gamesService.removeFromUserCollection(this.id);
   }
 }

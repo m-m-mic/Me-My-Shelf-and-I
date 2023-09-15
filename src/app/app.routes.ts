@@ -11,6 +11,7 @@ import { MoviesComponent } from './features/movies/movies.component';
 import { MovieComponent } from './features/movie/movie.component';
 import { AlbumsComponent } from './features/albums/albums.component';
 import { AlbumComponent } from './features/album/album.component';
+import { GameContainerComponent } from './features/game/game.container';
 
 export const ROUTES: Routes = [
   {
@@ -27,7 +28,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'games/:gameId',
-    component: GameComponent,
+    component: GameContainerComponent,
     canActivate: [AuthenticationGuard],
     data: { blockAuthenticated: false, redirectToSignIn: true },
   },

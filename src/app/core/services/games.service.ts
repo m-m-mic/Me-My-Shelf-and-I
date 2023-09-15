@@ -5,7 +5,8 @@ import {
 } from '@angular/fire/compat/firestore';
 import { GameType, UserGameType } from '../models/game.interface';
 import { UsersService } from './users.service';
-import { Observable, take, throwError } from 'rxjs';
+import { firstValueFrom, throwError } from 'rxjs';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable({ providedIn: 'root' })
 export class GamesService {
@@ -13,6 +14,7 @@ export class GamesService {
   gamesRef: AngularFirestoreCollection<GameType>;
   constructor(
     private usersService: UsersService,
+    private authenticationService: AuthenticationService,
     private db: AngularFirestore,
   ) {
     this.gamesRef = db.collection(this.gamesPath);
@@ -22,43 +24,39 @@ export class GamesService {
     return this.gamesRef;
   }
 
-  getGame(id: string) {
-    return this.gamesRef.doc(id).valueChanges() as Observable<
-      GameType | undefined
-    >;
+  get(id: string) {
+    return this.gamesRef.doc(id).valueChanges();
   }
 
-  addUserToGame(gameId: string, userId: string) {
-    this.getGame(gameId)
-      .pipe(take(1))
-      .subscribe((game) => {
-        if (game) {
-          const data = game;
-          data.saved_by.push(userId);
-          return this.gamesRef.doc(gameId).update(data);
-        } else {
-          throwError(() => new Error('Could not find game'));
-          return;
-        }
-      });
+  async addUser(gameId: string) {
+    const game = await firstValueFrom(this.get(gameId));
+    const authUser = await firstValueFrom(this.authenticationService.getUser());
+
+    if (!game || !authUser?.uid) {
+      throwError(() => new Error('Could not find game or user'));
+      return;
+    }
+
+    const data = game;
+    data.saved_by.push(authUser.uid);
+    await this.gamesRef.doc(gameId).update(data);
   }
 
-  removeUserFromGame(gameId: string, userId: string) {
-    this.getGame(gameId)
-      .pipe(take(1))
-      .subscribe((game) => {
-        if (game) {
-          const data = game;
-          data.saved_by = data.saved_by.filter((id) => id !== userId);
-          return this.gamesRef.doc(gameId).update(data);
-        } else {
-          throwError(() => new Error('Could not find game'));
-          return;
-        }
-      });
+  async removeUser(gameId: string) {
+    const game = await firstValueFrom(this.get(gameId));
+    const authUser = await firstValueFrom(this.authenticationService.getUser());
+
+    if (!game || !authUser?.uid) {
+      throwError(() => new Error('Could not find game or user'));
+      return;
+    }
+
+    const data = game;
+    data.saved_by = data.saved_by.filter((id) => id !== authUser.uid);
+    return this.gamesRef.doc(gameId).update(data);
   }
 
-  saveGameToCollection(gameId: string, userId: string) {
+  async saveToUserCollection(gameId: string) {
     const game: UserGameType = {
       ref: this.gamesRef.doc(gameId).ref,
       in_collection: true,
@@ -66,12 +64,12 @@ export class GamesService {
       progress: 'not-started',
       notes: '',
     };
-    this.addUserToGame(gameId, userId);
-    return this.usersService.addGameToUser(userId, game);
+    await this.addUser(gameId);
+    await this.usersService.addGameToCollection(game);
   }
 
-  removeGameFromCollection(gameId: string, userId: string) {
-    this.removeUserFromGame(gameId, userId);
-    return this.usersService.removeGameFromUser(userId, gameId);
+  async removeFromUserCollection(gameId: string) {
+    await this.removeUser(gameId);
+    await this.usersService.removeGameFromCollection(gameId);
   }
 }

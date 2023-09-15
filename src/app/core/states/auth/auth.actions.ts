@@ -16,3 +16,5 @@ export const authSuccess = createAction(
   '[Auth] Auth Success',
   props<{ redirect: boolean }>(),
 );
+
+export const authFailure = createAction('[Auth] Auth Failure');

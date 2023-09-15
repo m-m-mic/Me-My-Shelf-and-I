@@ -21,40 +21,4 @@ import { GameCardComponent } from '../../core/components/game-card/game-card.com
 })
 export class DashboardComponent {
   games: CombinedGameType[] = [];
-
-  constructor(
-    private authenticationService: AuthenticationService,
-    private usersService: UsersService,
-    private gamesService: GamesService,
-    private destroyRef: DestroyRef,
-  ) {
-    this.authenticationService
-      .getUser()
-      .pipe(take(1))
-      .subscribe((user) => {
-        if (user) {
-          this.usersService
-            .getUser(user.uid)
-            .pipe(takeUntilDestroyed(destroyRef))
-            .subscribe((value) => {
-              if (value) {
-                this.games = [];
-                for (const game of value.collection.games) {
-                  if (game.in_collection) {
-                    game.ref.get().then((result) =>
-                      this.games.push({
-                        general: {
-                          ...result.data(),
-                          id: game.ref.id,
-                        } as GameWithIdType,
-                        user: game,
-                      }),
-                    );
-                  }
-                }
-              }
-            });
-        }
-      });
-  }
 }

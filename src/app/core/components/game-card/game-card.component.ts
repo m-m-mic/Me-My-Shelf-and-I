@@ -12,5 +12,4 @@ import { RouterLink } from '@angular/router';
 })
 export class GameCardComponent {
   @Input({ required: true }) data!: GameWithIdType;
-  url = `/games/${this.data.id}`;
 }
