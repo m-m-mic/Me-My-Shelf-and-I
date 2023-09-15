@@ -1,7 +1,7 @@
 import { FormatType, ProgressType } from './attribute.types';
 import { DocumentReference } from '@angular/fire/compat/firestore';
 
-export interface GameType {
+export interface Game {
   title: string;
   platform?: string;
   first_release?: string;
@@ -9,19 +9,19 @@ export interface GameType {
   saved_by: string[];
 }
 
-export interface GameWithIdType extends GameType {
+export interface GameWithId extends Game {
   id: string;
 }
 
-export interface UserGameType {
-  ref: DocumentReference<GameType>;
+export interface UserGame {
+  ref: DocumentReference<Game>;
   in_collection: boolean;
   progress?: ProgressType;
   format?: FormatType;
   notes?: string;
 }
 
-export interface CombinedGameType {
-  general: GameWithIdType;
-  user: UserGameType;
+export interface CombinedGame {
+  general: GameWithId;
+  user: UserGame;
 }

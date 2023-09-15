@@ -1,8 +1,8 @@
-import { GameType, UserGameType } from '../../core/models/game.interface';
+import { Game, UserGame } from '../../core/models/game.interface';
 import { FormGroup } from '@angular/forms';
 import { DocumentReference } from '@angular/fire/compat/firestore';
 
-export function fillGameForm(userGameData?: UserGameType) {
+export function fillGameForm(userGameData?: UserGame) {
   if (userGameData) {
     return {
       format: [
@@ -25,9 +25,9 @@ export function fillGameForm(userGameData?: UserGameType) {
 }
 
 export function createGameObject(
-  ref: DocumentReference<GameType>,
+  ref: DocumentReference<Game>,
   gameForm: FormGroup,
-): UserGameType {
+): UserGame {
   return {
     ref: ref,
     in_collection: true,

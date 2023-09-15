@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GameWithIdType } from '../../models/game.interface';
+import { GameWithId } from '../../models/game.interface';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -11,5 +11,5 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./game-card.component.scss'],
 })
 export class GameCardComponent {
-  @Input({ required: true }) data!: GameWithIdType;
+  @Input({ required: true }) data!: GameWithId;
 }

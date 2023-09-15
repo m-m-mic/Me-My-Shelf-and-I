@@ -1,16 +1,9 @@
-import { Component, DestroyRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { UsersService } from '../../core/services/users.service';
-import { AuthenticationService } from '../../core/services/authentication.service';
-import {
-  CombinedGameType,
-  GameWithIdType,
-} from '../../core/models/game.interface';
-import { GamesService } from '../../core/services/games.service';
-import { take } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { GameCardComponent } from '../../core/components/game-card/game-card.component';
+import { UserCollection } from '../../core/models/user.interface';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,5 +13,15 @@ import { GameCardComponent } from '../../core/components/game-card/game-card.com
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent {
-  games: CombinedGameType[] = [];
+  collection: UserCollection = {
+    games: [],
+    movies: [],
+    albums: [],
+  };
+
+  constructor(private usersService: UsersService) {
+    this.usersService.getCollection().then((collection) => {
+      if (collection) this.collection = collection;
+    });
+  }
 }

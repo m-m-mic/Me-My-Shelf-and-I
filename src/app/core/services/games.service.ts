@@ -3,7 +3,7 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
-import { GameType, UserGameType } from '../models/game.interface';
+import { Game, GameWithId, UserGame } from '../models/game.interface';
 import { UsersService } from './users.service';
 import { firstValueFrom, throwError } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
@@ -11,7 +11,7 @@ import { AuthenticationService } from './authentication.service';
 @Injectable({ providedIn: 'root' })
 export class GamesService {
   private gamesPath = '/games';
-  gamesRef: AngularFirestoreCollection<GameType>;
+  gamesRef: AngularFirestoreCollection<Game>;
   constructor(
     private usersService: UsersService,
     private authenticationService: AuthenticationService,
@@ -20,8 +20,16 @@ export class GamesService {
     this.gamesRef = db.collection(this.gamesPath);
   }
 
-  getAll() {
-    return this.gamesRef;
+  async getAll() {
+    const games = await firstValueFrom(this.gamesRef.snapshotChanges());
+    const gamesWithIds: GameWithId[] = [];
+    games.map((game) => {
+      gamesWithIds.push({
+        id: game.payload.doc.id,
+        ...game.payload.doc.data(),
+      });
+    });
+    return gamesWithIds;
   }
 
   get(id: string) {
@@ -57,7 +65,7 @@ export class GamesService {
   }
 
   async saveToUserCollection(gameId: string) {
-    const game: UserGameType = {
+    const game: UserGame = {
       ref: this.gamesRef.doc(gameId).ref,
       in_collection: true,
       format: 'physical',

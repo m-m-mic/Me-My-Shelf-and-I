@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef } from '@angular/core';
 import { GameComponent } from './game.component';
 import { GamesService } from '../../core/services/games.service';
 import { UsersService } from '../../core/services/users.service';
@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AsyncPipe } from '@angular/common';
 import { Observable, take } from 'rxjs';
-import { GameType, UserGameType } from '../../core/models/game.interface';
+import { Game, UserGame } from '../../core/models/game.interface';
 import { AuthenticationService } from '../../core/services/authentication.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { fillGameForm } from './game.form';
@@ -25,8 +25,8 @@ import { fillGameForm } from './game.form';
 })
 export class GameContainerComponent {
   gameId!: string;
-  gameData$?: Observable<GameType | undefined>;
-  userGameData?: UserGameType;
+  gameData$?: Observable<Game | undefined>;
+  userGameData?: UserGame;
   gameForm: FormGroup = this.createGameForm();
 
   constructor(
@@ -35,6 +35,7 @@ export class GameContainerComponent {
     private authenticationService: AuthenticationService,
     private route: ActivatedRoute,
     private destroyRef: DestroyRef,
+    private formBuilder: FormBuilder,
   ) {
     this.route.paramMap.pipe(takeUntilDestroyed()).subscribe((params) => {
       const paramId = params.get('gameId');
@@ -54,7 +55,9 @@ export class GameContainerComponent {
                   user.collection.games.filter((game) => {
                     if (game.ref.id === this.gameId) this.userGameData = game;
                   });
-                  this.gameForm.setValue(fillGameForm(this.userGameData));
+                  this.gameForm = formBuilder.group(
+                    fillGameForm(this.userGameData),
+                  );
                 }
               }),
           );
@@ -63,7 +66,6 @@ export class GameContainerComponent {
   }
 
   createGameForm() {
-    const formBuilder = inject(FormBuilder);
-    return formBuilder.group(fillGameForm());
+    return this.formBuilder.group(fillGameForm());
   }
 }

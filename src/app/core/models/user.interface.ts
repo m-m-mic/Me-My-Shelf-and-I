@@ -1,14 +1,20 @@
 import firebase from 'firebase/compat';
 import DocumentReference = firebase.firestore.DocumentReference;
-import { UserGameType } from './game.interface';
-import { UserMovieType } from './movie.interface';
+import { CombinedGame, UserGame } from './game.interface';
+import { CombinedMovie, UserMovie } from './movie.interface';
 
 export interface User {
-  collection: Collection;
+  collection: InternalCollection;
 }
 
-interface Collection {
-  games: UserGameType[];
-  movies: UserMovieType[];
+interface InternalCollection {
+  games: UserGame[];
+  movies: UserMovie[];
+  albums: DocumentReference[];
+}
+
+export interface UserCollection {
+  games: CombinedGame[];
+  movies: CombinedMovie[];
   albums: DocumentReference[];
 }

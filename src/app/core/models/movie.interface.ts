@@ -1,26 +1,26 @@
 import { DocumentReference } from '@angular/fire/compat/firestore';
 import { FormatType, ProgressType } from './attribute.types';
 
-export interface MovieType {
+export interface Movie {
   title: string;
   director?: string;
   genres?: string[];
   saved_by: number;
 }
 
-export interface MovieWithIdType extends MovieType {
+export interface MovieWithId extends Movie {
   id: string;
 }
 
-export interface UserMovieType {
-  ref: DocumentReference<MovieType>;
+export interface UserMovie {
+  ref: DocumentReference<Movie>;
   in_collection: boolean;
   progress?: ProgressType;
   format?: FormatType;
   notes?: string;
 }
 
-export interface CombinedMovieType {
-  general: MovieType;
-  user: UserMovieType;
+export interface CombinedMovie {
+  general: Movie;
+  user: UserMovie;
 }

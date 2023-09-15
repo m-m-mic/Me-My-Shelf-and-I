@@ -1,6 +1,6 @@
 import { Component, inject, Input } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { GameType, UserGameType } from '../../core/models/game.interface';
+import { Game, UserGame } from '../../core/models/game.interface';
 import { DividerModule } from 'primeng/divider';
 import { ButtonModule } from 'primeng/button';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -33,9 +33,9 @@ import { UsersService } from '../../core/services/users.service';
   viewProviders: [provideIcons({ ionAdd, ionRemove, ionBookmark })],
 })
 export class GameComponent {
-  @Input() gameData?: GameType;
+  @Input() gameData?: Game;
   @Input() gameForm?: FormGroup;
-  @Input() userGameData?: UserGameType;
+  @Input() userGameData?: UserGame;
   @Input() id?: string;
 
   gamesService = inject(GamesService);
