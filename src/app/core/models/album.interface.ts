@@ -1,6 +1,7 @@
-import { RecordType } from './attribute.types';
+import { FormatType, RecordType } from './attribute.types';
+import { DocumentReference } from '@angular/fire/compat/firestore';
 
-export interface Music {
+export interface Album {
   title: string;
   artist: string;
   record?: RecordType;
@@ -8,6 +9,18 @@ export interface Music {
   saved_by: number;
 }
 
-export interface MusicWithId extends Music {
+export interface AlbumWithId extends Album {
   id: string;
+}
+
+export interface UserAlbum {
+  ref: DocumentReference<Album>;
+  in_collection: boolean;
+  format?: FormatType;
+  notes?: string;
+}
+
+export interface CombinedAlbum {
+  general: Album;
+  user: UserAlbum;
 }
