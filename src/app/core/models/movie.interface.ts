@@ -5,7 +5,7 @@ export interface Movie {
   title: string;
   director?: string;
   genres?: string[];
-  saved_by: number;
+  saved_by: string[];
 }
 
 export interface MovieWithId extends Movie {

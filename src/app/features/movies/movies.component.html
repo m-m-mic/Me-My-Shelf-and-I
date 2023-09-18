@@ -1,1 +1,7 @@
-<p>movies works!</p>
+<h1>Movies</h1>
+<div class="movies-results">
+  <app-movie-card
+    *ngFor="let movie of moviesList"
+    [data]="movie"
+    [uid]="uid"></app-movie-card>
+</div>

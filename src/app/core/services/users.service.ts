@@ -7,6 +7,7 @@ import { User, UserCollection } from '../models/user.interface';
 import { firstValueFrom, of, throwError } from 'rxjs';
 import { GameWithId, UserGame } from '../models/game.interface';
 import { AuthenticationService } from './authentication.service';
+import { UserMovie } from '../models/movie.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -128,6 +129,62 @@ export class UsersService {
       }
     }
     data.collection.games = gamesCollection;
+    return this.usersRef.doc(userData.uid).update(data);
+  }
+
+  async addMovieToCollection(movieData: UserMovie) {
+    const userData = await this.getUserData();
+    if (!userData) return;
+
+    const data = userData.document;
+    const movieCollection = data.collection.movies;
+    let isInArray = false;
+    for (let i = 0; i < movieCollection.length; i++) {
+      if (movieData.ref.id == movieCollection[i].ref.id) {
+        movieCollection[i].in_collection = true;
+        isInArray = true;
+        break;
+      }
+    }
+    if (!isInArray) movieCollection.push(movieData);
+    data.collection.movies = movieCollection;
+    return this.usersRef.doc(userData.uid).update(data);
+  }
+
+  async updateMovieFromCollection(movieData: UserMovie) {
+    const userData = await this.getUserData();
+    if (!userData) return;
+
+    const data = userData.document;
+    const moviesCollection = data.collection.movies;
+    for (let i = 0; i < moviesCollection.length; i++) {
+      if (movieData.ref.id == moviesCollection[i].ref.id) {
+        moviesCollection[i] = movieData;
+        break;
+      }
+    }
+    data.collection.movies = moviesCollection;
+    return this.usersRef.doc(userData.uid).update(data);
+  }
+
+  async removeMovieFromCollection(movieId: string) {
+    const userData = await this.getUserData();
+    if (!userData) return;
+
+    const data = userData.document;
+    const moviesCollection = [];
+    for (let i = 0; i < data.collection.movies.length; i++) {
+      if (movieId != data.collection.movies[i].ref.id) {
+        moviesCollection.push(data.collection.movies[i]);
+      } else {
+        const updatedMovie: UserMovie = {
+          ...data.collection.movies[i],
+          in_collection: false,
+        };
+        moviesCollection.push(updatedMovie);
+      }
+    }
+    data.collection.movies = moviesCollection;
     return this.usersRef.doc(userData.uid).update(data);
   }
 }

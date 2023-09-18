@@ -4,7 +4,7 @@ import { GamesService } from '../../core/services/games.service';
 import { GameWithId } from '../../core/models/game.interface';
 import { GameCardComponent } from '../../core/components/game-card/game-card.component';
 import { AuthenticationService } from '../../core/services/authentication.service';
-import { map, take } from 'rxjs';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-games',
