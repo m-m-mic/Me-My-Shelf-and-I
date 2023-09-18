@@ -1,13 +1,57 @@
 <h1>Dashboard</h1>
-<ng-template [ngIf]="collection">
-  <h2>Games</h2>
-  <div class="media-selection">
-    <app-game-card
-      *ngFor="let game of collection.games"
-      [data]="game.general"></app-game-card>
+<h2>Games</h2>
+<app-loading [height]="120" *ngIf="loading; else gamesCollection" />
+<ng-template #gamesCollection>
+  <div
+    *ngIf="collection.games.length > 0; else noGames"
+    class="media-selection">
+    <ng-template ngFor let-game [ngForOf]="collection.games">
+      <app-game-card
+        *ngIf="game.user.in_collection"
+        [data]="game.general"
+        [uid]="uid"></app-game-card>
+    </ng-template>
   </div>
-  <h2>Movies</h2>
-  <div></div>
-  <h2>Albums</h2>
-  <div></div>
+  <ng-template #noGames>
+    <div class="no-content-disclaimer">
+      <span>You haven't added any games to your collection.</span>
+      <a routerLink="/games">Browse for games here!</a>
+    </div>
+  </ng-template>
+</ng-template>
+
+<h2>Movies</h2>
+<app-loading [height]="120" *ngIf="loading; else moviesCollection" />
+<ng-template #moviesCollection>
+  <div
+    *ngIf="collection.movies.length > 0; else noMovies"
+    class="media-selection">
+    <ng-template ngFor let-movie [ngForOf]="collection.movies">
+      <div>Test</div>
+    </ng-template>
+  </div>
+  <ng-template #noMovies>
+    <div class="no-content-disclaimer">
+      <span>You haven't added any movies to your collection.</span>
+      <a routerLink="/movies">Browse for movies here!</a>
+    </div>
+  </ng-template>
+</ng-template>
+
+<h2>Albums</h2>
+<app-loading [height]="120" *ngIf="loading; else albumsCollection" />
+<ng-template #albumsCollection>
+  <div
+    *ngIf="collection.albums.length > 0; else noAlbums"
+    class="media-selection">
+    <ng-template ngFor let-album [ngForOf]="collection.albums">
+      <div>Test</div>
+    </ng-template>
+  </div>
+  <ng-template #noAlbums>
+    <div class="no-content-disclaimer">
+      <span>You haven't added any albums to your collection.</span>
+      <a routerLink="/albums">Browse for albums here!</a>
+    </div>
+  </ng-template>
 </ng-template>

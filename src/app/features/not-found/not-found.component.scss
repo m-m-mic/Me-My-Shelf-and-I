@@ -1,8 +1,8 @@
-@import '../../shared/styles/contentBody';
+@import 'flexContent';
 
 :host {
   margin-top: 72px;
-  @include contentBody;
+  @include flexContent;
   align-items: center;
   justify-content: center;
   gap: 24px;

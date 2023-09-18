@@ -1,12 +1,22 @@
-@import '../../shared/styles/contentBody';
+@import '../../shared/styles/flexContent';
 
 :host {
   margin-top: 72px;
-  @include contentBody;
+  @include flexContent;
 }
 
 .media-selection {
   display: flex;
   overflow-x: scroll;
   gap: 20px;
+}
+
+.no-content-disclaimer {
+  height: 120px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
 }

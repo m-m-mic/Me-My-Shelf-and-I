@@ -1,4 +1,7 @@
 <h1>Games</h1>
 <div class="games-results">
-  <app-game-card *ngFor="let game of gamesList" [data]="game"></app-game-card>
+  <app-game-card
+    *ngFor="let game of gamesList"
+    [data]="game"
+    [uid]="uid"></app-game-card>
 </div>

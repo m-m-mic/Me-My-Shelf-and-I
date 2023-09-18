@@ -21,7 +21,6 @@ import { fillGameForm } from './game.form';
       [userGameData]="userGameData"
       [gameForm]="gameForm" />
   `,
-  styles: [':host { flex: 1 }'],
 })
 export class GameContainerComponent {
   gameId!: string;

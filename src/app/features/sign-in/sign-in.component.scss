@@ -1,7 +1,7 @@
-@import '../../shared/styles/contentBody';
+@import 'flexContent';
 
 :host {
-  @include contentBody;
+  @include flexContent;
   justify-content: center;
   align-items: center;
 }

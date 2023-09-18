@@ -1,9 +1,9 @@
-@import '../../shared/styles/contentBody';
+@import '../../shared/styles/flexContent';
 @import '../../shared/styles/breakpoints';
 
 :host {
   margin-top: 72px;
-  @include contentBody;
+  @include flexContent;
 }
 .media-header {
   height: 160px;

@@ -1,12 +1,13 @@
-@import '../../shared/styles/contentBody';
+@import '../../shared/styles/flexContent';
 
 :host {
   margin-top: 72px;
-  @include contentBody;
+  @include flexContent;
 }
 
 .games-results {
   display: flex;
   flex-flow: row wrap;
+  justify-content: center;
   gap: 20px;
 }
