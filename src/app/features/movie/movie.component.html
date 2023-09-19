@@ -45,6 +45,7 @@
   <div class="form-header">
     <h2>Your Details</h2>
     <p-button
+      [disabled]="!userMovieData?.in_collection"
       class="p-button-success"
       label="Save"
       icon="pi pi-check"

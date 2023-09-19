@@ -8,9 +8,9 @@ import { AuthenticationGuard } from './core/services/authentication.guard';
 import { GamesComponent } from './features/games/games.component';
 import { MoviesComponent } from './features/movies/movies.component';
 import { AlbumsComponent } from './features/albums/albums.component';
-import { AlbumComponent } from './features/album/album.component';
 import { GameContainerComponent } from './features/game/game.container';
 import { MovieContainerComponent } from './features/movie/movie.container';
+import { AlbumContainerComponent } from './features/album/album.container';
 
 export const ROUTES: Routes = [
   {
@@ -51,7 +51,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'albums/:albumId',
-    component: AlbumComponent,
+    component: AlbumContainerComponent,
     canActivate: [AuthenticationGuard],
     data: { blockAuthenticated: false, redirectToSignIn: true },
   },
