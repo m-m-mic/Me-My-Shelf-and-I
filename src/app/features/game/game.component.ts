@@ -13,6 +13,7 @@ import { gameItems } from './game.items';
 import { createGameObject } from './game.form';
 import { GamesService } from '../../core/services/games.service';
 import { UsersService } from '../../core/services/users.service';
+import { LoadingComponent } from '../../core/layout/loading/loading.component';
 
 @Component({
   selector: 'app-game',
@@ -27,6 +28,7 @@ import { UsersService } from '../../core/services/users.service';
     ChipModule,
     NgOptimizedImage,
     NgIconComponent,
+    LoadingComponent,
   ],
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.scss'],

@@ -7,8 +7,8 @@ import { User, UserCollection } from '../models/user.interface';
 import { firstValueFrom, of, throwError } from 'rxjs';
 import { GameWithId, UserGame } from '../models/game.interface';
 import { AuthenticationService } from './authentication.service';
-import { UserMovie } from '../models/movie.interface';
-import { UserAlbum } from '../models/album.interface';
+import { MovieWithId, UserMovie } from '../models/movie.interface';
+import { AlbumWithId, UserAlbum } from '../models/album.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -71,6 +71,28 @@ export class UsersService {
           id: game.ref.id,
         } as GameWithId,
         user: game,
+      });
+    }
+
+    for (const movie of userData.document.collection.movies) {
+      const movieData = await movie.ref.get();
+      collection.movies.push({
+        general: {
+          ...movieData.data(),
+          id: movie.ref.id,
+        } as MovieWithId,
+        user: movie,
+      });
+    }
+
+    for (const album of userData.document.collection.albums) {
+      const albumData = await album.ref.get();
+      collection.albums.push({
+        general: {
+          ...albumData.data(),
+          id: album.ref.id,
+        } as AlbumWithId,
+        user: album,
       });
     }
 

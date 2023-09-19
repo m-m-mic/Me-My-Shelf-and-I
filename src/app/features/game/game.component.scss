@@ -126,6 +126,11 @@
   }
 }
 
+.media-loading {
+  background: var(--primary-900);
+  border-radius: 12px;
+}
+
 .form-header {
   display: flex;
   gap: 16px;

@@ -37,6 +37,7 @@ export class DashboardComponent {
     usersService.getCollection().then((collection) => {
       if (collection) {
         this.collection = collection;
+        console.log(this.collection);
         this.loading = false;
       }
     });

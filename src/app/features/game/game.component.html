@@ -1,4 +1,4 @@
-<div *ngIf="gameData" class="media-header">
+<div *ngIf="gameData; else gameDataLoading" class="media-header">
   <div class="media-image">
     <span [ngClass]="{ bookmark: true, visible: userGameData?.in_collection }">
       <ng-icon name="ionBookmark" size="24" />
@@ -34,9 +34,12 @@
     </button>
   </ng-template>
 </div>
+<ng-template #gameDataLoading>
+  <app-loading class="media-loading" [height]="160" />
+</ng-template>
 
 <form
-  *ngIf="gameForm"
+  *ngIf="gameForm; else gameFormLoading"
   [formGroup]="gameForm"
   [ngClass]="{ 'form-group': true, disabled: !userGameData?.in_collection }">
   <div class="form-header">
@@ -71,3 +74,6 @@
     </span>
   </div>
 </form>
+<ng-template #gameFormLoading>
+  <app-loading class="media-loading" [height]="160" />
+</ng-template>

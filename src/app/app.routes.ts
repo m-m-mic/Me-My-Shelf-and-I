@@ -6,12 +6,11 @@ import { LandingPageComponent } from './features/landing-page/landing-page.compo
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { AuthenticationGuard } from './core/services/authentication.guard';
 import { GamesComponent } from './features/games/games.component';
-import { GameComponent } from './features/game/game.component';
 import { MoviesComponent } from './features/movies/movies.component';
-import { MovieComponent } from './features/movie/movie.component';
 import { AlbumsComponent } from './features/albums/albums.component';
 import { AlbumComponent } from './features/album/album.component';
 import { GameContainerComponent } from './features/game/game.container';
+import { MovieContainerComponent } from './features/movie/movie.container';
 
 export const ROUTES: Routes = [
   {
@@ -40,7 +39,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'movies/:movieId',
-    component: MovieComponent,
+    component: MovieContainerComponent,
     canActivate: [AuthenticationGuard],
     data: { blockAuthenticated: false, redirectToSignIn: true },
   },
