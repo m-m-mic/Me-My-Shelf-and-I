@@ -65,35 +65,41 @@ export class UsersService {
 
     for (const game of userData.document.collection.games) {
       const gameData = await game.ref.get();
-      collection.games.push({
-        general: {
-          ...gameData.data(),
-          id: game.ref.id,
-        } as GameWithId,
-        user: game,
-      });
+      if (game.in_collection) {
+        collection.games.push({
+          general: {
+            ...gameData.data(),
+            id: game.ref.id,
+          } as GameWithId,
+          user: game,
+        });
+      }
     }
 
     for (const movie of userData.document.collection.movies) {
       const movieData = await movie.ref.get();
-      collection.movies.push({
-        general: {
-          ...movieData.data(),
-          id: movie.ref.id,
-        } as MovieWithId,
-        user: movie,
-      });
+      if (movie.in_collection) {
+        collection.movies.push({
+          general: {
+            ...movieData.data(),
+            id: movie.ref.id,
+          } as MovieWithId,
+          user: movie,
+        });
+      }
     }
 
     for (const album of userData.document.collection.albums) {
       const albumData = await album.ref.get();
-      collection.albums.push({
-        general: {
-          ...albumData.data(),
-          id: album.ref.id,
-        } as AlbumWithId,
-        user: album,
-      });
+      if (album.in_collection) {
+        collection.albums.push({
+          general: {
+            ...albumData.data(),
+            id: album.ref.id,
+          } as AlbumWithId,
+          user: album,
+        });
+      }
     }
 
     return collection;
