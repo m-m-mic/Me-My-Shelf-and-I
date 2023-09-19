@@ -1,17 +1,17 @@
 <button type="button" class="account-button" (click)="menu.toggle($event)">
   <span class="account-button-label">{{ displayName }}</span>
   <span class="account-icon">
-    <ng-icon name="ionPerson" size="24"></ng-icon>
+    <ng-icon name="ionPerson" size="24" />
   </span>
 </button>
 <p-menu
   #menu
   [model]="menuItems"
   styleClass="account-button-menu"
-  [popup]="true"></p-menu>
+  [popup]="true" />
 
 <button class="burger-menu" (click)="sidebarVisible = true">
-  <ng-icon name="ionMenu" size="24"></ng-icon>
+  <ng-icon name="ionMenu" size="24" />
 </button>
 <p-sidebar [(visible)]="sidebarVisible" position="right">
   <div class="sidebar-content">

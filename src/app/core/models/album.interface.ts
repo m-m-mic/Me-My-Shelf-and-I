@@ -6,7 +6,7 @@ export interface Album {
   artist: string;
   record?: RecordType;
   genres?: string[];
-  saved_by: number;
+  saved_by: string[];
 }
 
 export interface AlbumWithId extends Album {
@@ -21,6 +21,6 @@ export interface UserAlbum {
 }
 
 export interface CombinedAlbum {
-  general: Album;
+  general: AlbumWithId;
   user: UserAlbum;
 }

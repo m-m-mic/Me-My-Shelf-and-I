@@ -1,4 +1,4 @@
-<a class="card" [routerLink]="['/games/' + data.id]">
+<a class="card" [routerLink]="['/albums/' + data.id]">
   <span class="card-image-container">
     <span [ngClass]="{ bookmark: true, visible: data.saved_by.includes(uid) }">
       <ng-icon name="ionBookmark" size="24" />
@@ -7,6 +7,6 @@
   </span>
   <span class="card-info-container">
     <h2 class="card-title">{{ data.title }}</h2>
-    <span class="card-platform">{{ data.platform }}</span>
+    <span class="card-artist">{{ data.artist }}</span>
   </span>
 </a>

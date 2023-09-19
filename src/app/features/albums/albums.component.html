@@ -1,1 +1,4 @@
-<p>albums works!</p>
+<h1>Albums</h1>
+<div class="albums-results">
+  <app-album-card *ngFor="let album of albumsList" [data]="album" [uid]="uid" />
+</div>

@@ -1,7 +1,7 @@
 <div *ngIf="gameData" class="media-header">
   <div class="media-image">
     <span [ngClass]="{ bookmark: true, visible: userGameData?.in_collection }">
-      <ng-icon name="ionBookmark" size="24"></ng-icon>
+      <ng-icon name="ionBookmark" size="24" />
     </span>
     <img src="assets/no_cover_placeholder.jpg" alt="Cover" />
   </div>
@@ -24,12 +24,12 @@
     *ngIf="userGameData?.in_collection; else notInCollection"
     class="media-button remove"
     (click)="removeFromCollection()">
-    <ng-icon name="ionRemove" size="36"></ng-icon>
+    <ng-icon name="ionRemove" size="36" />
     <span class="media-button-title">Remove</span>
   </button>
   <ng-template #notInCollection>
     <button class="media-button add" (click)="addToCollection()">
-      <ng-icon name="ionAdd" size="36"></ng-icon>
+      <ng-icon name="ionAdd" size="36" />
       <span class="media-button-title">Add</span>
     </button>
   </ng-template>
@@ -46,20 +46,18 @@
       label="Save"
       icon="pi pi-check"
       styleClass="p-button-sm"
-      (click)="updateData()"></p-button>
+      (click)="updateData()" />
   </div>
   <div class="form-selection">
     <span class="form-container">
       <h3>Media form</h3>
-      <p-selectButton
-        [options]="selectItems.format"
-        formControlName="format"></p-selectButton>
+      <p-selectButton [options]="selectItems.format" formControlName="format" />
     </span>
     <span class="form-container">
       <h3>Progress</h3>
       <p-selectButton
         [options]="selectItems.progress"
-        formControlName="progress"></p-selectButton>
+        formControlName="progress" />
     </span>
   </div>
   <div class="form-notes">

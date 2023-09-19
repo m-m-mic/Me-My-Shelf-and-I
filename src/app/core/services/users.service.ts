@@ -8,6 +8,7 @@ import { firstValueFrom, of, throwError } from 'rxjs';
 import { GameWithId, UserGame } from '../models/game.interface';
 import { AuthenticationService } from './authentication.service';
 import { UserMovie } from '../models/movie.interface';
+import { UserAlbum } from '../models/album.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -76,6 +77,7 @@ export class UsersService {
     return collection;
   }
 
+  // Games Collection methods
   async addGameToCollection(gameData: UserGame) {
     const userData = await this.getUserData();
     if (!userData) return;
@@ -132,22 +134,23 @@ export class UsersService {
     return this.usersRef.doc(userData.uid).update(data);
   }
 
+  // Movie Collection methods
   async addMovieToCollection(movieData: UserMovie) {
     const userData = await this.getUserData();
     if (!userData) return;
 
     const data = userData.document;
-    const movieCollection = data.collection.movies;
+    const moviesCollection = data.collection.movies;
     let isInArray = false;
-    for (let i = 0; i < movieCollection.length; i++) {
-      if (movieData.ref.id == movieCollection[i].ref.id) {
-        movieCollection[i].in_collection = true;
+    for (let i = 0; i < moviesCollection.length; i++) {
+      if (movieData.ref.id == moviesCollection[i].ref.id) {
+        moviesCollection[i].in_collection = true;
         isInArray = true;
         break;
       }
     }
-    if (!isInArray) movieCollection.push(movieData);
-    data.collection.movies = movieCollection;
+    if (!isInArray) moviesCollection.push(movieData);
+    data.collection.movies = moviesCollection;
     return this.usersRef.doc(userData.uid).update(data);
   }
 
@@ -185,6 +188,63 @@ export class UsersService {
       }
     }
     data.collection.movies = moviesCollection;
+    return this.usersRef.doc(userData.uid).update(data);
+  }
+
+  // Album Collection methods
+  async addAlbumToCollection(albumData: UserAlbum) {
+    const userData = await this.getUserData();
+    if (!userData) return;
+
+    const data = userData.document;
+    const albumsCollection = data.collection.albums;
+    let isInArray = false;
+    for (let i = 0; i < albumsCollection.length; i++) {
+      if (albumData.ref.id == albumsCollection[i].ref.id) {
+        albumsCollection[i].in_collection = true;
+        isInArray = true;
+        break;
+      }
+    }
+    if (!isInArray) albumsCollection.push(albumData);
+    data.collection.albums = albumsCollection;
+    return this.usersRef.doc(userData.uid).update(data);
+  }
+
+  async updateAlbumFromCollection(albumData: UserAlbum) {
+    const userData = await this.getUserData();
+    if (!userData) return;
+
+    const data = userData.document;
+    const albumsCollection = data.collection.albums;
+    for (let i = 0; i < albumsCollection.length; i++) {
+      if (albumData.ref.id == albumsCollection[i].ref.id) {
+        albumsCollection[i] = albumData;
+        break;
+      }
+    }
+    data.collection.albums = albumsCollection;
+    return this.usersRef.doc(userData.uid).update(data);
+  }
+
+  async removeAlbumFromCollection(albumId: string) {
+    const userData = await this.getUserData();
+    if (!userData) return;
+
+    const data = userData.document;
+    const albumsCollection = [];
+    for (let i = 0; i < data.collection.albums.length; i++) {
+      if (albumId != data.collection.albums[i].ref.id) {
+        albumsCollection.push(data.collection.albums[i]);
+      } else {
+        const updatedAlbum: UserAlbum = {
+          ...data.collection.albums[i],
+          in_collection: false,
+        };
+        albumsCollection.push(updatedAlbum);
+      }
+    }
+    data.collection.albums = albumsCollection;
     return this.usersRef.doc(userData.uid).update(data);
   }
 }

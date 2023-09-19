@@ -6,6 +6,8 @@ import { GameCardComponent } from '../../core/components/game-card/game-card.com
 import { UserCollection } from '../../core/models/user.interface';
 import { LoadingComponent } from '../../core/layout/loading/loading.component';
 import { RouterLink } from '@angular/router';
+import { MovieCardComponent } from '../../core/components/movie-card/movie-card.component';
+import { AlbumCardComponent } from '../../core/components/album-card/album-card.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,6 +18,8 @@ import { RouterLink } from '@angular/router';
     GameCardComponent,
     LoadingComponent,
     RouterLink,
+    MovieCardComponent,
+    AlbumCardComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],

@@ -21,6 +21,6 @@ export interface UserMovie {
 }
 
 export interface CombinedMovie {
-  general: Movie;
+  general: MovieWithId;
   user: UserMovie;
 }

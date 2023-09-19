@@ -9,7 +9,7 @@
       <app-game-card
         *ngIf="game.user.in_collection"
         [data]="game.general"
-        [uid]="uid"></app-game-card>
+        [uid]="uid" />
     </ng-template>
   </div>
   <ng-template #noGames>
@@ -27,7 +27,10 @@
     *ngIf="collection.movies.length > 0; else noMovies"
     class="media-selection">
     <ng-template ngFor let-movie [ngForOf]="collection.movies">
-      <div>Test</div>
+      <app-movie-card
+        *ngIf="movie.user.in_collection"
+        [data]="movie.general"
+        [uid]="uid" />
     </ng-template>
   </div>
   <ng-template #noMovies>
@@ -45,7 +48,10 @@
     *ngIf="collection.albums.length > 0; else noAlbums"
     class="media-selection">
     <ng-template ngFor let-album [ngForOf]="collection.albums">
-      <div>Test</div>
+      <app-album-card
+        *ngIf="album.user.in_collection"
+        [data]="album.general"
+        [uid]="uid" />
     </ng-template>
   </div>
   <ng-template #noAlbums>
