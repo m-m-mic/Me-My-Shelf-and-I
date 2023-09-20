@@ -1,16 +1,22 @@
-import { Component, inject, Input } from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Game, UserGame } from '../../core/models/game.interface';
 import { DividerModule } from 'primeng/divider';
 import { ButtonModule } from 'primeng/button';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ChipModule } from 'primeng/chip';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { ionAdd, ionBookmark, ionRemove } from '@ng-icons/ionicons';
 import { gameItems } from './game.items';
-import { createGameObject } from './game.form';
+import { createGameObject, fillGameForm } from './game.form';
 import { GamesService } from '../../core/services/games.service';
 import { UsersService } from '../../core/services/users.service';
 import { LoadingComponent } from '../../core/layout/loading/loading.component';
@@ -34,16 +40,21 @@ import { LoadingComponent } from '../../core/layout/loading/loading.component';
   styleUrls: ['./game.component.scss'],
   viewProviders: [provideIcons({ ionAdd, ionRemove, ionBookmark })],
 })
-export class GameComponent {
-  @Input() gameData?: Game;
-  @Input() gameForm?: FormGroup;
-  @Input() userGameData?: UserGame;
-  @Input() id?: string;
-
+export class GameComponent implements OnChanges {
+  formBuilder = inject(FormBuilder);
   gamesService = inject(GamesService);
   usersService = inject(UsersService);
 
+  @Input() gameData?: Game;
+  @Input() userGameData?: UserGame;
+  @Input() id?: string;
+
+  gameForm: FormGroup = this.formBuilder.group(fillGameForm());
   selectItems = gameItems;
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.gameForm = this.formBuilder.group(fillGameForm(this.userGameData));
+  }
 
   addToCollection() {
     if (this.id) this.gamesService.saveToUserCollection(this.id);

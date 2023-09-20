@@ -1,17 +1,22 @@
-import { Component, inject, Input } from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { ionAdd, ionBookmark, ionRemove } from '@ng-icons/ionicons';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { UsersService } from '../../core/services/users.service';
 import { AlbumsService } from '../../core/services/albums.service';
 import { albumItems } from './album.items';
-import { createAlbumObject } from './album.form';
+import { createAlbumObject, fillAlbumForm } from './album.form';
 import { Album, UserAlbum } from '../../core/models/album.interface';
 import { ButtonModule } from 'primeng/button';
 import { LoadingComponent } from '../../core/layout/loading/loading.component';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-import { movieItems } from '../movie/movie.items';
 import { SelectButtonModule } from 'primeng/selectbutton';
 
 @Component({
@@ -30,16 +35,21 @@ import { SelectButtonModule } from 'primeng/selectbutton';
   styleUrls: ['./album.component.scss'],
   viewProviders: [provideIcons({ ionAdd, ionRemove, ionBookmark })],
 })
-export class AlbumComponent {
-  @Input() albumData?: Album;
-  @Input() albumForm?: FormGroup;
-  @Input() userAlbumData?: UserAlbum;
-  @Input() id?: string;
-
+export class AlbumComponent implements OnChanges {
+  formBuilder = inject(FormBuilder);
   albumsService = inject(AlbumsService);
   usersService = inject(UsersService);
 
+  @Input() albumData?: Album;
+  @Input() userAlbumData?: UserAlbum;
+  @Input() id?: string;
+
+  albumForm: FormGroup = this.formBuilder.group(fillAlbumForm());
   selectItems = albumItems;
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.albumForm = this.formBuilder.group(fillAlbumForm(this.userAlbumData));
+  }
 
   addToCollection() {
     if (this.id) this.albumsService.saveToUserCollection(this.id);
@@ -56,6 +66,4 @@ export class AlbumComponent {
   removeFromCollection() {
     if (this.id) this.albumsService.removeFromUserCollection(this.id);
   }
-
-  protected readonly movieItems = movieItems;
 }

@@ -1,8 +1,14 @@
-import { Component, inject, Input } from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { ionAdd, ionBookmark, ionRemove } from '@ng-icons/ionicons';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { UsersService } from '../../core/services/users.service';
 import { Movie, UserMovie } from '../../core/models/movie.interface';
 import { movieItems } from './movie.items';
@@ -11,7 +17,8 @@ import { ButtonModule } from 'primeng/button';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MoviesService } from '../../core/services/movies.service';
-import { createMovieObject } from './movie.form';
+import { createMovieObject, fillMovieForm } from './movie.form';
+import { fillGameForm } from '../game/game.form';
 
 @Component({
   selector: 'app-movie',
@@ -29,16 +36,21 @@ import { createMovieObject } from './movie.form';
   styleUrls: ['./movie.component.scss'],
   viewProviders: [provideIcons({ ionAdd, ionRemove, ionBookmark })],
 })
-export class MovieComponent {
-  @Input() movieData?: Movie;
-  @Input() movieForm?: FormGroup;
-  @Input() userMovieData?: UserMovie;
-  @Input() id?: string;
-
+export class MovieComponent implements OnChanges {
+  formBuilder = inject(FormBuilder);
   moviesService = inject(MoviesService);
   usersService = inject(UsersService);
 
+  @Input() movieData?: Movie;
+  @Input() userMovieData?: UserMovie;
+  @Input() id?: string;
+
+  movieForm: FormGroup = this.formBuilder.group(fillMovieForm());
   selectItems = movieItems;
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.movieForm = this.formBuilder.group(fillGameForm(this.userMovieData));
+  }
 
   addToCollection() {
     if (this.id) this.moviesService.saveToUserCollection(this.id);

@@ -1,14 +1,15 @@
-import { Injectable } from '@angular/core';
+import { DestroyRef, Injectable } from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
 import { User, UserCollection } from '../models/user.interface';
-import { firstValueFrom, of, throwError } from 'rxjs';
+import { firstValueFrom, map, of, switchMap, take, throwError } from 'rxjs';
 import { GameWithId, UserGame } from '../models/game.interface';
 import { AuthenticationService } from './authentication.service';
 import { MovieWithId, UserMovie } from '../models/movie.interface';
 import { AlbumWithId, UserAlbum } from '../models/album.interface';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
@@ -20,27 +21,29 @@ export class UsersService {
   constructor(
     private db: AngularFirestore,
     private authenticationService: AuthenticationService,
+    private destroyRef: DestroyRef,
   ) {
     this.usersRef = db.collection(this.usersPath);
   }
 
-  get(uid?: string) {
-    if (uid) {
-      return this.usersRef.doc(uid).valueChanges();
-    } else {
-      return of(undefined);
-    }
+  get() {
+    return this.authenticationService.authUser$.pipe(
+      take(1),
+      switchMap((user) => {
+        if (user) {
+          return this.usersRef.doc(user.uid).valueChanges();
+        } else {
+          return of(undefined);
+        }
+      }),
+    );
   }
 
   async getUserData() {
-    const authUser = await firstValueFrom(this.authenticationService.getUser());
-    if (!authUser) {
-      throwError(() => new Error('Authentication failed'));
-      return;
-    }
+    const user = await firstValueFrom(this.get());
+    const authUser = await firstValueFrom(this.authenticationService.authUser$);
 
-    const user = await firstValueFrom(this.get(authUser.uid));
-    if (!user || !authUser?.uid) {
+    if (!user || !authUser) {
       throwError(() => new Error('Could not find user'));
       return;
     }
@@ -106,6 +109,22 @@ export class UsersService {
   }
 
   // Games Collection methods
+  getUserGame(gameId: string) {
+    return this.get().pipe(
+      takeUntilDestroyed(this.destroyRef),
+      map((user) => {
+        if (user) {
+          for (const game of user.collection.games) {
+            if (game.ref.id === gameId) {
+              return game;
+            }
+          }
+        }
+        return undefined;
+      }),
+    );
+  }
+
   async addGameToCollection(gameData: UserGame) {
     const userData = await this.getUserData();
     if (!userData) return;
@@ -163,6 +182,22 @@ export class UsersService {
   }
 
   // Movie Collection methods
+  getUserMovie(movieId: string) {
+    return this.get().pipe(
+      takeUntilDestroyed(this.destroyRef),
+      map((user) => {
+        if (user) {
+          for (const movie of user.collection.movies) {
+            if (movie.ref.id === movieId) {
+              return movie;
+            }
+          }
+        }
+        return undefined;
+      }),
+    );
+  }
+
   async addMovieToCollection(movieData: UserMovie) {
     const userData = await this.getUserData();
     if (!userData) return;
@@ -220,6 +255,22 @@ export class UsersService {
   }
 
   // Album Collection methods
+  getUserAlbum(albumId: string) {
+    return this.get().pipe(
+      takeUntilDestroyed(this.destroyRef),
+      map((user) => {
+        if (user) {
+          for (const album of user.collection.albums) {
+            if (album.ref.id === albumId) {
+              return album;
+            }
+          }
+        }
+        return undefined;
+      }),
+    );
+  }
+
   async addAlbumToCollection(albumData: UserAlbum) {
     const userData = await this.getUserData();
     if (!userData) return;

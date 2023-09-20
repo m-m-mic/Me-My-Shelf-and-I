@@ -1,12 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import {
-  BehaviorSubject,
-  catchError,
-  from,
-  Observable,
-  throwError,
-} from 'rxjs';
+import { catchError, from, Observable, throwError } from 'rxjs';
 import firebase from 'firebase/compat';
 import FirebaseError = firebase.FirebaseError;
 import { Store } from '@ngrx/store';
@@ -20,6 +14,7 @@ import UserCredential = firebase.auth.UserCredential;
 export class AuthenticationService {
   auth = inject(AngularFireAuth);
   store = inject(Store);
+  authUser$ = this.auth.authState;
 
   signIn({ email, password }: AuthCredentials): Observable<UserCredential> {
     this.store.dispatch(resolveError({ errorType: 'signIn' }));
