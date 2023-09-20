@@ -1,12 +1,13 @@
-import { Injectable } from '@angular/core';
+import { DestroyRef, Injectable } from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
 import { Game, GameWithId, UserGame } from '../models/game.interface';
 import { UsersService } from './users.service';
-import { firstValueFrom, throwError } from 'rxjs';
+import { firstValueFrom, map, throwError } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({ providedIn: 'root' })
 export class GamesService {
@@ -15,21 +16,24 @@ export class GamesService {
   constructor(
     private usersService: UsersService,
     private authenticationService: AuthenticationService,
+    private destroyRef: DestroyRef,
     private db: AngularFirestore,
   ) {
     this.gamesRef = db.collection(this.gamesPath);
   }
 
-  async getAll() {
-    const games = await firstValueFrom(this.gamesRef.snapshotChanges());
-    const gamesWithIds: GameWithId[] = [];
-    games.map((game) => {
-      gamesWithIds.push({
-        id: game.payload.doc.id,
-        ...game.payload.doc.data(),
-      });
-    });
-    return gamesWithIds;
+  getAll() {
+    return this.gamesRef.snapshotChanges().pipe(
+      takeUntilDestroyed(this.destroyRef),
+      map((games) => {
+        return games.map(
+          (game): GameWithId => ({
+            id: game.payload.doc.id,
+            ...game.payload.doc.data(),
+          }),
+        );
+      }),
+    );
   }
 
   get(id: string) {

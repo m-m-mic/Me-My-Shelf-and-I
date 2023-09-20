@@ -1,12 +1,13 @@
-import { Injectable } from '@angular/core';
+import { DestroyRef, Injectable } from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
 import { UsersService } from './users.service';
 import { AuthenticationService } from './authentication.service';
-import { firstValueFrom, throwError } from 'rxjs';
+import { firstValueFrom, map, throwError } from 'rxjs';
 import { Album, AlbumWithId, UserAlbum } from '../models/album.interface';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
@@ -17,21 +18,24 @@ export class AlbumsService {
   constructor(
     private usersService: UsersService,
     private authenticationService: AuthenticationService,
+    private destroyRef: DestroyRef,
     private db: AngularFirestore,
   ) {
     this.albumsRef = db.collection(this.albumsPath);
   }
 
-  async getAll() {
-    const albums = await firstValueFrom(this.albumsRef.snapshotChanges());
-    const albumsWithId: AlbumWithId[] = [];
-    albums.map((album) => {
-      albumsWithId.push({
-        id: album.payload.doc.id,
-        ...album.payload.doc.data(),
-      });
-    });
-    return albumsWithId;
+  getAll() {
+    return this.albumsRef.snapshotChanges().pipe(
+      takeUntilDestroyed(this.destroyRef),
+      map((albums) => {
+        return albums.map(
+          (game): AlbumWithId => ({
+            id: game.payload.doc.id,
+            ...game.payload.doc.data(),
+          }),
+        );
+      }),
+    );
   }
 
   get(id: string) {

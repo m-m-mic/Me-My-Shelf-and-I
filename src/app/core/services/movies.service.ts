@@ -1,12 +1,13 @@
-import { Injectable } from '@angular/core';
+import { DestroyRef, Injectable } from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
 import { UsersService } from './users.service';
 import { AuthenticationService } from './authentication.service';
-import { firstValueFrom, throwError } from 'rxjs';
+import { firstValueFrom, map, throwError } from 'rxjs';
 import { Movie, MovieWithId, UserMovie } from '../models/movie.interface';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
@@ -17,21 +18,23 @@ export class MoviesService {
   constructor(
     private usersService: UsersService,
     private authenticationService: AuthenticationService,
+    private destroyRef: DestroyRef,
     private db: AngularFirestore,
   ) {
     this.moviesRef = db.collection(this.moviesPath);
   }
-
-  async getAll() {
-    const movies = await firstValueFrom(this.moviesRef.snapshotChanges());
-    const moviesWithId: MovieWithId[] = [];
-    movies.map((movie) => {
-      moviesWithId.push({
-        id: movie.payload.doc.id,
-        ...movie.payload.doc.data(),
-      });
-    });
-    return moviesWithId;
+  getAll() {
+    return this.moviesRef.snapshotChanges().pipe(
+      takeUntilDestroyed(this.destroyRef),
+      map((movies) => {
+        return movies.map(
+          (movie): MovieWithId => ({
+            id: movie.payload.doc.id,
+            ...movie.payload.doc.data(),
+          }),
+        );
+      }),
+    );
   }
 
   get(id: string) {

@@ -1,9 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MovieWithId } from '../../core/models/movie.interface';
-import { MoviesService } from '../../core/services/movies.service';
-import { AuthenticationService } from '../../core/services/authentication.service';
-import { take } from 'rxjs';
 import { MovieCardComponent } from '../../core/components/movie-card/movie-card.component';
 
 @Component({
@@ -14,19 +11,6 @@ import { MovieCardComponent } from '../../core/components/movie-card/movie-card.
   styleUrls: ['./movies.component.scss'],
 })
 export class MoviesComponent {
-  moviesList: MovieWithId[] = [];
-  uid!: string;
-
-  constructor(
-    private moviesService: MoviesService,
-    private authenticationService: AuthenticationService,
-  ) {
-    this.moviesService.getAll().then((movies) => (this.moviesList = movies));
-    this.authenticationService
-      .getUser()
-      .pipe(take(1))
-      .subscribe((user) => {
-        if (user) this.uid = user.uid;
-      });
-  }
+  @Input() moviesList: MovieWithId[] = [];
+  @Input() uid = '';
 }
