@@ -30,7 +30,7 @@ export class HeaderButtonComponent {
 
   @Input() isLoggedIn = false;
   @Input() displayName = 'Account';
-  @Input() menuItems!: MenuItem[];
+  @Input({ required: true }) menuItems!: MenuItem[];
 
   sidebarVisible = false;
 
