@@ -26,11 +26,13 @@ import { signOut } from '../../states/auth/auth.actions';
   viewProviders: [provideIcons({ ionPerson, ionMenu })],
 })
 export class HeaderButtonComponent {
+  store = inject(Store);
+
   @Input() isLoggedIn = false;
   @Input() displayName = 'Account';
   @Input() menuItems!: MenuItem[];
+
   sidebarVisible = false;
-  store = inject(Store);
 
   signOut() {
     this.store.dispatch(signOut());

@@ -3,10 +3,10 @@ import { CombinedMovie, UserMovie } from './movie.interface';
 import { CombinedAlbum, UserAlbum } from './album.interface';
 
 export interface User {
-  collection: InternalCollection;
+  collection: DatabaseUserCollection;
 }
 
-interface InternalCollection {
+interface DatabaseUserCollection {
   games: UserGame[];
   movies: UserMovie[];
   albums: UserAlbum[];

@@ -49,9 +49,6 @@
     display: none;
   }
 
-  &.active {
-    background: var(--primary-800);
-  }
   &:hover,
   &:focus {
     background: var(--primary-700);
@@ -60,4 +57,8 @@
   &:active {
     background: var(--primary-600);
   }
+}
+
+.tab.active {
+  background: var(--primary-800);
 }

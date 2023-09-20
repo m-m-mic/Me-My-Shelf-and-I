@@ -22,17 +22,17 @@ import { TabSelectionComponent } from '../../components/tab-selection/tab-select
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit {
-  authenticationService = inject(AuthenticationService);
-  store = inject(Store);
-  destroyRef = inject(DestroyRef);
+export class HeaderComponent {
   isLoggedIn = false;
   displayName = 'Account';
   menuItems!: MenuItem[];
-  authSubscription!: Subscription;
 
-  ngOnInit() {
-    this.authSubscription = this.authenticationService
+  constructor(
+    private authenticationService: AuthenticationService,
+    private store: Store,
+    private destroyRef: DestroyRef,
+  ) {
+    this.authenticationService
       .getUser()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((user) => {
