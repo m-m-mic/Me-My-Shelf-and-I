@@ -5,8 +5,6 @@ import { NotFoundComponent } from './features/not-found/not-found.component';
 import { LandingPageComponent } from './features/landing-page/landing-page.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { AuthenticationGuard } from './core/services/authentication.guard';
-import { MoviesComponent } from './features/movies/movies.component';
-import { AlbumsComponent } from './features/albums/albums.component';
 import { GameContainerComponent } from './features/game/game.container';
 import { MovieContainerComponent } from './features/movie/movie.container';
 import { AlbumContainerComponent } from './features/album/album.container';
