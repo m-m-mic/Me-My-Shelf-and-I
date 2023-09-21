@@ -1,6 +1,6 @@
-<a class="card" [routerLink]="['/movies/' + data.id]">
+<a class="card" [routerLink]="['/movies/', data.id]">
   <span class="card-image-container">
-    <span [ngClass]="{ bookmark: true, visible: data.saved_by.includes(uid) }">
+    <span class="bookmark" [ngClass]="{ visible: isInUserCollection() }">
       <ng-icon name="ionBookmark" size="24" />
     </span>
     <img class="card-image" src="assets/no_cover_placeholder.jpg" alt="Cover" />

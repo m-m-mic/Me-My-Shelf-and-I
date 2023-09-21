@@ -4,7 +4,7 @@ import {
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
 import { User, UserCollection } from '../models/user.interface';
-import { firstValueFrom, map, of, switchMap, take, throwError } from 'rxjs';
+import { firstValueFrom, map, of, switchMap, take } from 'rxjs';
 import { GameWithId, UserGame } from '../models/game.interface';
 import { AuthenticationService } from './authentication.service';
 import { MovieWithId, UserMovie } from '../models/movie.interface';
@@ -44,8 +44,7 @@ export class UsersService {
     const authUser = await firstValueFrom(this.authenticationService.authUser$);
 
     if (!user || !authUser) {
-      throwError(() => new Error('Could not find user'));
-      return;
+      throw new Error('Could not find user');
     }
     return { uid: authUser.uid, document: user };
   }

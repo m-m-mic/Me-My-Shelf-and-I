@@ -8,7 +8,7 @@ import { DividerModule } from 'primeng/divider';
 import { NgIconComponent } from '@ng-icons/core';
 
 @Component({
-  selector: 'app-tab-selection',
+  selector: 'app-main-navigation',
   standalone: true,
   imports: [
     CommonModule,
@@ -20,7 +20,7 @@ import { NgIconComponent } from '@ng-icons/core';
     DividerModule,
     NgIconComponent,
   ],
-  templateUrl: './tab-selection.component.html',
-  styleUrls: ['./tab-selection.component.scss'],
+  templateUrl: './main-navigation.component.html',
+  styleUrls: ['./main-navigation.component.scss'],
 })
-export class TabSelectionComponent {}
+export class MainNavigationComponent {}

@@ -5,15 +5,16 @@ import {
 } from '@angular/fire/compat/firestore';
 import { UsersService } from './users.service';
 import { AuthenticationService } from './authentication.service';
-import { firstValueFrom, map, throwError } from 'rxjs';
+import { firstValueFrom, map } from 'rxjs';
 import { Movie, MovieWithId, UserMovie } from '../models/movie.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+const MOVIES_PATH = '/movies';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MoviesService {
-  private moviesPath = '/movies';
   moviesRef: AngularFirestoreCollection<Movie>;
   constructor(
     private usersService: UsersService,
@@ -21,7 +22,7 @@ export class MoviesService {
     private destroyRef: DestroyRef,
     private db: AngularFirestore,
   ) {
-    this.moviesRef = db.collection(this.moviesPath);
+    this.moviesRef = db.collection(MOVIES_PATH);
   }
   getAll() {
     return this.moviesRef.snapshotChanges().pipe(
@@ -46,13 +47,12 @@ export class MoviesService {
     const authUser = await firstValueFrom(this.authenticationService.getUser());
 
     if (!movie || !authUser?.uid) {
-      throwError(() => new Error('Could not find movie or user'));
-      return;
+      throw new Error('Could not find movie or user');
     }
 
     const data = movie;
     data.saved_by.push(authUser.uid);
-    await this.moviesRef.doc(movieId).update(data);
+    this.moviesRef.doc(movieId).update(data);
   }
 
   async removeUser(movieId: string) {
@@ -60,8 +60,7 @@ export class MoviesService {
     const authUser = await firstValueFrom(this.authenticationService.getUser());
 
     if (!movie || !authUser?.uid) {
-      throwError(() => new Error('Could not find movie or user'));
-      return;
+      throw new Error('Could not find movie or user');
     }
 
     const data = movie;
@@ -69,7 +68,7 @@ export class MoviesService {
     return this.moviesRef.doc(movieId).update(data);
   }
 
-  async saveToUserCollection(movieId: string) {
+  saveToUserCollection(movieId: string) {
     const movie: UserMovie = {
       ref: this.moviesRef.doc(movieId).ref,
       in_collection: true,
@@ -77,12 +76,12 @@ export class MoviesService {
       progress: 'not-started',
       notes: '',
     };
-    await this.addUser(movieId);
-    await this.usersService.addMovieToCollection(movie);
+    this.addUser(movieId);
+    this.usersService.addMovieToCollection(movie);
   }
 
-  async removeFromUserCollection(movieId: string) {
-    await this.removeUser(movieId);
-    await this.usersService.removeMovieFromCollection(movieId);
+  removeFromUserCollection(movieId: string) {
+    this.removeUser(movieId);
+    this.usersService.removeMovieFromCollection(movieId);
   }
 }

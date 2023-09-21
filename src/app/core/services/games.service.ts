@@ -5,13 +5,14 @@ import {
 } from '@angular/fire/compat/firestore';
 import { Game, GameWithId, UserGame } from '../models/game.interface';
 import { UsersService } from './users.service';
-import { firstValueFrom, map, throwError } from 'rxjs';
+import { firstValueFrom, map } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
+const GAMES_PATH = '/games';
+
 @Injectable({ providedIn: 'root' })
 export class GamesService {
-  private gamesPath = '/games';
   gamesRef: AngularFirestoreCollection<Game>;
   constructor(
     private usersService: UsersService,
@@ -19,7 +20,7 @@ export class GamesService {
     private destroyRef: DestroyRef,
     private db: AngularFirestore,
   ) {
-    this.gamesRef = db.collection(this.gamesPath);
+    this.gamesRef = db.collection(GAMES_PATH);
   }
 
   getAll() {
@@ -45,13 +46,12 @@ export class GamesService {
     const authUser = await firstValueFrom(this.authenticationService.getUser());
 
     if (!game || !authUser?.uid) {
-      throwError(() => new Error('Could not find game or user'));
-      return;
+      throw new Error('Could not find game or user');
     }
 
     const data = game;
     data.saved_by.push(authUser.uid);
-    await this.gamesRef.doc(gameId).update(data);
+    this.gamesRef.doc(gameId).update(data);
   }
 
   async removeUser(gameId: string) {
@@ -59,8 +59,7 @@ export class GamesService {
     const authUser = await firstValueFrom(this.authenticationService.getUser());
 
     if (!game || !authUser?.uid) {
-      throwError(() => new Error('Could not find game or user'));
-      return;
+      throw new Error('Could not find game or user');
     }
 
     const data = game;
@@ -68,7 +67,7 @@ export class GamesService {
     return this.gamesRef.doc(gameId).update(data);
   }
 
-  async saveToUserCollection(gameId: string) {
+  saveToUserCollection(gameId: string) {
     const game: UserGame = {
       ref: this.gamesRef.doc(gameId).ref,
       in_collection: true,
@@ -76,12 +75,12 @@ export class GamesService {
       progress: 'not-started',
       notes: '',
     };
-    await this.addUser(gameId);
-    await this.usersService.addGameToCollection(game);
+    this.addUser(gameId);
+    this.usersService.addGameToCollection(game);
   }
 
-  async removeFromUserCollection(gameId: string) {
-    await this.removeUser(gameId);
-    await this.usersService.removeGameFromCollection(gameId);
+  removeFromUserCollection(gameId: string) {
+    this.removeUser(gameId);
+    this.usersService.removeGameFromCollection(gameId);
   }
 }

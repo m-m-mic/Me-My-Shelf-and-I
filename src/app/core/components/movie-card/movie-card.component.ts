@@ -16,4 +16,8 @@ import { ionBookmark } from '@ng-icons/ionicons';
 export class MovieCardComponent {
   @Input({ required: true }) data!: MovieWithId;
   @Input({ required: true }) uid!: string;
+
+  isInUserCollection() {
+    return this.data.saved_by.includes(this.uid);
+  }
 }

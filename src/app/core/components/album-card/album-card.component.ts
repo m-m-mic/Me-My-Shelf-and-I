@@ -16,4 +16,8 @@ import { ionBookmark } from '@ng-icons/ionicons';
 export class AlbumCardComponent {
   @Input({ required: true }) data!: AlbumWithId;
   @Input({ required: true }) uid!: string;
+
+  isInUserCollection() {
+    return this.data.saved_by.includes(this.uid);
+  }
 }

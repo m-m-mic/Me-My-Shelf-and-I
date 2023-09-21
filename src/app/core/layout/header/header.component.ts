@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
@@ -6,9 +6,8 @@ import { HeaderButtonComponent } from '../../components/header-button/header-but
 import { MenuItem } from 'primeng/api';
 import { Store } from '@ngrx/store';
 import { signOut } from '../../states/auth/auth.actions';
-import { Subscription } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { TabSelectionComponent } from '../../components/tab-selection/tab-selection.component';
+import { MainNavigationComponent } from '../../components/main-navigation/main-navigation.component';
 
 @Component({
   selector: 'app-header',
@@ -17,7 +16,7 @@ import { TabSelectionComponent } from '../../components/tab-selection/tab-select
     CommonModule,
     RouterLink,
     HeaderButtonComponent,
-    TabSelectionComponent,
+    MainNavigationComponent,
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
@@ -30,11 +29,10 @@ export class HeaderComponent {
   constructor(
     private authenticationService: AuthenticationService,
     private store: Store,
-    private destroyRef: DestroyRef,
   ) {
     this.authenticationService
       .getUser()
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(takeUntilDestroyed())
       .subscribe((user) => {
         if (user) {
           this.isLoggedIn = true;

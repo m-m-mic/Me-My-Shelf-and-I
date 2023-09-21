@@ -59,7 +59,7 @@
   width: 48px;
   height: 48px;
   background: var(--primary-900);
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   color: inherit;
@@ -70,8 +70,8 @@
   border-radius: 12px;
   transition: 0.2s;
 
-  @include breakpoint-min(787px) {
-    display: none;
+  @include breakpoint-max(786px) {
+    display: flex;
   }
 
   &:active {

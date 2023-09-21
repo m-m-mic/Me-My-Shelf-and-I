@@ -5,15 +5,16 @@ import {
 } from '@angular/fire/compat/firestore';
 import { UsersService } from './users.service';
 import { AuthenticationService } from './authentication.service';
-import { firstValueFrom, map, throwError } from 'rxjs';
+import { firstValueFrom, map } from 'rxjs';
 import { Album, AlbumWithId, UserAlbum } from '../models/album.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+const ALBUMS_PATH = '/albums';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AlbumsService {
-  private albumsPath = '/albums';
   albumsRef: AngularFirestoreCollection<Album>;
   constructor(
     private usersService: UsersService,
@@ -21,7 +22,7 @@ export class AlbumsService {
     private destroyRef: DestroyRef,
     private db: AngularFirestore,
   ) {
-    this.albumsRef = db.collection(this.albumsPath);
+    this.albumsRef = db.collection(ALBUMS_PATH);
   }
 
   getAll() {
@@ -47,13 +48,12 @@ export class AlbumsService {
     const authUser = await firstValueFrom(this.authenticationService.getUser());
 
     if (!album || !authUser?.uid) {
-      throwError(() => new Error('Could not find album or user'));
-      return;
+      throw new Error('Could not find album or user');
     }
 
     const data = album;
     data.saved_by.push(authUser.uid);
-    await this.albumsRef.doc(albumId).update(data);
+    this.albumsRef.doc(albumId).update(data);
   }
 
   async removeUser(albumId: string) {
@@ -61,8 +61,7 @@ export class AlbumsService {
     const authUser = await firstValueFrom(this.authenticationService.getUser());
 
     if (!album || !authUser?.uid) {
-      throwError(() => new Error('Could not find album or user'));
-      return;
+      throw new Error('Could not find album or user');
     }
 
     const data = album;
@@ -70,19 +69,19 @@ export class AlbumsService {
     return this.albumsRef.doc(albumId).update(data);
   }
 
-  async saveToUserCollection(albumId: string) {
+  saveToUserCollection(albumId: string) {
     const album: UserAlbum = {
       ref: this.albumsRef.doc(albumId).ref,
       in_collection: true,
       format: 'physical',
       notes: '',
     };
-    await this.addUser(albumId);
-    await this.usersService.addAlbumToCollection(album);
+    this.addUser(albumId);
+    this.usersService.addAlbumToCollection(album);
   }
 
-  async removeFromUserCollection(albumId: string) {
-    await this.removeUser(albumId);
-    await this.usersService.removeAlbumFromCollection(albumId);
+  removeFromUserCollection(albumId: string) {
+    this.removeUser(albumId);
+    this.usersService.removeAlbumFromCollection(albumId);
   }
 }

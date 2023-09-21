@@ -13,11 +13,10 @@ import { CommonModule } from '@angular/common';
         'align-items': 'center',
         height: height + 'px'
       }">
-      <span
-        class="pi pi-spin pi-spinner"
-        style="font-size: 1.6rem; height: 1.6rem;"></span>
+      <span class="pi pi-spin pi-spinner loading-spinner"></span>
     </div>
   `,
+  styles: ['.loading-spinner { font-size: 1.6rem; height: 1.6rem;}'],
 })
 export class LoadingComponent {
   @Input() height = 250;

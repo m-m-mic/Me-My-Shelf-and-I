@@ -3,9 +3,8 @@ import { GameComponent } from './game.component';
 import { GamesService } from '../../core/services/games.service';
 import { UsersService } from '../../core/services/users.service';
 import { ActivatedRoute } from '@angular/router';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AsyncPipe } from '@angular/common';
-import { Observable } from 'rxjs';
+import { Observable, of, switchMap } from 'rxjs';
 import { Game, UserGame } from '../../core/models/game.interface';
 
 @Component({
@@ -13,13 +12,13 @@ import { Game, UserGame } from '../../core/models/game.interface';
   imports: [GameComponent, AsyncPipe],
   template: `
     <app-game
-      [id]="gameId"
+      [id]="(gameId$ | async) ?? undefined"
       [gameData]="(gameData$ | async) ?? undefined"
       [userGameData]="(userGameData$ | async) ?? undefined" />
   `,
 })
 export class GameContainerComponent {
-  gameId!: string;
+  gameId$?: Observable<string | undefined>;
   gameData$?: Observable<Game | undefined>;
   userGameData$?: Observable<UserGame | undefined>;
 
@@ -28,13 +27,26 @@ export class GameContainerComponent {
     private usersService: UsersService,
     private route: ActivatedRoute,
   ) {
-    this.route.paramMap.pipe(takeUntilDestroyed()).subscribe((params) => {
-      const paramId = params.get('gameId');
-      if (paramId) {
-        this.gameId = paramId;
-        this.gameData$ = this.gamesService.get(this.gameId);
-        this.userGameData$ = this.usersService.getUserGame(this.gameId);
-      }
-    });
+    this.gameId$ = this.route.paramMap.pipe(
+      switchMap((paramMap) => {
+        const id = paramMap.get('gameId');
+        if (id) return of(id);
+        return of(undefined);
+      }),
+    );
+    this.gameData$ = this.route.paramMap.pipe(
+      switchMap((paramMap) => {
+        const id = paramMap.get('gameId');
+        if (id) return this.gamesService.get(id);
+        return of(undefined);
+      }),
+    );
+    this.userGameData$ = this.route.paramMap.pipe(
+      switchMap((paramMap) => {
+        const id = paramMap.get('gameId');
+        if (id) return this.usersService.getUserGame(id);
+        return of(undefined);
+      }),
+    );
   }
 }
