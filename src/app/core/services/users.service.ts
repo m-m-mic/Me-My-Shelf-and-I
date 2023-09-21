@@ -3,13 +3,14 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
-import { User, UserCollection } from '../models/user.interface';
+import { User, UserCollection, UserStatistics } from '../models/user.interface';
 import { firstValueFrom, map, of, switchMap, take } from 'rxjs';
 import { GameWithId, UserGame } from '../models/game.interface';
 import { AuthenticationService } from './authentication.service';
 import { MovieWithId, UserMovie } from '../models/movie.interface';
 import { AlbumWithId, UserAlbum } from '../models/album.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { userStatisticsTemplate } from '../../shared/templates/user-statistics.template';
 
 @Injectable({
   providedIn: 'root',
@@ -105,6 +106,67 @@ export class UsersService {
     }
 
     return collection;
+  }
+
+  getStatistics(collection: UserCollection) {
+    const userStatistics = userStatisticsTemplate;
+    collection.games.map((game) => {
+      userStatistics.games.amountInCollection++;
+      switch (game.user.format) {
+        case 'physical':
+          userStatistics.games.formatDistribution.physical++;
+          break;
+        case 'digital':
+          userStatistics.games.formatDistribution.digital++;
+          break;
+      }
+      switch (game.user.progress) {
+        case 'not-started':
+          userStatistics.games.progressDistribution.notStarted++;
+          break;
+        case 'in-progress':
+          userStatistics.games.progressDistribution.inProgress++;
+          break;
+        case 'completed':
+          userStatistics.games.progressDistribution.completed++;
+      }
+    });
+
+    collection.movies.map((movie) => {
+      userStatistics.movies.amountInCollection++;
+      switch (movie.user.format) {
+        case 'physical':
+          userStatistics.movies.formatDistribution.physical++;
+          break;
+        case 'digital':
+          userStatistics.movies.formatDistribution.digital++;
+          break;
+      }
+      switch (movie.user.progress) {
+        case 'not-started':
+          userStatistics.movies.progressDistribution.notStarted++;
+          break;
+        case 'in-progress':
+          userStatistics.movies.progressDistribution.inProgress++;
+          break;
+        case 'completed':
+          userStatistics.movies.progressDistribution.completed++;
+      }
+    });
+
+    collection.albums.map((album) => {
+      userStatistics.albums.amountInCollection++;
+      switch (album.user.format) {
+        case 'physical':
+          userStatistics.albums.formatDistribution.physical++;
+          break;
+        case 'digital':
+          userStatistics.albums.formatDistribution.digital++;
+          break;
+      }
+    });
+
+    return userStatistics;
   }
 
   // Games Collection methods

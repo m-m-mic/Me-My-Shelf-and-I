@@ -17,3 +17,33 @@ export interface UserCollection {
   movies: CombinedMovie[];
   albums: CombinedAlbum[];
 }
+
+export interface UserStatistics {
+  games: GamesStatistics;
+  movies: MoviesStatistics;
+  albums: Statistics;
+}
+
+interface Statistics {
+  amountInCollection: number;
+  formatDistribution: FormatDistribution;
+}
+
+interface GamesStatistics extends Statistics {
+  progressDistribution: ProgressDistribution;
+}
+
+interface MoviesStatistics extends Statistics {
+  progressDistribution: ProgressDistribution;
+}
+
+interface FormatDistribution {
+  digital: number;
+  physical: number;
+}
+
+interface ProgressDistribution {
+  notStarted: number;
+  inProgress: number;
+  completed: number;
+}
