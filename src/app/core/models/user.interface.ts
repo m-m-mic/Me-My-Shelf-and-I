@@ -1,14 +1,19 @@
-import { Game } from './game.interface';
-import { Movie } from './movie.interface';
-import { Music } from './music.interface';
+import { CombinedGame, UserGame } from './game.interface';
+import { CombinedMovie, UserMovie } from './movie.interface';
+import { CombinedAlbum, UserAlbum } from './album.interface';
 
 export interface User {
-  id?: string;
-  collection: Collection;
+  collection: DatabaseUserCollection;
 }
 
-interface Collection {
-  games: Game[];
-  movies: Movie[];
-  music: Music[];
+interface DatabaseUserCollection {
+  games: UserGame[];
+  movies: UserMovie[];
+  albums: UserAlbum[];
+}
+
+export interface UserCollection {
+  games: CombinedGame[];
+  movies: CombinedMovie[];
+  albums: CombinedAlbum[];
 }

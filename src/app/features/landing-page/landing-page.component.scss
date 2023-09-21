@@ -1,5 +1,5 @@
-@import '../../shared/styles/contentBody';
+@import '../../shared/styles/flexContent';
 
 :host {
-  @include contentBody;
+  @include flexContent;
 }

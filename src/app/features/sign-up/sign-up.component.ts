@@ -34,6 +34,7 @@ import { matchPasswords } from './sign-up.validators';
 export class SignUpComponent implements OnInit, OnDestroy {
   private formBuilder = inject(FormBuilder);
   private store = inject(SignUpStoreFacade);
+
   registrationForm!: FormGroup;
   errorMessage$ = this.store.errorMessage$;
 
@@ -46,18 +47,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.store.resolveError();
   }
-
-  matchPasswords: ValidatorFn = (
-    control: AbstractControl,
-  ): ValidationErrors | null => {
-    const password = control.get('password')?.value;
-    const confirmPassword = control.get('confirmPassword')?.value;
-    return password === confirmPassword ||
-      password === '' ||
-      confirmPassword === ''
-      ? null
-      : { notSame: true };
-  };
 
   get displayName() {
     return this.registrationForm.controls['displayName'];

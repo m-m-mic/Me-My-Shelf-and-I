@@ -1,37 +1,20 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import {
-  BehaviorSubject,
-  catchError,
-  from,
-  Observable,
-  throwError,
-} from 'rxjs';
+import { catchError, from, Observable, throwError } from 'rxjs';
 import firebase from 'firebase/compat';
 import FirebaseError = firebase.FirebaseError;
 import { Store } from '@ngrx/store';
 import { resolveError, setErrorMessage } from '../states/error/error.actions';
-import UserCredential = firebase.auth.UserCredential;
 import { AuthCredentials } from '../models/authCredentials.interface';
+import UserCredential = firebase.auth.UserCredential;
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthenticationService {
-  loggedIn = new BehaviorSubject<boolean>(false);
-  loggedIn$ = this.loggedIn.asObservable();
-  constructor(
-    private auth: AngularFireAuth,
-    private store: Store,
-  ) {
-    this.auth.onAuthStateChanged((user) => {
-      if (user) {
-        this.loggedIn.next(true);
-      } else {
-        this.loggedIn.next(false);
-      }
-    });
-  }
+  auth = inject(AngularFireAuth);
+  store = inject(Store);
+  authUser$ = this.auth.authState;
 
   signIn({ email, password }: AuthCredentials): Observable<UserCredential> {
     this.store.dispatch(resolveError({ errorType: 'signIn' }));
@@ -70,7 +53,7 @@ export class AuthenticationService {
     return from(this.auth.signOut());
   }
 
-  public getUser() {
+  getUser() {
     return from(this.auth.authState);
   }
 

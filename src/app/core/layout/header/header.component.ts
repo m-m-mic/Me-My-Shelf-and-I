@@ -1,34 +1,38 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
-import { MmsaiAccountButtonComponent } from '../../components/mmsai-account-button/mmsai-account-button.component';
+import { HeaderButtonComponent } from '../../components/header-button/header-button.component';
 import { MenuItem } from 'primeng/api';
 import { Store } from '@ngrx/store';
 import { signOut } from '../../states/auth/auth.actions';
-import { Subscription } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MainNavigationComponent } from '../../components/main-navigation/main-navigation.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterLink, MmsaiAccountButtonComponent],
+  imports: [
+    CommonModule,
+    RouterLink,
+    HeaderButtonComponent,
+    MainNavigationComponent,
+  ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit {
-  authenticationService = inject(AuthenticationService);
-  store = inject(Store);
-  destroyRef = inject(DestroyRef);
+export class HeaderComponent {
   isLoggedIn = false;
   displayName = 'Account';
   menuItems!: MenuItem[];
-  authSubscription!: Subscription;
 
-  ngOnInit() {
-    this.authSubscription = this.authenticationService
+  constructor(
+    private authenticationService: AuthenticationService,
+    private store: Store,
+  ) {
+    this.authenticationService
       .getUser()
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(takeUntilDestroyed())
       .subscribe((user) => {
         if (user) {
           this.isLoggedIn = true;

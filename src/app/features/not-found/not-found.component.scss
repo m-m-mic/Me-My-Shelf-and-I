@@ -1,5 +1,10 @@
-@import '../../shared/styles/contentBody';
+@import '../../shared/styles/flexContent';
 
 :host {
-  @include contentBody;
+  flex: 1;
+  margin-top: 72px;
+  @include flexContent;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
 }

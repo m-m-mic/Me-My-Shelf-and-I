@@ -1,5 +1,6 @@
 @import 'primeng/resources/themes/lara-dark-purple/theme.css';
 @import 'primeng/resources/primeng.css';
+@import 'primeicons/primeicons.css';
 
 @font-face {
   font-family: 'Bungee Regular';
@@ -19,11 +20,6 @@ h6 {
   margin: 0;
 }
 
-h1 {
-  font-family: 'Bungee Regular', sans-serif;
-  font-size: 56px;
-}
-
 .p-menu.account-button-menu {
   width: 100% !important;
   border-radius: 12px;
@@ -40,4 +36,9 @@ h1 {
       background: var(--primary-800) !important;
     }
   }
+}
+
+.p-sidebar {
+  width: 250px !important;
+  background: var(--primary-900) !important;
 }

@@ -1,4 +1,5 @@
-<app-mmsai-account-button
+<app-main-navigation *ngIf="isLoggedIn" />
+<app-header-button
   [isLoggedIn]="isLoggedIn"
   [menuItems]="menuItems"
-  [displayName]="displayName"></app-mmsai-account-button>
+  [displayName]="displayName" />

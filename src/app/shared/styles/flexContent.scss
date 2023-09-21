@@ -1,0 +1,7 @@
+@mixin flexContent {
+  display: flex;
+  box-sizing: border-box;
+  flex-flow: column;
+  gap: 16px;
+  padding: 16px 12px;
+}

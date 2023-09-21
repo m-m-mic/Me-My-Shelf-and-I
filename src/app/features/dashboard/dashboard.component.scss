@@ -1,5 +1,24 @@
-@import '../../shared/styles/contentBody';
+@import '../../shared/styles/flexContent';
 
 :host {
-  @include contentBody;
+  margin-top: 72px;
+  @include flexContent;
+}
+
+.media-selection {
+  display: flex;
+  overflow-x: scroll;
+  gap: 20px;
+  margin: 0 -12px;
+  padding: 0 12px;
+}
+
+.no-content-disclaimer {
+  height: 120px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
 }

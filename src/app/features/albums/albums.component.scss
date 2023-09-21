@@ -1,0 +1,13 @@
+@import '../../shared/styles/flexContent';
+
+:host {
+  margin-top: 72px;
+  @include flexContent;
+}
+
+.albums-results {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  gap: 20px;
+}
