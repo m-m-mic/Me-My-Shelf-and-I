@@ -9,7 +9,7 @@ export const gameColumns: ColDef[] = [
     initialSort: 'asc',
     filter: 'agTextColumnFilter',
     floatingFilter: true,
-    width: 434,
+    width: 504,
     cellRenderer: (params: { data: { id: string }; value: string }) => {
       return (
         '<a class="ag-link" href="/games/' +
@@ -62,7 +62,7 @@ export const movieColumns: ColDef[] = [
     initialSort: 'asc',
     filter: 'agTextColumnFilter',
     floatingFilter: true,
-    width: 434,
+    width: 504,
     cellRenderer: (params: { data: { id: string }; value: string }) => {
       return (
         '<a class="ag-link" href="/movies/' +
@@ -115,7 +115,7 @@ export const albumColumns: ColDef[] = [
     initialSort: 'asc',
     filter: 'agTextColumnFilter',
     floatingFilter: true,
-    width: 434,
+    width: 504,
     cellRenderer: (params: { data: { id: string }; value: string }) => {
       return (
         '<a class="ag-link" href="/albums/' +
