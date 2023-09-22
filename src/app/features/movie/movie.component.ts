@@ -11,14 +11,13 @@ import { ionAdd, ionBookmark, ionRemove } from '@ng-icons/ionicons';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { UsersService } from '../../core/services/users.service';
 import { Movie, UserMovie } from '../../core/models/movie.interface';
-import { movieItems } from './movie.items';
 import { LoadingComponent } from '../../core/layout/loading/loading.component';
 import { ButtonModule } from 'primeng/button';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MoviesService } from '../../core/services/movies.service';
 import { createMovieObject, fillMovieForm } from './movie.form';
-import { fillGameForm } from '../game/game.form';
+import { userItemsTemplate } from '../../shared/templates/user-items.template';
 
 @Component({
   selector: 'app-movie',
@@ -46,7 +45,7 @@ export class MovieComponent implements OnChanges {
   @Input() id?: string;
 
   movieForm: FormGroup = this.formBuilder.group(fillMovieForm());
-  selectItems = movieItems;
+  selectItems = userItemsTemplate;
 
   ngOnChanges(changes: SimpleChanges) {
     this.movieForm = this.formBuilder.group(fillMovieForm(this.userMovieData));

@@ -3,14 +3,14 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
-import { User, UserCollection, UserStatistics } from '../models/user.interface';
+import { User, UserCollection } from '../models/user.interface';
 import { firstValueFrom, map, of, switchMap, take } from 'rxjs';
-import { GameWithId, UserGame } from '../models/game.interface';
+import { UserGame } from '../models/game.interface';
 import { AuthenticationService } from './authentication.service';
-import { MovieWithId, UserMovie } from '../models/movie.interface';
-import { AlbumWithId, UserAlbum } from '../models/album.interface';
+import { UserMovie } from '../models/movie.interface';
+import { UserAlbum } from '../models/album.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { userStatisticsTemplate } from '../../shared/templates/user-statistics.template';
+import { statisticsTemplate } from '../../shared/templates/statistics.template';
 import {
   convertFormat,
   convertProgress,
@@ -86,27 +86,31 @@ export class UsersService {
     }
 
     for (const movie of userData.document.collection.movies) {
-      const movieData = await movie.ref.get();
-      if (movie.in_collection) {
+      const gameRef = await movie.ref.get();
+      const movieData = gameRef.data();
+      if (movieData && movie.in_collection) {
         collection.movies.push({
-          general: {
-            ...movieData.data(),
-            id: movie.ref.id,
-          } as MovieWithId,
-          user: movie,
+          id: gameRef.id,
+          title: movieData.title,
+          director: movieData.director ?? '',
+          format: convertFormat(movie.format),
+          progress: convertProgress(movie.progress),
+          added_on: movie.added_on,
         });
       }
     }
 
     for (const album of userData.document.collection.albums) {
-      const albumData = await album.ref.get();
-      if (album.in_collection) {
+      const albumRef = await album.ref.get();
+      const albumData = albumRef.data();
+      if (albumData && album.in_collection) {
         collection.albums.push({
-          general: {
-            ...albumData.data(),
-            id: album.ref.id,
-          } as AlbumWithId,
-          user: album,
+          id: albumRef.id,
+          title: albumData.title,
+          artist: albumData.artist ?? '',
+          format: convertFormat(album.format),
+          progress: convertProgress(album.progress),
+          added_on: album.added_on,
         });
       }
     }
@@ -115,7 +119,12 @@ export class UsersService {
   }
 
   getStatistics(collection: UserCollection) {
-    const userStatistics = userStatisticsTemplate();
+    const userStatistics = {
+      games: statisticsTemplate(),
+      movies: statisticsTemplate(),
+      albums: statisticsTemplate(),
+    };
+
     collection.games.map((game) => {
       userStatistics.games.amountInCollection++;
       switch (game.format) {
@@ -140,35 +149,45 @@ export class UsersService {
 
     collection.movies.map((movie) => {
       userStatistics.movies.amountInCollection++;
-      switch (movie.user.format) {
-        case 'physical':
+      switch (movie.format) {
+        case 'Physical':
           userStatistics.movies.formatDistribution.physical++;
           break;
-        case 'digital':
+        case 'Digital':
           userStatistics.movies.formatDistribution.digital++;
           break;
       }
-      switch (movie.user.progress) {
-        case 'not-started':
+      switch (movie.progress) {
+        case 'Not Started':
           userStatistics.movies.progressDistribution.notStarted++;
           break;
-        case 'in-progress':
+        case 'In Progress':
           userStatistics.movies.progressDistribution.inProgress++;
           break;
-        case 'completed':
+        case 'Completed':
           userStatistics.movies.progressDistribution.completed++;
       }
     });
 
     collection.albums.map((album) => {
       userStatistics.albums.amountInCollection++;
-      switch (album.user.format) {
-        case 'physical':
+      switch (album.format) {
+        case 'Physical':
           userStatistics.albums.formatDistribution.physical++;
           break;
-        case 'digital':
+        case 'Digital':
           userStatistics.albums.formatDistribution.digital++;
           break;
+      }
+      switch (album.progress) {
+        case 'Not Started':
+          userStatistics.albums.progressDistribution.notStarted++;
+          break;
+        case 'In Progress':
+          userStatistics.albums.progressDistribution.inProgress++;
+          break;
+        case 'Completed':
+          userStatistics.albums.progressDistribution.completed++;
       }
     });
 
@@ -276,6 +295,7 @@ export class UsersService {
     for (let i = 0; i < moviesCollection.length; i++) {
       if (movieData.ref.id == moviesCollection[i].ref.id) {
         moviesCollection[i].in_collection = true;
+        moviesCollection[i].added_on = new Date().getTime();
         isInArray = true;
         break;
       }
@@ -349,6 +369,7 @@ export class UsersService {
     for (let i = 0; i < albumsCollection.length; i++) {
       if (albumData.ref.id == albumsCollection[i].ref.id) {
         albumsCollection[i].in_collection = true;
+        albumsCollection[i].added_on = new Date().getTime();
         isInArray = true;
         break;
       }

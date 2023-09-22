@@ -15,12 +15,17 @@ export interface MovieWithId extends Movie {
 export interface UserMovie {
   ref: DocumentReference<Movie>;
   in_collection: boolean;
-  progress?: ProgressType;
-  format?: FormatType;
-  notes?: string;
+  progress: ProgressType;
+  format: FormatType;
+  notes: string;
+  added_on: number;
 }
 
-export interface CombinedMovie {
-  general: MovieWithId;
-  user: UserMovie;
+export interface MovieRow {
+  id: string;
+  title: string;
+  director: string;
+  progress: string;
+  format: string;
+  added_on: number;
 }

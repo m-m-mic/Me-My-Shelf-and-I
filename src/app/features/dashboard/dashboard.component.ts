@@ -3,25 +3,25 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { UsersService } from '../../core/services/users.service';
 import { GameCardComponent } from '../../core/components/game-card/game-card.component';
-import {
-  UserCollection,
-  UserStatistics,
-} from '../../core/models/user.interface';
+import { UserCollection } from '../../core/models/user.interface';
 import { LoadingComponent } from '../../core/layout/loading/loading.component';
 import { RouterLink } from '@angular/router';
 import { MovieCardComponent } from '../../core/components/movie-card/movie-card.component';
 import { AlbumCardComponent } from '../../core/components/album-card/album-card.component';
 import { MenuItem } from 'primeng/api';
 import { TabMenuModule } from 'primeng/tabmenu';
-import {
-  ColDef,
-  GetRowIdFunc,
-  GetRowIdParams,
-  GridOptions,
-} from 'ag-grid-community';
+import { GetRowIdFunc, GetRowIdParams } from 'ag-grid-community';
 import { AgGridModule } from 'ag-grid-angular';
 import { GameStatisticsComponent } from '../../core/components/game-statistics/game-statistics.component';
-import { gameColumns, gridOptions } from './dashboard.ag-grid';
+import {
+  albumColumns,
+  gameColumns,
+  gridOptions,
+  movieColumns,
+} from './dashboard.ag-grid';
+import { UserStatistics } from '../../core/models/statistics.interface';
+import { AlbumStatisticsComponent } from '../../core/components/album-statistics/album-statistics.component';
+import { MovieStatisticsComponent } from '../../core/components/movie-statistics/movie-statistics.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -37,16 +37,14 @@ import { gameColumns, gridOptions } from './dashboard.ag-grid';
     TabMenuModule,
     AgGridModule,
     GameStatisticsComponent,
+    AlbumStatisticsComponent,
+    MovieStatisticsComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent {
-  collection: UserCollection = {
-    games: [],
-    movies: [],
-    albums: [],
-  };
+  collection?: UserCollection;
   statistics?: UserStatistics;
   tabItems: MenuItem[] = [
     { label: 'Games' },
@@ -58,6 +56,8 @@ export class DashboardComponent {
 
   gridOptions = gridOptions;
   gameColumns = gameColumns;
+  movieColumns = movieColumns;
+  albumColumns = albumColumns;
   getRowId: GetRowIdFunc = (params: GetRowIdParams) => params.data.id;
 
   constructor(private usersService: UsersService) {

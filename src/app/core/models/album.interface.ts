@@ -1,4 +1,4 @@
-import { FormatType, RecordType } from './attribute.types';
+import { FormatType, ProgressType, RecordType } from './attribute.types';
 import { DocumentReference } from '@angular/fire/compat/firestore';
 
 export interface Album {
@@ -16,11 +16,17 @@ export interface AlbumWithId extends Album {
 export interface UserAlbum {
   ref: DocumentReference<Album>;
   in_collection: boolean;
-  format?: FormatType;
-  notes?: string;
+  progress: ProgressType;
+  format: FormatType;
+  notes: string;
+  added_on: number;
 }
 
-export interface CombinedAlbum {
-  general: AlbumWithId;
-  user: UserAlbum;
+export interface AlbumRow {
+  id: string;
+  title: string;
+  artist: string;
+  progress: string;
+  format: string;
+  added_on: number;
 }

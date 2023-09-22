@@ -5,12 +5,12 @@ import { RouterLink } from '@angular/router';
 import { Statistics } from '../../models/statistics.interface';
 
 @Component({
-  selector: 'app-game-statistics',
+  selector: 'app-album-statistics',
   standalone: true,
   imports: [CommonModule, LoadingComponent, RouterLink],
-  templateUrl: './game-statistics.component.html',
-  styleUrls: ['./game-statistics.component.scss'],
+  templateUrl: './album-statistics.component.html',
+  styleUrls: ['./album-statistics.component.scss'],
 })
-export class GameStatisticsComponent {
+export class AlbumStatisticsComponent {
   @Input() statistics?: Statistics;
 }

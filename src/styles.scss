@@ -52,3 +52,12 @@ h6 {
   justify-content: center;
   flex: 1;
 }
+
+.ag-link {
+  color: var(--text-color);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

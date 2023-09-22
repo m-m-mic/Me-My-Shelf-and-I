@@ -17,12 +17,19 @@ export function fillMovieForm(userMovieData?: UserMovie) {
       notes: [
         { value: userMovieData.notes, disabled: !userMovieData.in_collection },
       ],
+      added_on: [
+        {
+          value: userMovieData.added_on,
+          disabled: !userMovieData.in_collection,
+        },
+      ],
     };
   } else {
     return {
       format: [{ value: 'physical', disabled: true }],
       progress: [{ value: 'not-started', disabled: true }],
       notes: [{ value: '', disabled: true }],
+      added_on: [{ value: 0, disabled: true }],
     };
   }
 }
@@ -37,5 +44,6 @@ export function createMovieObject(
     format: movieForm.value.format,
     progress: movieForm.value.progress,
     notes: movieForm.value.notes,
+    added_on: movieForm.value.added_on,
   };
 }

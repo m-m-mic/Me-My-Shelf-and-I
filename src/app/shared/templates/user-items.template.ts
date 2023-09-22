@@ -1,4 +1,4 @@
-export const movieItems = {
+export const userItemsTemplate = {
   format: [
     {
       label: 'Physical',
