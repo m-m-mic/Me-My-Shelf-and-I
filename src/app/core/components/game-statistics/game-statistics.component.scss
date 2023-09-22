@@ -1,4 +1,5 @@
 :host {
+  position: relative;
   display: flex;
   gap: 16px;
   height: 150px;
@@ -11,6 +12,12 @@
   padding: 12px;
   border-radius: 12px;
   gap: 8px;
+  background-color: var(--primary-900);
+}
+
+.stat-loading {
+  flex: 1;
+  border-radius: 12px;
   background-color: var(--primary-900);
 }
 
@@ -69,4 +76,23 @@
 .graph-data-3,
 .legend-data-3:before {
   background-color: #a57cf8;
+}
+
+.no-stats-disclaimer {
+  position: absolute;
+  width: 100%;
+  height: 150px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  font-weight: 600;
+  background: rgb(0, 0, 0);
+  background: linear-gradient(
+    0deg,
+    rgba(28, 27, 34, 1) 10%,
+    rgba(28, 27, 34, 0.7) 100%
+  );
 }

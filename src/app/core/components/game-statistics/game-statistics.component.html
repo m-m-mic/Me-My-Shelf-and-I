@@ -1,4 +1,8 @@
 <ng-template [ngIf]="statistics" [ngIfElse]="loading">
+  <div class="no-stats-disclaimer" *ngIf="!statistics.amountInCollection">
+    <span>You haven't added any games to your collection.</span>
+    <a routerLink="/games">Browse for games here!</a>
+  </div>
   <span class="stat-container">
     <span class="total-amount">
       {{ statistics.amountInCollection }}
@@ -8,7 +12,7 @@
   </span>
   <span class="stat-container">
     <span class="stat-title">Format</span>
-    <span class="graph-bar">
+    <span class="graph-bar" *ngIf="statistics.amountInCollection">
       <span
         *ngIf="statistics.formatDistribution.physical"
         class="graph-data-1"
@@ -29,7 +33,7 @@
   </span>
   <span class="stat-container">
     <span class="stat-title">Progress</span>
-    <span class="graph-bar">
+    <span class="graph-bar" *ngIf="statistics.amountInCollection">
       <span
         *ngIf="statistics.progressDistribution.completed"
         class="graph-data-1"
@@ -57,5 +61,7 @@
   </span>
 </ng-template>
 <ng-template #loading>
-  <app-loading [height]="150" />
+  <div class="stat-loading">
+    <app-loading [height]="150" />
+  </div>
 </ng-template>

@@ -5,65 +5,54 @@
     [activeItem]="activeItem"
     (activeItemChange)="changeActiveItem($event)" />
 </div>
-<app-loading [height]="120" *ngIf="loading; else content" />
-<ng-template #content>
-  <ng-template [ngIf]="currentTab === 'Games'">
-    <app-game-statistics [statistics]="statistics?.games" />
-    <ag-grid-angular
-      *ngIf="collection.games.length > 0; else noGames"
-      style="height: 100%; width: 100%"
-      class="ag-theme-alpine-dark"
-      [gridOptions]="gridOptions"
-      [getRowId]="getRowId"
-      [rowData]="collection.games"
-      [columnDefs]="gameColumns" />
-
-    <ng-template #noGames>
-      <div class="no-content-disclaimer">
-        <span>You haven't added any games to your collection.</span>
-        <a routerLink="/games">Browse for games here!</a>
-      </div>
-    </ng-template>
-  </ng-template>
-  <ng-template [ngIf]="currentTab === 'Movies'">
-    <div *ngIf="statistics">
-      <div>{{ statistics.movies.amountInCollection }} in collection</div>
-      <div>
-        {{ statistics.movies.progressDistribution.completed }} completed |
-        {{ statistics.movies.progressDistribution.inProgress }} in progress |
-        {{ statistics.movies.progressDistribution.notStarted }} not started
-      </div>
-      <div>
-        {{ statistics.movies.formatDistribution.physical }} physical |
-        {{ statistics.movies.formatDistribution.digital }} digital
-      </div>
+<ng-template [ngIf]="currentTab === 'Games'">
+  <app-game-statistics [statistics]="statistics?.games" />
+  <ag-grid-angular
+    *ngIf="collection.games.length > 0"
+    class="ag-theme-alpine-dark media-grid"
+    [gridOptions]="gridOptions"
+    [getRowId]="getRowId"
+    [rowData]="collection.games"
+    [columnDefs]="gameColumns" />
+</ng-template>
+<ng-template [ngIf]="currentTab === 'Movies'">
+  <div *ngIf="statistics">
+    <div>{{ statistics.movies.amountInCollection }} in collection</div>
+    <div>
+      {{ statistics.movies.progressDistribution.completed }} completed |
+      {{ statistics.movies.progressDistribution.inProgress }} in progress |
+      {{ statistics.movies.progressDistribution.notStarted }} not started
     </div>
-    <div
-      *ngIf="collection.movies.length > 0; else noMovies"
-      class="media-selection"></div>
-    <ng-template #noMovies>
-      <div class="no-content-disclaimer">
-        <span>You haven't added any movies to your collection.</span>
-        <a routerLink="/movies">Browse for movies here!</a>
-      </div>
-    </ng-template>
-  </ng-template>
-  <ng-template [ngIf]="currentTab === 'Albums'">
-    <div *ngIf="statistics">
-      <div>{{ statistics.albums.amountInCollection }} in collection</div>
-      <div>
-        {{ statistics.albums.formatDistribution.physical }} physical |
-        {{ statistics.albums.formatDistribution.digital }} digital
-      </div>
+    <div>
+      {{ statistics.movies.formatDistribution.physical }} physical |
+      {{ statistics.movies.formatDistribution.digital }} digital
     </div>
-    <div
-      *ngIf="collection.albums.length > 0; else noAlbums"
-      class="media-selection"></div>
-    <ng-template #noAlbums>
-      <div class="no-content-disclaimer">
-        <span>You haven't added any albums to your collection.</span>
-        <a routerLink="/albums">Browse for albums here!</a>
-      </div>
-    </ng-template>
+  </div>
+  <div
+    *ngIf="collection.movies.length > 0; else noMovies"
+    class="media-selection"></div>
+  <ng-template #noMovies>
+    <div class="no-stats-disclaimer">
+      <span>You haven't added any movies to your collection.</span>
+      <a routerLink="/movies">Browse for movies here!</a>
+    </div>
+  </ng-template>
+</ng-template>
+<ng-template [ngIf]="currentTab === 'Albums'">
+  <div *ngIf="statistics">
+    <div>{{ statistics.albums.amountInCollection }} in collection</div>
+    <div>
+      {{ statistics.albums.formatDistribution.physical }} physical |
+      {{ statistics.albums.formatDistribution.digital }} digital
+    </div>
+  </div>
+  <div
+    *ngIf="collection.albums.length > 0; else noAlbums"
+    class="media-selection"></div>
+  <ng-template #noAlbums>
+    <div class="no-stats-disclaimer">
+      <span>You haven't added any albums to your collection.</span>
+      <a routerLink="/albums">Browse for albums here!</a>
+    </div>
   </ng-template>
 </ng-template>

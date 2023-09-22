@@ -8,7 +8,7 @@ export const movieItems = {
   ],
   progress: [
     {
-      label: 'Not started',
+      label: 'Not Started',
       value: 'not-started',
       icon: 'pi pi-times',
     },
