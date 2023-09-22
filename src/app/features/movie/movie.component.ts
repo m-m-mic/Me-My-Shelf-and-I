@@ -49,7 +49,7 @@ export class MovieComponent implements OnChanges {
   selectItems = movieItems;
 
   ngOnChanges(changes: SimpleChanges) {
-    this.movieForm = this.formBuilder.group(fillGameForm(this.userMovieData));
+    this.movieForm = this.formBuilder.group(fillMovieForm(this.userMovieData));
   }
 
   addToCollection() {

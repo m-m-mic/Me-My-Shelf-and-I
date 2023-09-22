@@ -11,6 +11,10 @@ import { MovieWithId, UserMovie } from '../models/movie.interface';
 import { AlbumWithId, UserAlbum } from '../models/album.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { userStatisticsTemplate } from '../../shared/templates/user-statistics.template';
+import {
+  convertFormat,
+  convertProgress,
+} from '../../shared/converters/attribute.converter';
 
 @Injectable({
   providedIn: 'root',
@@ -67,14 +71,16 @@ export class UsersService {
     };
 
     for (const game of userData.document.collection.games) {
-      const gameData = await game.ref.get();
-      if (game.in_collection) {
+      const gameRef = await game.ref.get();
+      const gameData = gameRef.data();
+      if (gameData && game.in_collection) {
         collection.games.push({
-          general: {
-            ...gameData.data(),
-            id: game.ref.id,
-          } as GameWithId,
-          user: game,
+          id: gameRef.id,
+          title: gameData.title,
+          platform: gameData.platform ?? '',
+          format: convertFormat(game.format),
+          progress: convertProgress(game.progress),
+          added_on: game.added_on,
         });
       }
     }
@@ -109,25 +115,25 @@ export class UsersService {
   }
 
   getStatistics(collection: UserCollection) {
-    const userStatistics = userStatisticsTemplate;
+    const userStatistics = userStatisticsTemplate();
     collection.games.map((game) => {
       userStatistics.games.amountInCollection++;
-      switch (game.user.format) {
-        case 'physical':
+      switch (game.format) {
+        case 'Physical':
           userStatistics.games.formatDistribution.physical++;
           break;
-        case 'digital':
+        case 'Digital':
           userStatistics.games.formatDistribution.digital++;
           break;
       }
-      switch (game.user.progress) {
-        case 'not-started':
+      switch (game.progress) {
+        case 'Not Started':
           userStatistics.games.progressDistribution.notStarted++;
           break;
-        case 'in-progress':
+        case 'In Progress':
           userStatistics.games.progressDistribution.inProgress++;
           break;
-        case 'completed':
+        case 'Completed':
           userStatistics.games.progressDistribution.completed++;
       }
     });
@@ -196,6 +202,7 @@ export class UsersService {
     for (let i = 0; i < gamesCollection.length; i++) {
       if (gameData.ref.id == gamesCollection[i].ref.id) {
         gamesCollection[i].in_collection = true;
+        gamesCollection[i].added_on = new Date().getTime();
         isInArray = true;
         break;
       }

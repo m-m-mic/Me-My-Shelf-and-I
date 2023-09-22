@@ -1,6 +1,8 @@
 @import 'primeng/resources/themes/lara-dark-purple/theme.css';
 @import 'primeng/resources/primeng.css';
 @import 'primeicons/primeicons.css';
+@import 'ag-grid-community/styles/ag-grid.css';
+@import 'ag-grid-community/styles/ag-theme-alpine.css';
 
 @font-face {
   font-family: 'Bungee Regular';
@@ -41,4 +43,12 @@ h6 {
 .p-sidebar {
   width: 250px !important;
   background: var(--primary-900) !important;
+}
+
+.p-tabmenuitem,
+.p-menuitem-link {
+  background: none !important;
+  display: flex;
+  justify-content: center;
+  flex: 1;
 }

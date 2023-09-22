@@ -1,4 +1,4 @@
-import { CombinedGame, UserGame } from './game.interface';
+import { GameRow, UserGame } from './game.interface';
 import { CombinedMovie, UserMovie } from './movie.interface';
 import { CombinedAlbum, UserAlbum } from './album.interface';
 
@@ -13,7 +13,7 @@ interface DatabaseUserCollection {
 }
 
 export interface UserCollection {
-  games: CombinedGame[];
+  games: GameRow[];
   movies: CombinedMovie[];
   albums: CombinedAlbum[];
 }
@@ -29,7 +29,7 @@ interface Statistics {
   formatDistribution: FormatDistribution;
 }
 
-interface GamesStatistics extends Statistics {
+export interface GamesStatistics extends Statistics {
   progressDistribution: ProgressDistribution;
 }
 

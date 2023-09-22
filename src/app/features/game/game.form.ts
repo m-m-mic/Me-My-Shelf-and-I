@@ -14,12 +14,16 @@ export function fillGameForm(userGameData?: UserGame) {
       notes: [
         { value: userGameData.notes, disabled: !userGameData.in_collection },
       ],
+      added_on: [
+        { value: userGameData.added_on, disabled: !userGameData.in_collection },
+      ],
     };
   } else {
     return {
       format: [{ value: 'physical', disabled: true }],
       progress: [{ value: 'not-started', disabled: true }],
       notes: [{ value: '', disabled: true }],
+      added_on: [{ value: 0, disabled: true }],
     };
   }
 }
@@ -34,5 +38,6 @@ export function createGameObject(
     format: gameForm.value.format,
     progress: gameForm.value.progress,
     notes: gameForm.value.notes,
+    added_on: gameForm.value.added_on,
   };
 }
