@@ -70,50 +70,56 @@ export class UsersService {
       albums: [],
     };
 
-    for (const game of userData.document.collection.games) {
-      const gameRef = await game.ref.get();
-      const gameData = gameRef.data();
-      if (gameData && game.in_collection) {
-        collection.games.push({
-          id: gameRef.id,
-          title: gameData.title,
-          platform: gameData.platform ?? '',
-          format: convertFormat(game.format),
-          progress: convertProgress(game.progress),
-          added_on: game.added_on,
-        });
-      }
-    }
+    await Promise.all(
+      userData.document.collection.games.map(async (game) => {
+        const gameRef = await game.ref.get();
+        const gameData = gameRef.data();
+        if (gameData && game.in_collection) {
+          collection.games.push({
+            id: gameRef.id,
+            title: gameData.title,
+            platform: gameData.platform ?? '',
+            format: convertFormat(game.format),
+            progress: convertProgress(game.progress),
+            added_on: game.added_on,
+          });
+        }
+      }),
+    );
 
-    for (const movie of userData.document.collection.movies) {
-      const gameRef = await movie.ref.get();
-      const movieData = gameRef.data();
-      if (movieData && movie.in_collection) {
-        collection.movies.push({
-          id: gameRef.id,
-          title: movieData.title,
-          director: movieData.director ?? '',
-          format: convertFormat(movie.format),
-          progress: convertProgress(movie.progress),
-          added_on: movie.added_on,
-        });
-      }
-    }
+    await Promise.all(
+      userData.document.collection.movies.map(async (movie) => {
+        const movieRef = await movie.ref.get();
+        const movieData = movieRef.data();
+        if (movieData && movie.in_collection) {
+          collection.movies.push({
+            id: movieRef.id,
+            title: movieData.title,
+            director: movieData.director ?? '',
+            format: convertFormat(movie.format),
+            progress: convertProgress(movie.progress),
+            added_on: movie.added_on,
+          });
+        }
+      }),
+    );
 
-    for (const album of userData.document.collection.albums) {
-      const albumRef = await album.ref.get();
-      const albumData = albumRef.data();
-      if (albumData && album.in_collection) {
-        collection.albums.push({
-          id: albumRef.id,
-          title: albumData.title,
-          artist: albumData.artist ?? '',
-          format: convertFormat(album.format),
-          progress: convertProgress(album.progress),
-          added_on: album.added_on,
-        });
-      }
-    }
+    await Promise.all(
+      userData.document.collection.albums.map(async (album) => {
+        const albumRef = await album.ref.get();
+        const albumData = albumRef.data();
+        if (albumData && album.in_collection) {
+          collection.albums.push({
+            id: albumRef.id,
+            title: albumData.title,
+            artist: albumData.artist ?? '',
+            format: convertFormat(album.format),
+            progress: convertProgress(album.progress),
+            added_on: album.added_on,
+          });
+        }
+      }),
+    );
 
     return collection;
   }
