@@ -9,7 +9,7 @@
 
 .stat-container {
   flex: 1;
-  min-width: 215px;
+  min-width: 160px;
   display: flex;
   flex-flow: column;
   padding: 12px;
@@ -44,7 +44,7 @@
 
 .graph-bar {
   display: flex;
-  gap: 4px;
+  gap: 2px;
   height: 12px;
   align-items: center;
   border-radius: 15px;
