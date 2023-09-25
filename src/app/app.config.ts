@@ -16,7 +16,6 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AuthenticationGuard } from './core/services/authentication.guard';
 import { errorReducer } from './core/states/error/error.reducer';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { AgGridModule } from 'ag-grid-angular';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,7 +23,6 @@ export const appConfig: ApplicationConfig = {
       AngularFireModule.initializeApp(environment.firebaseConfig),
       AngularFireAuthModule,
       AngularFirestoreModule,
-      AgGridModule,
     ),
     provideRouter(ROUTES),
     provideStore({ error: errorReducer }),
