@@ -2,10 +2,11 @@
 <div class="media-tab-menu">
   <p-tabMenu
     [model]="tabItems"
-    [activeItem]="activeItem"
+    [activeItem]="activeTab"
     (activeItemChange)="changeActiveItem($event)" />
 </div>
-<ng-template [ngIf]="currentTab === 'Games'">
+
+<ng-template [ngIf]="activeTab.label === 'Games'">
   <app-game-statistics [statistics]="statistics?.games" />
   <ag-grid-angular
     *ngIf="collection && collection.games.length > 0"
@@ -16,7 +17,7 @@
     [columnDefs]="gameColumns" />
 </ng-template>
 
-<ng-template [ngIf]="currentTab === 'Movies'">
+<ng-template [ngIf]="activeTab.label === 'Movies'">
   <app-movie-statistics [statistics]="statistics?.movies" />
   <ag-grid-angular
     *ngIf="collection && collection.movies.length > 0"
@@ -27,7 +28,7 @@
     [columnDefs]="movieColumns" />
 </ng-template>
 
-<ng-template [ngIf]="currentTab === 'Albums'">
+<ng-template [ngIf]="activeTab.label === 'Albums'">
   <app-album-statistics [statistics]="statistics?.albums" />
   <ag-grid-angular
     *ngIf="collection && collection.albums.length > 0"

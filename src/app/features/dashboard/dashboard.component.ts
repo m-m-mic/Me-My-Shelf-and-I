@@ -46,13 +46,13 @@ import { MovieStatisticsComponent } from '../../core/components/movie-statistics
 export class DashboardComponent {
   collection?: UserCollection;
   statistics?: UserStatistics;
+
   tabItems: MenuItem[] = [
     { label: 'Games' },
     { label: 'Movies' },
     { label: 'Albums' },
   ];
-  activeItem: MenuItem = this.tabItems[0];
-  currentTab = this.activeItem.label;
+  activeTab: MenuItem = this.tabItems[0];
 
   gridOptions = gridOptions;
   gameColumns = gameColumns;
@@ -70,7 +70,6 @@ export class DashboardComponent {
   }
 
   changeActiveItem(event: MenuItem) {
-    this.activeItem = event;
-    this.currentTab = event.label;
+    this.activeTab = event;
   }
 }
