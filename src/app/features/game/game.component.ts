@@ -15,11 +15,11 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ChipModule } from 'primeng/chip';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { ionAdd, ionBookmark, ionRemove } from '@ng-icons/ionicons';
-import { gameItems } from './game.items';
 import { createGameObject, fillGameForm } from './game.form';
 import { GamesService } from '../../core/services/games.service';
 import { UsersService } from '../../core/services/users.service';
 import { LoadingComponent } from '../../core/layout/loading/loading.component';
+import { userItemsTemplate } from '../../shared/templates/user-items.template';
 
 @Component({
   selector: 'app-game',
@@ -50,7 +50,7 @@ export class GameComponent implements OnChanges {
   @Input() id?: string;
 
   gameForm: FormGroup = this.formBuilder.group(fillGameForm());
-  selectItems = gameItems;
+  selectItems = userItemsTemplate;
 
   ngOnChanges(changes: SimpleChanges) {
     this.gameForm = this.formBuilder.group(fillGameForm(this.userGameData));

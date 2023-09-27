@@ -5,11 +5,16 @@ import {
 } from '@angular/fire/compat/firestore';
 import { User, UserCollection } from '../models/user.interface';
 import { firstValueFrom, map, of, switchMap, take } from 'rxjs';
-import { GameWithId, UserGame } from '../models/game.interface';
+import { GameRow, UserGame } from '../models/game.interface';
 import { AuthenticationService } from './authentication.service';
-import { MovieWithId, UserMovie } from '../models/movie.interface';
-import { AlbumWithId, UserAlbum } from '../models/album.interface';
+import { MovieRow, UserMovie } from '../models/movie.interface';
+import { AlbumRow, UserAlbum } from '../models/album.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { statisticsTemplate } from '../../shared/templates/statistics.template';
+import {
+  convertFormat,
+  convertProgress,
+} from '../../shared/converters/attribute.converter';
 
 @Injectable({
   providedIn: 'root',
@@ -65,46 +70,92 @@ export class UsersService {
       albums: [],
     };
 
-    for (const game of userData.document.collection.games) {
-      const gameData = await game.ref.get();
-      if (game.in_collection) {
-        collection.games.push({
-          general: {
-            ...gameData.data(),
-            id: game.ref.id,
-          } as GameWithId,
-          user: game,
-        });
-      }
-    }
+    await Promise.all(
+      userData.document.collection.games.map(async (game) => {
+        const gameRef = await game.ref.get();
+        const gameData = gameRef.data();
+        if (gameData && game.in_collection) {
+          collection.games.push({
+            id: gameRef.id,
+            title: gameData.title,
+            platform: gameData.platform ?? '',
+            format: convertFormat(game.format),
+            progress: convertProgress(game.progress),
+            added_on: game.added_on,
+          });
+        }
+      }),
+    );
 
-    for (const movie of userData.document.collection.movies) {
-      const movieData = await movie.ref.get();
-      if (movie.in_collection) {
-        collection.movies.push({
-          general: {
-            ...movieData.data(),
-            id: movie.ref.id,
-          } as MovieWithId,
-          user: movie,
-        });
-      }
-    }
+    await Promise.all(
+      userData.document.collection.movies.map(async (movie) => {
+        const movieRef = await movie.ref.get();
+        const movieData = movieRef.data();
+        if (movieData && movie.in_collection) {
+          collection.movies.push({
+            id: movieRef.id,
+            title: movieData.title,
+            director: movieData.director ?? '',
+            format: convertFormat(movie.format),
+            progress: convertProgress(movie.progress),
+            added_on: movie.added_on,
+          });
+        }
+      }),
+    );
 
-    for (const album of userData.document.collection.albums) {
-      const albumData = await album.ref.get();
-      if (album.in_collection) {
-        collection.albums.push({
-          general: {
-            ...albumData.data(),
-            id: album.ref.id,
-          } as AlbumWithId,
-          user: album,
-        });
-      }
-    }
+    await Promise.all(
+      userData.document.collection.albums.map(async (album) => {
+        const albumRef = await album.ref.get();
+        const albumData = albumRef.data();
+        if (albumData && album.in_collection) {
+          collection.albums.push({
+            id: albumRef.id,
+            title: albumData.title,
+            artist: albumData.artist ?? '',
+            format: convertFormat(album.format),
+            progress: convertProgress(album.progress),
+            added_on: album.added_on,
+          });
+        }
+      }),
+    );
 
     return collection;
+  }
+
+  getCollectionStatistics(collection: UserCollection) {
+    return {
+      games: this.getStatistics(collection.games),
+      movies: this.getStatistics(collection.movies),
+      albums: this.getStatistics(collection.albums),
+    };
+  }
+
+  getStatistics(collection: GameRow[] | MovieRow[] | AlbumRow[]) {
+    const statistics = statisticsTemplate();
+    collection.forEach((item) => {
+      statistics.amountInCollection++;
+      switch (item.format) {
+        case 'Physical':
+          statistics.formatDistribution.physical++;
+          break;
+        case 'Digital':
+          statistics.formatDistribution.digital++;
+          break;
+      }
+      switch (item.progress) {
+        case 'Not Started':
+          statistics.progressDistribution.notStarted++;
+          break;
+        case 'In Progress':
+          statistics.progressDistribution.inProgress++;
+          break;
+        case 'Completed':
+          statistics.progressDistribution.completed++;
+      }
+    });
+    return statistics;
   }
 
   // Games Collection methods
@@ -134,6 +185,7 @@ export class UsersService {
     for (let i = 0; i < gamesCollection.length; i++) {
       if (gameData.ref.id == gamesCollection[i].ref.id) {
         gamesCollection[i].in_collection = true;
+        gamesCollection[i].added_on = new Date().getTime();
         isInArray = true;
         break;
       }
@@ -207,6 +259,7 @@ export class UsersService {
     for (let i = 0; i < moviesCollection.length; i++) {
       if (movieData.ref.id == moviesCollection[i].ref.id) {
         moviesCollection[i].in_collection = true;
+        moviesCollection[i].added_on = new Date().getTime();
         isInArray = true;
         break;
       }
@@ -280,6 +333,7 @@ export class UsersService {
     for (let i = 0; i < albumsCollection.length; i++) {
       if (albumData.ref.id == albumsCollection[i].ref.id) {
         albumsCollection[i].in_collection = true;
+        albumsCollection[i].added_on = new Date().getTime();
         isInArray = true;
         break;
       }

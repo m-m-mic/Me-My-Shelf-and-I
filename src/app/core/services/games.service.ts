@@ -74,6 +74,7 @@ export class GamesService {
       format: 'physical',
       progress: 'not-started',
       notes: '',
+      added_on: new Date().getTime(),
     };
     this.addUser(gameId);
     this.usersService.addGameToCollection(game);

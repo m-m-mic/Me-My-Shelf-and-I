@@ -1,4 +1,4 @@
-export const gameItems = {
+export const userItemsTemplate = {
   format: [
     {
       label: 'Physical',
@@ -8,7 +8,7 @@ export const gameItems = {
   ],
   progress: [
     {
-      label: 'Not started',
+      label: 'Not Started',
       value: 'not-started',
       icon: 'pi pi-times',
     },

@@ -1,6 +1,6 @@
-import { CombinedGame, UserGame } from './game.interface';
-import { CombinedMovie, UserMovie } from './movie.interface';
-import { CombinedAlbum, UserAlbum } from './album.interface';
+import { GameRow, UserGame } from './game.interface';
+import { MovieRow, UserMovie } from './movie.interface';
+import { AlbumRow, UserAlbum } from './album.interface';
 
 export interface User {
   collection: DatabaseUserCollection;
@@ -13,7 +13,7 @@ interface DatabaseUserCollection {
 }
 
 export interface UserCollection {
-  games: CombinedGame[];
-  movies: CombinedMovie[];
-  albums: CombinedAlbum[];
+  games: GameRow[];
+  movies: MovieRow[];
+  albums: AlbumRow[];
 }
