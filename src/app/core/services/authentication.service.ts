@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { catchError, from, map, Observable, take, tap, throwError } from 'rxjs';
+import { catchError, from, Observable, take, throwError } from 'rxjs';
 import firebase from 'firebase/compat';
 import FirebaseError = firebase.FirebaseError;
 import { Store } from '@ngrx/store';
@@ -61,6 +61,13 @@ export class AuthenticationService {
     this.auth.authState.pipe(take(1)).subscribe((user) => {
       if (user) user.updateProfile({ displayName: name });
     });
+  }
+
+  async validatePassword(password: string) {
+    const user = await this.auth.currentUser;
+    if (!user?.email) {
+      throw new Error('Could not find user');
+    }
   }
 
   convertSignUpError(error: FirebaseError): string {
