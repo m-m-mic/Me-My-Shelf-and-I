@@ -3,24 +3,17 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { PaginatorModule } from 'primeng/paginator';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  ValidationErrors,
-  ValidatorFn,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { SignUpStoreFacade } from './sign-up.store-facade';
 import { signUpForm } from './sign-up.form';
-import { matchPasswords } from './sign-up.validators';
+import { matchPasswords } from '../../shared/validators/match-password.validator';
 
 @Component({
   standalone: true,
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss', '../../shared/styles/form.scss'],
+  styleUrls: ['./sign-up.component.scss'],
   imports: [
     ButtonModule,
     InputTextModule,
