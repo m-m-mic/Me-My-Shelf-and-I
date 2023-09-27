@@ -1,6 +1,45 @@
 <h1>Settings</h1>
+<div class="email" *ngIf="email">{{ email }}</div>
+<p-divider />
 <div class="headline-button">
   <h2>Display Name</h2>
+  <div class="options-headline">
+    <p-button
+      *ngIf="displayNameFormControl.disabled; else displayNameEnabled"
+      label="Change"
+      styleClass="p-button-text p-button-sm"
+      icon="pi pi-pencil"
+      (click)="toggleDisplayNameDisabled()" />
+    <ng-template #displayNameEnabled>
+      <div class="enabled-options">
+        <p-button
+          label="Discard"
+          styleClass="p-button-text p-button-sm"
+          icon="pi pi-times"
+          (click)="toggleDisplayNameDisabled()" />
+        <p-button
+          label="Update"
+          styleClass="p-button-sm"
+          [disabled]="!displayNameFormControl.valid"
+          icon="pi pi-check"
+          (click)="updateDisplayName()" />
+      </div>
+    </ng-template>
+  </div>
+</div>
+<div class="input-wrapper">
+  <input
+    pInputText
+    type="text"
+    id="displayName"
+    [formControl]="displayNameFormControl" />
+  <small
+    class="validator-error"
+    *ngIf="displayNameFormControl.errors?.['maxlength']">
+    Can't be longer than 12 characters
+  </small>
+</div>
+<div class="options-below">
   <p-button
     *ngIf="displayNameFormControl.disabled; else displayNameEnabled"
     label="Change"
@@ -23,40 +62,32 @@
     </div>
   </ng-template>
 </div>
-<div class="input-wrapper">
-  <input
-    pInputText
-    type="text"
-    id="displayName"
-    [formControl]="displayNameFormControl" />
-  <small
-    class="validator-error"
-    *ngIf="displayNameFormControl.errors?.['maxlength']">
-    Can't be longer than 12 characters
-  </small>
-</div>
+<p-divider />
 <div class="headline-button">
   <h2>Password</h2>
-  <p-button
-    *ngIf="passwordFormControl.disabled; else passwordEnabled"
-    label="Change"
-    styleClass="p-button-text p-button-sm"
-    icon="pi pi-pencil"
-    (click)="togglePasswordDisabled()" />
-  <ng-template #passwordEnabled>
-    <div class="enabled-options">
-      <p-button
-        label="Discard"
-        styleClass="p-button-text p-button-sm"
-        icon="pi pi-times"
-        (click)="togglePasswordDisabled()" />
-      <p-button
-        label="Update"
-        styleClass="p-button-sm"
-        [disabled]="!passwordFormControl.valid"
-        icon="pi pi-check" />
-    </div>
-  </ng-template>
+  <div class="options-headline">
+    <p-button
+      *ngIf="passwordFormControl.disabled; else passwordEnabled"
+      label="Change"
+      styleClass="p-button-text p-button-sm"
+      icon="pi pi-pencil"
+      (click)="togglePasswordDisabled()" />
+    <ng-template #passwordEnabled>
+      <div class="enabled-options">
+        <p-button
+          label="Discard"
+          styleClass="p-button-text p-button-sm"
+          icon="pi pi-times"
+          (click)="togglePasswordDisabled()" />
+        <p-button
+          label="Update"
+          styleClass="p-button-sm"
+          [disabled]="!passwordFormControl.valid"
+          icon="pi pi-check"
+          (click)="updatePassword()" />
+      </div>
+    </ng-template>
+  </div>
 </div>
 <form [formGroup]="passwordFormControl" class="input-group">
   <div class="input-wrapper">
@@ -68,8 +99,12 @@
       formControlName="originalPassword" />
     <small
       class="validator-error"
-      *ngIf="displayNameFormControl.errors?.['maxlength']">
-      Can't be longer than 12 characters
+      *ngIf="
+        passwordFormControl.controls['originalPassword'].errors?.[
+          'wrongPassword'
+        ]
+      ">
+      Incorrect Password
     </small>
   </div>
   <div class="input-wrapper">
@@ -99,3 +134,26 @@
     </small>
   </div>
 </form>
+<div class="options-below">
+  <p-button
+    *ngIf="passwordFormControl.disabled; else passwordEnabled"
+    label="Change"
+    styleClass="p-button-text p-button-sm"
+    icon="pi pi-pencil"
+    (click)="togglePasswordDisabled()" />
+  <ng-template #passwordEnabled>
+    <div class="enabled-options">
+      <p-button
+        label="Discard"
+        styleClass="p-button-text p-button-sm"
+        icon="pi pi-times"
+        (click)="togglePasswordDisabled()" />
+      <p-button
+        label="Update"
+        styleClass="p-button-sm"
+        [disabled]="!passwordFormControl.valid"
+        icon="pi pi-check"
+        (click)="updatePassword()" />
+    </div>
+  </ng-template>
+</div>

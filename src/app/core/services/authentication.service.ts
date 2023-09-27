@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 import { resolveError, setErrorMessage } from '../states/error/error.actions';
 import { AuthCredentials } from '../models/authCredentials.interface';
 import UserCredential = firebase.auth.UserCredential;
+import { EmailAuthProvider } from 'firebase/auth';
 
 @Injectable({
   providedIn: 'root',
@@ -63,10 +64,25 @@ export class AuthenticationService {
     });
   }
 
+  updatePassword(password: string) {
+    this.auth.authState.pipe(take(1)).subscribe((user) => {
+      if (user) user.updatePassword(password);
+    });
+  }
+
   async validatePassword(password: string) {
     const user = await this.auth.currentUser;
     if (!user?.email) {
       throw new Error('Could not find user');
+    }
+
+    const credential = EmailAuthProvider.credential(user.email, password);
+
+    try {
+      const reauth = await user.reauthenticateWithCredential(credential);
+      return !!reauth;
+    } catch {
+      return false;
     }
   }
 

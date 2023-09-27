@@ -6,6 +6,24 @@
   @include flexContent;
 }
 
+.email {
+  color: #958ba8;
+}
+
+.options-headline {
+  @include breakpoint-max(440px) {
+    display: none;
+  }
+}
+
+.options-below {
+  display: none;
+  justify-content: center;
+  @include breakpoint-max(440px) {
+    display: flex;
+  }
+}
+
 .headline-button {
   display: flex;
   justify-content: space-between;

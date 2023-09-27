@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { SignUpStoreFacade } from './sign-up.store-facade';
 import { signUpForm } from './sign-up.form';
-import { matchPasswords } from '../../shared/validators/match-password.validator';
+import { AuthValidator } from '../../shared/validators/auth.validator';
 
 @Component({
   standalone: true,
@@ -33,7 +33,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.registrationForm = this.formBuilder.group(signUpForm, {
-      validators: matchPasswords,
+      validators: AuthValidator.matchPassword(),
     });
   }
 

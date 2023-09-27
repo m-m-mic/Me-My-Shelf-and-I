@@ -9,10 +9,12 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { tap } from 'rxjs';
+import { map, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { matchPasswords } from '../../shared/validators/match-password.validator';
 import { PasswordModule } from 'primeng/password';
+import { AuthValidator } from '../../shared/validators/auth.validator';
+import { passwordForm } from './settings.form';
+import { DividerModule } from 'primeng/divider';
 
 @Component({
   selector: 'app-settings',
@@ -23,6 +25,7 @@ import { PasswordModule } from 'primeng/password';
     InputTextModule,
     ReactiveFormsModule,
     PasswordModule,
+    DividerModule,
   ],
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss'],
@@ -32,7 +35,9 @@ export class SettingsComponent {
   destroyRef = inject(DestroyRef);
   formBuilder = inject(FormBuilder);
 
-  currentDisplayName?: string | undefined;
+  email?: string | undefined;
+  displayName?: string | undefined;
+
   displayNameFormControl = new FormControl(
     { value: '', disabled: true },
     {
@@ -40,21 +45,10 @@ export class SettingsComponent {
     },
   );
   passwordFormControl = this.formBuilder.group(
+    passwordForm(this.authenticationService),
     {
-      originalPassword: [
-        '',
-        { validators: [Validators.required], updateOn: 'blur' },
-      ],
-      password: [
-        '',
-        {
-          validators: [Validators.required, Validators.minLength(8)],
-          updateOn: 'blur',
-        },
-      ],
-      confirmPassword: ['', [Validators.required]],
+      validators: AuthValidator.matchPassword(),
     },
-    { validators: matchPasswords },
   );
 
   constructor() {
@@ -68,7 +62,8 @@ export class SettingsComponent {
         }),
       )
       .subscribe((user) => {
-        this.currentDisplayName = user?.displayName ?? undefined;
+        this.displayName = user?.displayName ?? undefined;
+        this.email = user?.email ?? undefined;
       });
   }
 
@@ -76,7 +71,7 @@ export class SettingsComponent {
     if (this.displayNameFormControl.disabled) {
       this.displayNameFormControl.enable();
     } else {
-      this.displayNameFormControl.setValue(this.currentDisplayName ?? '');
+      this.displayNameFormControl.setValue(this.displayName ?? '');
       this.displayNameFormControl.disable();
     }
   }
@@ -96,6 +91,14 @@ export class SettingsComponent {
     } else {
       this.passwordFormControl.reset();
       this.passwordFormControl.disable();
+    }
+  }
+
+  updatePassword() {
+    const password = this.passwordFormControl.controls['password'].value;
+    if (password) {
+      this.authenticationService.updatePassword(password);
+      this.togglePasswordDisabled();
     }
   }
 }
