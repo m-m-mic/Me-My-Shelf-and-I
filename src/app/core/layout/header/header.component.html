@@ -2,4 +2,4 @@
 <app-header-button
   [isLoggedIn]="isLoggedIn"
   [menuItems]="menuItems"
-  [displayName]="displayName" />
+  [displayName]="(displayName$ | async) ?? 'Account'" />

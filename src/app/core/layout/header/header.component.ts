@@ -1,4 +1,4 @@
-import { Component, DestroyRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { signOut } from '../../states/auth/auth.actions';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MainNavigationComponent } from '../../components/main-navigation/main-navigation.component';
+import { map, Observable, tap } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -23,24 +24,17 @@ import { MainNavigationComponent } from '../../components/main-navigation/main-n
 })
 export class HeaderComponent {
   isLoggedIn = false;
-  displayName = 'Account';
+  displayName$?: Observable<string | undefined>;
   menuItems!: MenuItem[];
 
   constructor(
     private authenticationService: AuthenticationService,
     private store: Store,
   ) {
-    this.authenticationService
-      .getUser()
-      .pipe(takeUntilDestroyed())
-      .subscribe((user) => {
-        if (user) {
-          this.isLoggedIn = true;
-          this.displayName = user.displayName ?? (user.email as string);
-        } else {
-          this.isLoggedIn = false;
-          this.displayName = 'Account';
-        }
+    this.displayName$ = this.authenticationService.getUser().pipe(
+      takeUntilDestroyed(),
+      tap((user) => {
+        this.isLoggedIn = !!user;
         this.menuItems = [
           {
             label: 'Sign In',
@@ -53,6 +47,11 @@ export class HeaderComponent {
             visible: !this.isLoggedIn,
           },
           {
+            label: 'Settings',
+            routerLink: '/settings',
+            visible: this.isLoggedIn,
+          },
+          {
             label: 'Sign Out',
             command: () => {
               this.store.dispatch(signOut());
@@ -60,6 +59,8 @@ export class HeaderComponent {
             visible: this.isLoggedIn,
           },
         ];
-      });
+      }),
+      map((user) => user?.displayName ?? undefined),
+    );
   }
 }

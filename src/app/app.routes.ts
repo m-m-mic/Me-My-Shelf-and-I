@@ -11,6 +11,7 @@ import { AlbumContainerComponent } from './features/album/album.container';
 import { GamesContainerComponent } from './features/games/games.container';
 import { MoviesContainerComponent } from './features/movies/movies.container';
 import { AlbumsContainerComponent } from './features/albums/albums.container';
+import { SettingsComponent } from './features/settings/settings.component';
 
 export const ROUTES: Routes = [
   {
@@ -52,6 +53,12 @@ export const ROUTES: Routes = [
   {
     path: 'albums/:albumId',
     component: AlbumContainerComponent,
+    canActivate: [AuthenticationGuard],
+    data: { blockAuthenticated: false, redirectToSignIn: true },
+  },
+  {
+    path: 'settings',
+    component: SettingsComponent,
     canActivate: [AuthenticationGuard],
     data: { blockAuthenticated: false, redirectToSignIn: true },
   },

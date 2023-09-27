@@ -49,6 +49,14 @@
         Albums
       </a>
       <p-divider></p-divider>
+      <a
+        class="sidebar-button"
+        [routerLink]="['/settings']"
+        [routerLinkActive]="['active']"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="sidebarVisible = false">
+        Settings
+      </a>
       <button class="sidebar-button" (click)="signOut()">Sign Out</button>
     </ng-template>
     <ng-template [ngIf]="!isLoggedIn">

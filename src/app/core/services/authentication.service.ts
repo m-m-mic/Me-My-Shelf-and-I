@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { catchError, from, Observable, throwError } from 'rxjs';
+import { catchError, from, map, Observable, take, tap, throwError } from 'rxjs';
 import firebase from 'firebase/compat';
 import FirebaseError = firebase.FirebaseError;
 import { Store } from '@ngrx/store';
@@ -55,6 +55,12 @@ export class AuthenticationService {
 
   getUser() {
     return from(this.auth.authState);
+  }
+
+  updateDisplayName(name: string) {
+    this.auth.authState.pipe(take(1)).subscribe((user) => {
+      if (user) user.updateProfile({ displayName: name });
+    });
   }
 
   convertSignUpError(error: FirebaseError): string {

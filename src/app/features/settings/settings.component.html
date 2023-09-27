@@ -1,0 +1,42 @@
+<h1>Settings</h1>
+<div class="headline-button">
+  <h2>Display Name</h2>
+  <p-button
+    *ngIf="displayNameFormControl.disabled; else displayNameEnabled"
+    label="Change"
+    styleClass="p-button-text p-button-sm"
+    icon="pi pi-pencil"
+    (click)="toggleDisplayNameDisabled()" />
+  <ng-template #displayNameEnabled>
+    <div class="enabled-options">
+      <p-button
+        label="Discard"
+        styleClass="p-button-text p-button-sm"
+        icon="pi pi-times"
+        (click)="toggleDisplayNameDisabled()" />
+      <p-button
+        label="Update"
+        styleClass="p-button-sm"
+        [disabled]="!displayNameFormControl.valid"
+        icon="pi pi-check"
+        (click)="updateDisplayName()" />
+    </div>
+  </ng-template>
+</div>
+<div class="input-wrapper">
+  <input
+    pInputText
+    type="text"
+    id="displayName"
+    [formControl]="displayNameFormControl" />
+  <small
+    class="validator-error"
+    *ngIf="displayNameFormControl.errors?.['maxlength']">
+    Can't be longer than 12 characters
+  </small>
+</div>
+<div class="headline-button">
+  <h2>Password</h2>
+  <p-button label="Change" styleClass="p-button-text p-button-sm" />
+</div>
+<div></div>
