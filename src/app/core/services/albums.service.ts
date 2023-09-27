@@ -74,7 +74,9 @@ export class AlbumsService {
       ref: this.albumsRef.doc(albumId).ref,
       in_collection: true,
       format: 'physical',
+      progress: 'not-started',
       notes: '',
+      added_on: new Date().getTime(),
     };
     this.addUser(albumId);
     this.usersService.addAlbumToCollection(album);

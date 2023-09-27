@@ -75,6 +75,7 @@ export class MoviesService {
       format: 'physical',
       progress: 'not-started',
       notes: '',
+      added_on: new Date().getTime(),
     };
     this.addUser(movieId);
     this.usersService.addMovieToCollection(movie);

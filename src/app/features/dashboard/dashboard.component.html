@@ -1,54 +1,40 @@
 <h1>Dashboard</h1>
-<h2>Games</h2>
-<app-loading [height]="120" *ngIf="loading; else gamesCollection" />
-<ng-template #gamesCollection>
-  <div
-    *ngIf="collection.games.length > 0; else noGames"
-    class="media-selection">
-    <ng-template ngFor let-game [ngForOf]="collection.games">
-      <app-game-card [data]="game.general" [uid]="uid" />
-    </ng-template>
-  </div>
-  <ng-template #noGames>
-    <div class="no-content-disclaimer">
-      <span>You haven't added any games to your collection.</span>
-      <a routerLink="/games">Browse for games here!</a>
-    </div>
-  </ng-template>
+<div class="media-tab-menu">
+  <p-tabMenu
+    [model]="tabItems"
+    [activeItem]="activeTab"
+    (activeItemChange)="changeActiveItem($event)" />
+</div>
+
+<ng-template [ngIf]="activeTab.label === 'Games'">
+  <app-game-statistics [statistics]="statistics?.games" />
+  <ag-grid-angular
+    *ngIf="collection && collection.games.length > 0"
+    class="ag-theme-alpine-dark media-grid"
+    [gridOptions]="gridOptions"
+    [getRowId]="getRowId"
+    [rowData]="collection.games"
+    [columnDefs]="gameColumns" />
 </ng-template>
 
-<h2>Movies</h2>
-<app-loading [height]="120" *ngIf="loading; else moviesCollection" />
-<ng-template #moviesCollection>
-  <div
-    *ngIf="collection.movies.length > 0; else noMovies"
-    class="media-selection">
-    <ng-template ngFor let-movie [ngForOf]="collection.movies">
-      <app-movie-card [data]="movie.general" [uid]="uid" />
-    </ng-template>
-  </div>
-  <ng-template #noMovies>
-    <div class="no-content-disclaimer">
-      <span>You haven't added any movies to your collection.</span>
-      <a routerLink="/movies">Browse for movies here!</a>
-    </div>
-  </ng-template>
+<ng-template [ngIf]="activeTab.label === 'Movies'">
+  <app-movie-statistics [statistics]="statistics?.movies" />
+  <ag-grid-angular
+    *ngIf="collection && collection.movies.length > 0"
+    class="ag-theme-alpine-dark media-grid"
+    [gridOptions]="gridOptions"
+    [getRowId]="getRowId"
+    [rowData]="collection.movies"
+    [columnDefs]="movieColumns" />
 </ng-template>
 
-<h2>Albums</h2>
-<app-loading [height]="120" *ngIf="loading; else albumsCollection" />
-<ng-template #albumsCollection>
-  <div
-    *ngIf="collection.albums.length > 0; else noAlbums"
-    class="media-selection">
-    <ng-template ngFor let-album [ngForOf]="collection.albums">
-      <app-album-card [data]="album.general" [uid]="uid" />
-    </ng-template>
-  </div>
-  <ng-template #noAlbums>
-    <div class="no-content-disclaimer">
-      <span>You haven't added any albums to your collection.</span>
-      <a routerLink="/albums">Browse for albums here!</a>
-    </div>
-  </ng-template>
+<ng-template [ngIf]="activeTab.label === 'Albums'">
+  <app-album-statistics [statistics]="statistics?.albums" />
+  <ag-grid-angular
+    *ngIf="collection && collection.albums.length > 0"
+    class="ag-theme-alpine-dark media-grid"
+    [gridOptions]="gridOptions"
+    [getRowId]="getRowId"
+    [rowData]="collection.albums"
+    [columnDefs]="albumColumns" />
 </ng-template>

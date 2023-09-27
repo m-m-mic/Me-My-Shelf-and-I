@@ -1,0 +1,66 @@
+<ng-template [ngIf]="statistics" [ngIfElse]="loading">
+  <div class="no-stats-disclaimer" *ngIf="!statistics.amountInCollection">
+    <span>You haven't added any movies to your collection.</span>
+    <a routerLink="/movies">Browse for movies here!</a>
+  </div>
+  <span class="stat-container main">
+    <span class="total-amount">
+      {{ statistics.amountInCollection }}
+      {{ statistics.amountInCollection === 1 ? 'Movie' : 'Movies' }}
+    </span>
+  </span>
+  <span class="stat-container">
+    <span class="stat-title">Format</span>
+    <span class="graph-bar" *ngIf="statistics.amountInCollection">
+      <span
+        *ngIf="statistics.formatDistribution.physical"
+        class="graph-data-1"
+        [ngStyle]="{ flex: statistics.formatDistribution.physical }"></span>
+      <span
+        *ngIf="statistics.formatDistribution.digital"
+        class="graph-data-2"
+        [ngStyle]="{ flex: statistics.formatDistribution.digital }"></span>
+    </span>
+    <span class="graph-legend">
+      <span class="legend-data-1">
+        {{ statistics.formatDistribution.physical }} physical
+      </span>
+      <span class="legend-data-2">
+        {{ statistics.formatDistribution.digital }} digital
+      </span>
+    </span>
+  </span>
+  <span class="stat-container">
+    <span class="stat-title">Progress</span>
+    <span class="graph-bar" *ngIf="statistics.amountInCollection">
+      <span
+        *ngIf="statistics.progressDistribution.completed"
+        class="graph-data-1"
+        [ngStyle]="{ flex: statistics.progressDistribution.completed }"></span>
+      <span
+        *ngIf="statistics.progressDistribution.inProgress"
+        class="graph-data-2"
+        [ngStyle]="{ flex: statistics.progressDistribution.inProgress }"></span>
+      <span
+        *ngIf="statistics.progressDistribution.notStarted"
+        class="graph-data-3"
+        [ngStyle]="{ flex: statistics.progressDistribution.notStarted }"></span>
+    </span>
+    <span class="graph-legend">
+      <span class="legend-data-1">
+        {{ statistics.progressDistribution.completed }} completed
+      </span>
+      <span class="legend-data-2">
+        {{ statistics.progressDistribution.inProgress }} in progress
+      </span>
+      <span class="legend-data-3">
+        {{ statistics.progressDistribution.notStarted }} not started
+      </span>
+    </span>
+  </span>
+</ng-template>
+<ng-template #loading>
+  <div class="stat-loading">
+    <app-loading [height]="160" />
+  </div>
+</ng-template>

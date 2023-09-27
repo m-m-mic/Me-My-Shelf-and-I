@@ -16,12 +16,17 @@ export interface GameWithId extends Game {
 export interface UserGame {
   ref: DocumentReference<Game>;
   in_collection: boolean;
-  progress?: ProgressType;
-  format?: FormatType;
-  notes?: string;
+  progress: ProgressType;
+  format: FormatType;
+  notes: string;
+  added_on: number;
 }
 
-export interface CombinedGame {
-  general: GameWithId;
-  user: UserGame;
+export interface GameRow {
+  id: string;
+  title: string;
+  platform: string;
+  progress: string;
+  format: string;
+  added_on: number;
 }

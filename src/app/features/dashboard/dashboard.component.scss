@@ -5,20 +5,10 @@
   @include flexContent;
 }
 
-.media-selection {
-  display: flex;
-  overflow-x: scroll;
-  gap: 20px;
+.media-tab-menu {
   margin: 0 -12px;
-  padding: 0 12px;
 }
 
-.no-content-disclaimer {
-  height: 120px;
-  display: flex;
-  flex-flow: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  gap: 4px;
+.media-grid {
+  width: 100%;
 }
