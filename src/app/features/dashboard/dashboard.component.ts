@@ -64,7 +64,7 @@ export class DashboardComponent {
     usersService.getCollection().then((collection) => {
       if (collection) {
         this.collection = collection;
-        this.statistics = usersService.getStatistics(collection);
+        this.statistics = usersService.getCollectionStatistics(collection);
       }
     });
   }

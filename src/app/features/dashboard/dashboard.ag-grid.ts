@@ -1,15 +1,20 @@
 import { ColDef, GridOptions } from 'ag-grid-community';
 
-export const gridOptions: GridOptions = { domLayout: 'autoHeight' };
+export const gridOptions: GridOptions = {
+  domLayout: 'autoHeight',
+  defaultColDef: {
+    sortable: true,
+    filter: 'agTextColumnFilter',
+    floatingFilter: true,
+    width: 180,
+  },
+};
 
 export const gameColumns: ColDef[] = [
   {
     field: 'title',
-    sortable: true,
     initialSort: 'asc',
-    filter: 'agTextColumnFilter',
-    floatingFilter: true,
-    width: 504,
+    width: 524,
     cellRenderer: (params: { data: { id: string }; value: string }) => {
       return (
         '<a class="ag-link" href="/games/' +
@@ -22,30 +27,19 @@ export const gameColumns: ColDef[] = [
   },
   {
     field: 'platform',
-    sortable: true,
-    filter: 'agTextColumnFilter',
-    floatingFilter: true,
-    width: 180,
   },
   {
     field: 'format',
-    sortable: true,
-    filter: 'agTextColumnFilter',
-    floatingFilter: true,
-    width: 180,
   },
   {
     field: 'progress',
-    sortable: true,
-    filter: 'agTextColumnFilter',
-    floatingFilter: true,
-    width: 180,
   },
   {
     field: 'added_on',
     headerName: 'Added on',
-    sortable: true,
-    cellRenderer: (params: { value: number }) => {
+    filter: null,
+    floatingFilter: false,
+    valueFormatter: (params) => {
       return new Date(params.value).toLocaleString('en-US', {
         year: 'numeric',
         month: 'long',
@@ -58,11 +52,8 @@ export const gameColumns: ColDef[] = [
 export const movieColumns: ColDef[] = [
   {
     field: 'title',
-    sortable: true,
     initialSort: 'asc',
-    filter: 'agTextColumnFilter',
-    floatingFilter: true,
-    width: 504,
+    width: 524,
     cellRenderer: (params: { data: { id: string }; value: string }) => {
       return (
         '<a class="ag-link" href="/movies/' +
@@ -75,30 +66,19 @@ export const movieColumns: ColDef[] = [
   },
   {
     field: 'director',
-    sortable: true,
-    filter: 'agTextColumnFilter',
-    floatingFilter: true,
-    width: 180,
   },
   {
     field: 'format',
-    sortable: true,
-    filter: 'agTextColumnFilter',
-    floatingFilter: true,
-    width: 180,
   },
   {
     field: 'progress',
-    sortable: true,
-    filter: 'agTextColumnFilter',
-    floatingFilter: true,
-    width: 180,
   },
   {
     field: 'added_on',
     headerName: 'Added on',
-    sortable: true,
-    cellRenderer: (params: { value: number }) => {
+    filter: null,
+    floatingFilter: false,
+    valueFormatter: (params) => {
       return new Date(params.value).toLocaleString('en-US', {
         year: 'numeric',
         month: 'long',
@@ -111,11 +91,8 @@ export const movieColumns: ColDef[] = [
 export const albumColumns: ColDef[] = [
   {
     field: 'title',
-    sortable: true,
     initialSort: 'asc',
-    filter: 'agTextColumnFilter',
-    floatingFilter: true,
-    width: 504,
+    width: 524,
     cellRenderer: (params: { data: { id: string }; value: string }) => {
       return (
         '<a class="ag-link" href="/albums/' +
@@ -128,30 +105,19 @@ export const albumColumns: ColDef[] = [
   },
   {
     field: 'artist',
-    sortable: true,
-    filter: 'agTextColumnFilter',
-    floatingFilter: true,
-    width: 180,
   },
   {
     field: 'format',
-    sortable: true,
-    filter: 'agTextColumnFilter',
-    floatingFilter: true,
-    width: 180,
   },
   {
     field: 'progress',
-    sortable: true,
-    filter: 'agTextColumnFilter',
-    floatingFilter: true,
-    width: 180,
   },
   {
     field: 'added_on',
     headerName: 'Added on',
-    sortable: true,
-    cellRenderer: (params: { value: number }) => {
+    filter: null,
+    floatingFilter: false,
+    valueFormatter: (params) => {
       return new Date(params.value).toLocaleString('en-US', {
         year: 'numeric',
         month: 'long',

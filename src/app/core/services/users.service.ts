@@ -5,10 +5,10 @@ import {
 } from '@angular/fire/compat/firestore';
 import { User, UserCollection } from '../models/user.interface';
 import { firstValueFrom, map, of, switchMap, take } from 'rxjs';
-import { UserGame } from '../models/game.interface';
+import { GameRow, UserGame } from '../models/game.interface';
 import { AuthenticationService } from './authentication.service';
-import { UserMovie } from '../models/movie.interface';
-import { UserAlbum } from '../models/album.interface';
+import { MovieRow, UserMovie } from '../models/movie.interface';
+import { AlbumRow, UserAlbum } from '../models/album.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { statisticsTemplate } from '../../shared/templates/statistics.template';
 import {
@@ -124,80 +124,38 @@ export class UsersService {
     return collection;
   }
 
-  getStatistics(collection: UserCollection) {
-    const userStatistics = {
-      games: statisticsTemplate(),
-      movies: statisticsTemplate(),
-      albums: statisticsTemplate(),
+  getCollectionStatistics(collection: UserCollection) {
+    return {
+      games: this.getStatistics(collection.games),
+      movies: this.getStatistics(collection.movies),
+      albums: this.getStatistics(collection.albums),
     };
+  }
 
-    collection.games.map((game) => {
-      userStatistics.games.amountInCollection++;
-      switch (game.format) {
+  getStatistics(collection: GameRow[] | MovieRow[] | AlbumRow[]) {
+    const statistics = statisticsTemplate();
+    collection.forEach((item) => {
+      statistics.amountInCollection++;
+      switch (item.format) {
         case 'Physical':
-          userStatistics.games.formatDistribution.physical++;
+          statistics.formatDistribution.physical++;
           break;
         case 'Digital':
-          userStatistics.games.formatDistribution.digital++;
+          statistics.formatDistribution.digital++;
           break;
       }
-      switch (game.progress) {
+      switch (item.progress) {
         case 'Not Started':
-          userStatistics.games.progressDistribution.notStarted++;
+          statistics.progressDistribution.notStarted++;
           break;
         case 'In Progress':
-          userStatistics.games.progressDistribution.inProgress++;
+          statistics.progressDistribution.inProgress++;
           break;
         case 'Completed':
-          userStatistics.games.progressDistribution.completed++;
+          statistics.progressDistribution.completed++;
       }
     });
-
-    collection.movies.map((movie) => {
-      userStatistics.movies.amountInCollection++;
-      switch (movie.format) {
-        case 'Physical':
-          userStatistics.movies.formatDistribution.physical++;
-          break;
-        case 'Digital':
-          userStatistics.movies.formatDistribution.digital++;
-          break;
-      }
-      switch (movie.progress) {
-        case 'Not Started':
-          userStatistics.movies.progressDistribution.notStarted++;
-          break;
-        case 'In Progress':
-          userStatistics.movies.progressDistribution.inProgress++;
-          break;
-        case 'Completed':
-          userStatistics.movies.progressDistribution.completed++;
-      }
-    });
-
-    collection.albums.map((album) => {
-      userStatistics.albums.amountInCollection++;
-      switch (album.format) {
-        case 'Physical':
-          userStatistics.albums.formatDistribution.physical++;
-          break;
-        case 'Digital':
-          userStatistics.albums.formatDistribution.digital++;
-          break;
-      }
-      switch (album.progress) {
-        case 'Not Started':
-          userStatistics.albums.progressDistribution.notStarted++;
-          break;
-        case 'In Progress':
-          userStatistics.albums.progressDistribution.inProgress++;
-          break;
-        case 'Completed':
-          userStatistics.albums.progressDistribution.completed++;
-      }
-    });
-
-    return userStatistics;
+    return statistics;
   }
 
   // Games Collection methods
