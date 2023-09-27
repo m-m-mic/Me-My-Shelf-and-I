@@ -48,4 +48,15 @@ export class SignInComponent implements OnInit, OnDestroy {
       password: this.loginForm.value.password,
     });
   }
+
+  get passwordResetURL() {
+    if (this.loginForm.controls['email'].value.trim() !== '') {
+      return {
+        mode: 'initResetPassword',
+        email: this.loginForm.controls['email'].value,
+      };
+    } else {
+      return { mode: 'initResetPassword' };
+    }
+  }
 }
