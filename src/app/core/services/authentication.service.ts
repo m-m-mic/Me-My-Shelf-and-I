@@ -54,7 +54,20 @@ export class AuthenticationService {
   }
 
   getUser() {
-    return from(this.auth.authState);
+    return this.auth.authState;
+  }
+
+  initializeResetPassword(email: string) {
+    console.log(email);
+    return this.auth.sendPasswordResetEmail(email);
+  }
+
+  verifyResetPasswordCode(code: string) {
+    return this.auth.verifyPasswordResetCode(code);
+  }
+
+  resetPassword(code: string, password: string) {
+    return this.auth.confirmPasswordReset(code, password);
   }
 
   convertSignUpError(error: FirebaseError): string {

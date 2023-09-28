@@ -1,5 +1,9 @@
 <div class="content-wrapper">
-  <app-init-recover-password
+  <app-init-reset-password
     *ngIf="mode === 'initResetPassword'"
     [email]="email" />
+  <app-reset-password
+    *ngIf="mode === 'resetPassword'"
+    [email]="email"
+    [oobCode]="oobCode" />
 </div>
