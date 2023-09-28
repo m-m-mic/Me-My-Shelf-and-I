@@ -1,7 +1,7 @@
 import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthenticationService } from '../../services/authentication.service';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { matchPasswords } from '../../../features/sign-up/sign-up.validators';
 import { Router } from '@angular/router';
 import { InputTextModule } from 'primeng/inputtext';
