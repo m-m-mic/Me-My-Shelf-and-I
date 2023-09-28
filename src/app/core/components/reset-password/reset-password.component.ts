@@ -26,6 +26,7 @@ export class ResetPasswordComponent {
   @Input() email?: string;
   @Input() oobCode?: string;
 
+  passwordChanged = false;
   passwordFormControl = this.formBuilder.group(resetPasswordForm, {
     validators: matchPasswords,
   });
@@ -39,7 +40,11 @@ export class ResetPasswordComponent {
         this.oobCode,
         this.passwordFormControl.controls['password'].value,
       );
-      if (response) this.router.navigate(['/sign-in']);
+      if (response) this.passwordChanged = true;
     }
+  }
+
+  navigateToSignIn() {
+    this.router.navigate(['/sign-in']);
   }
 }
