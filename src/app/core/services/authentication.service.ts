@@ -2,10 +2,10 @@ import { inject, Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { catchError, from, Observable, throwError } from 'rxjs';
 import firebase from 'firebase/compat';
-import FirebaseError = firebase.FirebaseError;
 import { Store } from '@ngrx/store';
 import { resolveError, setErrorMessage } from '../states/error/error.actions';
 import { AuthCredentials } from '../models/authCredentials.interface';
+import FirebaseError = firebase.FirebaseError;
 import UserCredential = firebase.auth.UserCredential;
 
 @Injectable({
@@ -57,17 +57,54 @@ export class AuthenticationService {
     return this.auth.authState;
   }
 
-  initializeResetPassword(email: string) {
-    console.log(email);
-    return this.auth.sendPasswordResetEmail(email);
+  async initializeResetPassword(email: string) {
+    try {
+      await this.auth.sendPasswordResetEmail(email);
+      return true;
+    } catch {
+      this.store.dispatch(
+        setErrorMessage({
+          error: {
+            error: 'initResetPassword',
+            message: 'Reset password email could not be sent.',
+          },
+        }),
+      );
+      return;
+    }
   }
 
-  verifyResetPasswordCode(code: string) {
-    return this.auth.verifyPasswordResetCode(code);
+  async verifyResetPasswordCode(code: string) {
+    try {
+      return await this.auth.verifyPasswordResetCode(code);
+    } catch {
+      this.store.dispatch(
+        setErrorMessage({
+          error: {
+            error: 'verifyOobCode',
+            message: 'The authentication code is invalid.',
+          },
+        }),
+      );
+      return;
+    }
   }
 
-  resetPassword(code: string, password: string) {
-    return this.auth.confirmPasswordReset(code, password);
+  async resetPassword(code: string, password: string) {
+    try {
+      await this.auth.confirmPasswordReset(code, password);
+      return true;
+    } catch {
+      this.store.dispatch(
+        setErrorMessage({
+          error: {
+            error: 'resetPassword',
+            message: 'Password could not be reset.',
+          },
+        }),
+      );
+      return;
+    }
   }
 
   convertSignUpError(error: FirebaseError): string {

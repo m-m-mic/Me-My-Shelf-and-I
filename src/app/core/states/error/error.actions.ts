@@ -10,3 +10,5 @@ export const resolveError = createAction(
   '[Error] Resolve Error',
   props<{ errorType: string }>(),
 );
+
+export const resolveAllErrors = createAction('[Error] Resolve all errors');

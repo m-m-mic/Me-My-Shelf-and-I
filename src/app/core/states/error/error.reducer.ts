@@ -1,6 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
 import { ErrorState, initialErrorState } from './error.state';
-import { resolveError, setErrorMessage } from './error.actions';
+import {
+  resolveAllErrors,
+  resolveError,
+  setErrorMessage,
+} from './error.actions';
 
 export const errorReducer = createReducer(
   initialErrorState,
@@ -24,4 +28,5 @@ export const errorReducer = createReducer(
     }
     return errorArray;
   }),
+  on(resolveAllErrors, (state): ErrorState => []),
 );

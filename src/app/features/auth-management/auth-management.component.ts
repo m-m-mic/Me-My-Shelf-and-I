@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { InitResetPasswordComponent } from '../../core/components/init-reset-password/init-reset-password.component';
 import { AuthenticationService } from '../../core/services/authentication.service';
 import { ResetPasswordComponent } from '../../core/components/reset-password/reset-password.component';
+import { Store } from '@ngrx/store';
+import { resolveAllErrors } from '../../core/states/error/error.actions';
 
 @Component({
   selector: 'app-auth-management',
@@ -13,7 +15,7 @@ import { ResetPasswordComponent } from '../../core/components/reset-password/res
   templateUrl: './auth-management.component.html',
   styleUrls: ['./auth-management.component.scss'],
 })
-export class AuthManagementComponent {
+export class AuthManagementComponent implements OnDestroy {
   mode?: string;
   email?: string;
   oobCode?: string;
@@ -22,6 +24,7 @@ export class AuthManagementComponent {
   constructor(
     private route: ActivatedRoute,
     private authenticationService: AuthenticationService,
+    private store: Store,
   ) {
     this.route.queryParams.pipe(takeUntilDestroyed()).subscribe((params) => {
       if (!params) return;
@@ -33,11 +36,18 @@ export class AuthManagementComponent {
         this.authenticationService
           .verifyResetPasswordCode(this.oobCode ?? '')
           .then((email) => {
-            this.validCode = true;
-            this.email = email;
-          })
-          .catch(() => (this.mode = 'initResetPassword'));
+            if (email) {
+              this.validCode = true;
+              this.email = email;
+            } else {
+              this.mode = 'initResetPassword';
+            }
+          });
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.store.dispatch(resolveAllErrors());
   }
 }
