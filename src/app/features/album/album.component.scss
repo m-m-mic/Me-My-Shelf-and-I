@@ -6,6 +6,12 @@
   @include flexContent;
 }
 
+.data-divider {
+  @include breakpoint-max(620px) {
+    display: none;
+  }
+}
+
 .form-header {
   display: flex;
   gap: 16px;

@@ -81,12 +81,6 @@
   }
 }
 
-.data-divider {
-  @include breakpoint-max(620px) {
-    display: none;
-  }
-}
-
 .media-title {
   font-family: 'Bungee Regular', sans-serif;
   line-height: 42px;
