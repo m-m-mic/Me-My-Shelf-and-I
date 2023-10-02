@@ -23,6 +23,7 @@ import { userItemsTemplate } from '../../shared/templates/user-items.template';
 import { Score } from '../../core/models/rating.interface';
 import { ScoreComponent } from '../../core/components/score/score.component';
 import { SliderModule } from 'primeng/slider';
+import { convertScoreToColor } from '../../shared/converters/score-color.converter';
 
 @Component({
   selector: 'app-game',
@@ -71,21 +72,7 @@ export class GameComponent implements OnChanges {
   }
 
   get containerColorClass() {
-    if (
-      this.gameForm.controls['score'].value >= 1 &&
-      this.gameForm.controls['score'].value < 5
-    ) {
-      return 'poor';
-    } else if (
-      this.gameForm.controls['score'].value >= 5 &&
-      this.gameForm.controls['score'].value < 7
-    ) {
-      return 'average';
-    } else if (this.gameForm.controls['score'].value >= 7) {
-      return 'good';
-    } else {
-      return '';
-    }
+    return convertScoreToColor(this.gameForm.controls['score'].value);
   }
 
   addToCollection() {

@@ -76,6 +76,7 @@ export class MoviesService {
       progress: 'not-started',
       notes: '',
       added_on: new Date().getTime(),
+      score: 0,
     };
     this.addUser(movieId);
     this.usersService.addMovieToCollection(movie);

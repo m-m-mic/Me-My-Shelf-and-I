@@ -18,6 +18,10 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MoviesService } from '../../core/services/movies.service';
 import { createMovieObject, fillMovieForm } from './movie.form';
 import { userItemsTemplate } from '../../shared/templates/user-items.template';
+import { Score } from '../../core/models/rating.interface';
+import { convertScoreToColor } from '../../shared/converters/score-color.converter';
+import { ScoreComponent } from '../../core/components/score/score.component';
+import { SliderModule } from 'primeng/slider';
 
 @Component({
   selector: 'app-movie',
@@ -30,6 +34,8 @@ import { userItemsTemplate } from '../../shared/templates/user-items.template';
     ButtonModule,
     SelectButtonModule,
     InputTextareaModule,
+    ScoreComponent,
+    SliderModule,
   ],
   templateUrl: './movie.component.html',
   styleUrls: ['./movie.component.scss'],
@@ -43,12 +49,25 @@ export class MovieComponent implements OnChanges {
   @Input() movieData?: Movie;
   @Input() userMovieData?: UserMovie;
   @Input() id?: string;
+  @Input() score?: Score;
 
   movieForm: FormGroup = this.formBuilder.group(fillMovieForm());
   selectItems = userItemsTemplate;
+  initialScore = 0;
 
   ngOnChanges(changes: SimpleChanges) {
+    this.initialScore = this.userMovieData?.score ?? 0;
     this.movieForm = this.formBuilder.group(fillMovieForm(this.userMovieData));
+  }
+
+  get currentScore() {
+    const score = this.movieForm.controls['score'].value;
+    if (score === 0) return 'Unrated';
+    return score.toString();
+  }
+
+  get containerColorClass() {
+    return convertScoreToColor(this.movieForm.controls['score'].value);
   }
 
   addToCollection() {
@@ -59,6 +78,7 @@ export class MovieComponent implements OnChanges {
     if (this.userMovieData && this.movieForm) {
       this.usersService.updateMovieFromCollection(
         createMovieObject(this.userMovieData.ref, this.movieForm),
+        this.initialScore,
       );
     }
   }

@@ -283,9 +283,19 @@ export class UsersService {
     return this.usersRef.doc(userData.uid).update(data);
   }
 
-  async updateMovieFromCollection(movieData: UserMovie) {
+  async updateMovieFromCollection(movieData: UserMovie, initialScore: number) {
     const userData = await this.getUserData();
     if (!userData) return;
+
+    if (movieData.score != undefined && initialScore != movieData.score) {
+      if (initialScore === 0) {
+        this.ratingsService.addRating(movieData.ref.id, movieData.score);
+      } else if (movieData.score === 0) {
+        this.ratingsService.removeRating(movieData.ref.id);
+      } else {
+        this.ratingsService.updateRating(movieData.ref.id, movieData.score);
+      }
+    }
 
     const data = userData.document;
     const moviesCollection = data.collection.movies;

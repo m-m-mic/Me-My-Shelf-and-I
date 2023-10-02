@@ -1,4 +1,4 @@
-<div *ngIf="movieData; else movieDataLoading" class="media-header">
+<div *ngIf="movieData && score; else movieDataLoading" class="media-header">
   <div class="media-image">
     <span [ngClass]="{ bookmark: true, visible: userMovieData?.in_collection }">
       <ng-icon name="ionBookmark" size="24" />
@@ -20,6 +20,7 @@
       </span>
     </div>
   </div>
+  <app-score [score]="score" />
   <button
     *ngIf="userMovieData?.in_collection; else notInCollection"
     class="media-button remove"
@@ -51,6 +52,21 @@
       icon="pi pi-check"
       styleClass="p-button-sm"
       (click)="updateData()" />
+  </div>
+  <div class="form-rating">
+    <div class="form-container">
+      <h3>Score</h3>
+      <div class="rating-selector">
+        <span class="current-score" [ngClass]="containerColorClass">
+          {{ currentScore }}
+        </span>
+        <p-slider
+          class="score-slider"
+          formControlName="score"
+          [step]="1"
+          [max]="10" />
+      </div>
+    </div>
   </div>
   <div class="form-selection">
     <span class="form-container">
