@@ -1,4 +1,4 @@
-<div *ngIf="gameData; else gameDataLoading" class="media-header">
+<div *ngIf="gameData && score; else gameDataLoading" class="media-header">
   <div class="media-image">
     <span [ngClass]="{ bookmark: true, visible: userGameData?.in_collection }">
       <ng-icon name="ionBookmark" size="24" />
@@ -6,7 +6,7 @@
     <img src="assets/no_cover_placeholder.jpg" alt="Cover" />
   </div>
   <div class="media-info">
-    <h1>{{ gameData.title }}</h1>
+    <h1 class="media-title">{{ gameData.title }}</h1>
     <div class="media-data">
       <span>
         Platform:
@@ -20,6 +20,7 @@
       </span>
     </div>
   </div>
+  <app-score [score]="score" />
   <button
     *ngIf="userGameData?.in_collection; else notInCollection"
     class="media-button remove"

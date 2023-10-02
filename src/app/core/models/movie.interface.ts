@@ -19,6 +19,7 @@ export interface UserMovie {
   format: FormatType;
   notes: string;
   added_on: number;
+  score?: number;
 }
 
 export interface MovieRow {

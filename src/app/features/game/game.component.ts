@@ -20,6 +20,8 @@ import { GamesService } from '../../core/services/games.service';
 import { UsersService } from '../../core/services/users.service';
 import { LoadingComponent } from '../../core/layout/loading/loading.component';
 import { userItemsTemplate } from '../../shared/templates/user-items.template';
+import { Score } from '../../core/models/rating.interface';
+import { ScoreComponent } from '../../core/components/score/score.component';
 
 @Component({
   selector: 'app-game',
@@ -35,6 +37,7 @@ import { userItemsTemplate } from '../../shared/templates/user-items.template';
     NgOptimizedImage,
     NgIconComponent,
     LoadingComponent,
+    ScoreComponent,
   ],
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.scss'],
@@ -48,6 +51,7 @@ export class GameComponent implements OnChanges {
   @Input() gameData?: Game;
   @Input() userGameData?: UserGame;
   @Input() id?: string;
+  @Input() score?: Score;
 
   gameForm: FormGroup = this.formBuilder.group(fillGameForm());
   selectItems = userItemsTemplate;

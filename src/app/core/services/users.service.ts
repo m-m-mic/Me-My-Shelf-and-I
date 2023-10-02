@@ -16,11 +16,12 @@ import {
   convertProgress,
 } from '../../shared/converters/attribute.converter';
 
+const USERS_PATH = '/users';
+
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
-  private usersPath = '/users';
   usersRef: AngularFirestoreCollection<User>;
 
   constructor(
@@ -28,7 +29,7 @@ export class UsersService {
     private authenticationService: AuthenticationService,
     private destroyRef: DestroyRef,
   ) {
-    this.usersRef = db.collection(this.usersPath);
+    this.usersRef = db.collection(USERS_PATH);
   }
 
   get() {
