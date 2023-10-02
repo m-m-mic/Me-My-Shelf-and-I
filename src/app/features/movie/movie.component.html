@@ -1,46 +1,24 @@
-<div *ngIf="movieData && score; else movieDataLoading" class="media-header">
-  <div class="media-image">
-    <span [ngClass]="{ bookmark: true, visible: userMovieData?.in_collection }">
-      <ng-icon name="ionBookmark" size="24" />
+<app-media-data
+  [data]="movieData"
+  [score]="score"
+  [inCollection]="userMovieData?.in_collection"
+  mediaType="movie"
+  [id]="id">
+  <ng-template [ngIf]="movieData">
+    <span>
+      Director:
+      <b>{{ movieData.director }}</b>
     </span>
-    <img src="assets/no_cover_placeholder.jpg" alt="Cover" />
-  </div>
-  <div class="media-info">
-    <h1>{{ movieData.title }}</h1>
-    <div class="media-data">
-      <span>
-        Director:
-        <b>{{ movieData.director }}</b>
-      </span>
-      <span class="data-divider">|</span>
-      <span>
-        In
-        <b>{{ movieData.saved_by.length }}</b>
-        {{ movieData.saved_by.length === 1 ? 'collection' : 'collections' }}
-      </span>
-    </div>
-  </div>
-  <app-score [score]="score" />
-  <button
-    *ngIf="userMovieData?.in_collection; else notInCollection"
-    class="media-button remove"
-    (click)="removeFromCollection()">
-    <ng-icon name="ionRemove" size="36" />
-    <span class="media-button-title">Remove</span>
-  </button>
-  <ng-template #notInCollection>
-    <button class="media-button add" (click)="addToCollection()">
-      <ng-icon name="ionAdd" size="36" />
-      <span class="media-button-title">Add</span>
-    </button>
+    <span class="data-divider">|</span>
+    <span>
+      In
+      <b>{{ movieData.saved_by.length }}</b>
+      {{ movieData.saved_by.length === 1 ? 'collection' : 'collections' }}
+    </span>
   </ng-template>
-</div>
-<ng-template #movieDataLoading>
-  <app-loading class="media-loading" [height]="160" />
-</ng-template>
+</app-media-data>
 
 <form
-  *ngIf="movieForm; else movieFormLoading"
   [formGroup]="movieForm"
   [ngClass]="{ 'form-group': true, disabled: !userMovieData?.in_collection }">
   <div class="form-header">
@@ -91,6 +69,3 @@
     </span>
   </div>
 </form>
-<ng-template #movieFormLoading>
-  <app-loading class="media-loading" [height]="160" />
-</ng-template>

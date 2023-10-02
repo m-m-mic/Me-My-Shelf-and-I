@@ -1,0 +1,31 @@
+<div *ngIf="data && score; else dataLoading" class="media-data">
+  <div class="media-image">
+    <span [ngClass]="{ bookmark: true, visible: inCollection }">
+      <ng-icon name="ionBookmark" size="24" />
+    </span>
+    <img src="assets/no_cover_placeholder.jpg" alt="Cover" />
+  </div>
+  <div class="media-info">
+    <h1 class="media-title">{{ data.title }}</h1>
+    <div class="media-slot">
+      <ng-content></ng-content>
+    </div>
+  </div>
+  <app-score [score]="score" />
+  <button
+    *ngIf="inCollection; else notInCollection"
+    class="media-button remove"
+    (click)="removeFromCollection()">
+    <ng-icon name="ionRemove" size="36" />
+    <span class="media-button-title">Remove</span>
+  </button>
+  <ng-template #notInCollection>
+    <button class="media-button add" (click)="addToCollection()">
+      <ng-icon name="ionAdd" size="36" />
+      <span class="media-button-title">Add</span>
+    </button>
+  </ng-template>
+</div>
+<ng-template #dataLoading>
+  <app-loading class="media-loading" [height]="160" />
+</ng-template>
