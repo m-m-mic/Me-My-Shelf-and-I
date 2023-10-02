@@ -15,6 +15,7 @@ import {
   convertFormat,
   convertProgress,
 } from '../../shared/converters/attribute.converter';
+import { RatingsService } from './ratings.service';
 
 const USERS_PATH = '/users';
 
@@ -28,6 +29,7 @@ export class UsersService {
     private db: AngularFirestore,
     private authenticationService: AuthenticationService,
     private destroyRef: DestroyRef,
+    private ratingsService: RatingsService,
   ) {
     this.usersRef = db.collection(USERS_PATH);
   }
@@ -196,9 +198,19 @@ export class UsersService {
     return this.usersRef.doc(userData.uid).update(data);
   }
 
-  async updateGameFromCollection(gameData: UserGame) {
+  async updateGameFromCollection(gameData: UserGame, initialScore: number) {
     const userData = await this.getUserData();
     if (!userData) return;
+
+    if (gameData.score != undefined && initialScore != gameData.score) {
+      if (initialScore === 0) {
+        this.ratingsService.addRating(gameData.ref.id, gameData.score);
+      } else if (gameData.score === 0) {
+        this.ratingsService.removeRating(gameData.ref.id);
+      } else {
+        this.ratingsService.updateRating(gameData.ref.id, gameData.score);
+      }
+    }
 
     const data = userData.document;
     const gamesCollection = data.collection.games;
@@ -208,6 +220,7 @@ export class UsersService {
         break;
       }
     }
+
     data.collection.games = gamesCollection;
     return this.usersRef.doc(userData.uid).update(data);
   }

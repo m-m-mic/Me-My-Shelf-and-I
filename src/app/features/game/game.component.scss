@@ -178,3 +178,50 @@
   max-width: 550px;
   width: 100%;
 }
+
+.rating-selector {
+  box-sizing: border-box;
+  padding-right: 8px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  max-width: 650px;
+  width: 100%;
+}
+
+.current-score {
+  flex-basis: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: grey;
+  height: 60px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 16px;
+  font-weight: 700;
+  transition: 0.2s;
+}
+
+.current-score.good {
+  font-size: 24px;
+  line-height: 24px;
+  background-color: #2fa22f;
+}
+
+.current-score.average {
+  font-size: 24px;
+  line-height: 24px;
+  background-color: #c49f07;
+}
+
+.current-score.poor {
+  font-size: 24px;
+  line-height: 24px;
+  background-color: #a63636;
+}
+
+.score-slider {
+  flex: 1;
+}

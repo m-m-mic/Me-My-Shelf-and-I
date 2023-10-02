@@ -22,6 +22,7 @@ import { LoadingComponent } from '../../core/layout/loading/loading.component';
 import { userItemsTemplate } from '../../shared/templates/user-items.template';
 import { Score } from '../../core/models/rating.interface';
 import { ScoreComponent } from '../../core/components/score/score.component';
+import { SliderModule } from 'primeng/slider';
 
 @Component({
   selector: 'app-game',
@@ -38,6 +39,7 @@ import { ScoreComponent } from '../../core/components/score/score.component';
     NgIconComponent,
     LoadingComponent,
     ScoreComponent,
+    SliderModule,
   ],
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.scss'],
@@ -55,9 +57,35 @@ export class GameComponent implements OnChanges {
 
   gameForm: FormGroup = this.formBuilder.group(fillGameForm());
   selectItems = userItemsTemplate;
+  initialScore = 0;
 
   ngOnChanges(changes: SimpleChanges) {
+    this.initialScore = this.userGameData?.score ?? 0;
     this.gameForm = this.formBuilder.group(fillGameForm(this.userGameData));
+  }
+
+  get currentScore() {
+    const score = this.gameForm.controls['score'].value;
+    if (score === 0) return 'Unrated';
+    return score.toString();
+  }
+
+  get containerColorClass() {
+    if (
+      this.gameForm.controls['score'].value >= 1 &&
+      this.gameForm.controls['score'].value < 5
+    ) {
+      return 'poor';
+    } else if (
+      this.gameForm.controls['score'].value >= 5 &&
+      this.gameForm.controls['score'].value < 7
+    ) {
+      return 'average';
+    } else if (this.gameForm.controls['score'].value >= 7) {
+      return 'good';
+    } else {
+      return '';
+    }
   }
 
   addToCollection() {
@@ -68,6 +96,7 @@ export class GameComponent implements OnChanges {
     if (this.userGameData && this.gameForm) {
       this.usersService.updateGameFromCollection(
         createGameObject(this.userGameData.ref, this.gameForm),
+        this.initialScore,
       );
     }
   }

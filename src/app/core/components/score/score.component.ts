@@ -14,4 +14,16 @@ export class ScoreComponent {
     average: 0,
     ratings: 0,
   };
+
+  get containerColorClass() {
+    if (this.score.average >= 1 && this.score.average < 5) {
+      return 'poor';
+    } else if (this.score.average >= 5 && this.score.average < 7) {
+      return 'average';
+    } else if (this.score.average >= 7) {
+      return 'good';
+    } else {
+      return '';
+    }
+  }
 }

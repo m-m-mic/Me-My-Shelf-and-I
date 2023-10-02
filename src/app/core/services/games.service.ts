@@ -75,6 +75,7 @@ export class GamesService {
       progress: 'not-started',
       notes: '',
       added_on: new Date().getTime(),
+      score: 0,
     };
     this.addUser(gameId);
     this.usersService.addGameToCollection(game);
