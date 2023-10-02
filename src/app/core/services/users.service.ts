@@ -367,9 +367,19 @@ export class UsersService {
     return this.usersRef.doc(userData.uid).update(data);
   }
 
-  async updateAlbumFromCollection(albumData: UserAlbum) {
+  async updateAlbumFromCollection(albumData: UserAlbum, initialScore: number) {
     const userData = await this.getUserData();
     if (!userData) return;
+
+    if (albumData.score != undefined && initialScore != albumData.score) {
+      if (initialScore === 0) {
+        this.ratingsService.addRating(albumData.ref.id, albumData.score);
+      } else if (albumData.score === 0) {
+        this.ratingsService.removeRating(albumData.ref.id);
+      } else {
+        this.ratingsService.updateRating(albumData.ref.id, albumData.score);
+      }
+    }
 
     const data = userData.document;
     const albumsCollection = data.collection.albums;

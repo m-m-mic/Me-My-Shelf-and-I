@@ -6,6 +6,8 @@ import { Album, UserAlbum } from '../../core/models/album.interface';
 import { UsersService } from '../../core/services/users.service';
 import { ActivatedRoute } from '@angular/router';
 import { AlbumsService } from '../../core/services/albums.service';
+import { Score } from '../../core/models/rating.interface';
+import { RatingsService } from '../../core/services/ratings.service';
 
 @Component({
   standalone: true,
@@ -14,17 +16,20 @@ import { AlbumsService } from '../../core/services/albums.service';
     <app-album
       [id]="(albumId$ | async) ?? undefined"
       [albumData]="(albumData$ | async) ?? undefined"
-      [userAlbumData]="(userAlbumData$ | async) ?? undefined" />
+      [userAlbumData]="(userAlbumData$ | async) ?? undefined"
+      [score]="(albumScore$ | async) ?? undefined" />
   `,
 })
 export class AlbumContainerComponent {
   albumId$!: Observable<string | undefined>;
   albumData$?: Observable<Album | undefined>;
   userAlbumData$?: Observable<UserAlbum | undefined>;
+  albumScore$?: Observable<Score | undefined>;
 
   constructor(
     private albumsService: AlbumsService,
     private usersService: UsersService,
+    private ratingsService: RatingsService,
     private route: ActivatedRoute,
   ) {
     this.albumId$ = this.route.paramMap.pipe(
@@ -45,6 +50,13 @@ export class AlbumContainerComponent {
       switchMap((paramMap) => {
         const id = paramMap.get('albumId');
         if (id) return this.usersService.getUserAlbum(id);
+        return of(undefined);
+      }),
+    );
+    this.albumScore$ = this.route.paramMap.pipe(
+      switchMap((paramMap) => {
+        const id = paramMap.get('albumId');
+        if (id) return this.ratingsService.getAverageScore(id);
         return of(undefined);
       }),
     );
