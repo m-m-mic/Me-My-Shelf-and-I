@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { MediaColumn } from '../../core/models/table.interface';
 import { MediaTableComponent } from '../../core/components/media-table/media-table.component';
 import { GameRow } from '../../core/models/game.interface';
 
@@ -12,28 +11,6 @@ import { GameRow } from '../../core/models/game.interface';
   imports: [RouterLink, MediaTableComponent],
 })
 export class LandingPageComponent {
-  columns: MediaColumn[] = [
-    { field: 'title', label: 'Title', className: 'title-row', sortable: true },
-    {
-      field: 'platform',
-      label: 'Platform',
-      className: 'platform-row',
-      sortable: true,
-    },
-    {
-      field: 'progress',
-      label: 'Progress',
-      className: 'progress-row',
-      sortable: true,
-    },
-    {
-      field: 'format',
-      label: 'Format',
-      className: 'format-row',
-      sortable: true,
-    },
-  ];
-
   rows: GameRow[] = [
     {
       format: 'Physical',

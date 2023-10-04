@@ -1,11 +1,10 @@
-type MediaColumn =
+export type MediaColumn =
   | 'title'
   | 'format'
   | 'progress'
   | 'platform'
   | 'artist'
-  | 'director'
-  | 'none';
+  | 'director';
 
 type MediaSortDirection = 'asc' | 'desc';
 

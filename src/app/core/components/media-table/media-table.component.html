@@ -1,25 +1,47 @@
 <div role="table">
+  <div class="filter">
+    <input [formControl]="query" />
+  </div>
   <div class="header" role="rowheader">
     <div class="row header-row" role="row">
-      <div class="row-item header-row-item title" role="columnheader">
+      <div
+        class="row-item header-row-item title"
+        role="columnheader"
+        (click)="toggleSort('title')">
         <span>Title</span>
-        <button (click)="sortBy = 'title'">Sort</button>
+        <app-sort-button [sort]="sortBy" column="title" />
       </div>
-      <div class="row-item header-row-item" role="columnheader">
+      <div
+        class="row-item header-row-item"
+        role="columnheader"
+        (click)="toggleSort('platform')">
         <span>Platform</span>
-        <button (click)="sortBy = ''">Sort</button>
+        <app-sort-button [sort]="sortBy" column="platform" />
       </div>
-      <div class="row-item header-row-item" role="columnheader">
+      <div
+        class="row-item header-row-item"
+        role="columnheader"
+        (click)="toggleSort('progress')">
         <span>Progress</span>
-        <button>Sort</button>
+        <app-sort-button [sort]="sortBy" column="progress" />
       </div>
-      <div class="row-item header-row-item" role="columnheader">
+      <div
+        class="row-item header-row-item"
+        role="columnheader"
+        (click)="toggleSort('format')">
         <span>Format</span>
-        <button>Sort</button>
+        <app-sort-button [sort]="sortBy" column="format" />
       </div>
     </div>
   </div>
   <div class="body" role="rowgroup">
-    <div class="row" role="row" *ngFor="let row of sortedRows"></div>
+    <div class="row" role="row" *ngFor="let row of sortedRows">
+      <div class="row-item title" role="columnheader">
+        {{ row.title }}
+      </div>
+      <div class="row-item" role="columnheader">{{ row.platform }}</div>
+      <div class="row-item" role="columnheader">{{ row.progress }}</div>
+      <div class="row-item" role="columnheader">{{ row.format }}</div>
+    </div>
   </div>
 </div>
