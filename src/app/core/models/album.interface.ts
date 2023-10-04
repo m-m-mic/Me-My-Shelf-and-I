@@ -6,6 +6,7 @@ export interface Album {
   artist: string;
   record?: RecordType;
   genres?: string[];
+  runtime?: number;
   saved_by: string[];
 }
 
@@ -29,4 +30,5 @@ export interface AlbumRow {
   progress: string;
   format: string;
   added_on: number;
+  time: number;
 }

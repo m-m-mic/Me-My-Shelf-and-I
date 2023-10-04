@@ -81,6 +81,7 @@ export class UsersService {
             platform: gameData.platform ?? '',
             format: convertFormat(game.format),
             progress: convertProgress(game.progress),
+            time: game.playtime ?? 0,
             added_on: game.added_on,
           });
         }
@@ -98,6 +99,7 @@ export class UsersService {
             director: movieData.director ?? '',
             format: convertFormat(movie.format),
             progress: convertProgress(movie.progress),
+            time: movieData.runtime ?? 0,
             added_on: movie.added_on,
           });
         }
@@ -115,6 +117,7 @@ export class UsersService {
             artist: albumData.artist ?? '',
             format: convertFormat(album.format),
             progress: convertProgress(album.progress),
+            time: albumData.runtime ?? 0,
             added_on: album.added_on,
           });
         }
@@ -136,6 +139,7 @@ export class UsersService {
     const statistics = statisticsTemplate();
     collection.forEach((item) => {
       statistics.amountInCollection++;
+      statistics.time = statistics.time + item.time;
       switch (item.format) {
         case 'Physical':
           statistics.formatDistribution.physical++;

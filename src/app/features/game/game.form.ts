@@ -1,5 +1,5 @@
 import { Game, UserGame } from '../../core/models/game.interface';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 import { DocumentReference } from '@angular/fire/compat/firestore';
 
 export function fillGameForm(userGameData?: UserGame) {
@@ -14,6 +14,13 @@ export function fillGameForm(userGameData?: UserGame) {
       notes: [
         { value: userGameData.notes, disabled: !userGameData.in_collection },
       ],
+      playtime: [
+        {
+          value: userGameData.playtime ?? 0,
+          disabled: !userGameData.in_collection,
+        },
+        [Validators.min(0), Validators.required],
+      ],
       added_on: [
         { value: userGameData.added_on, disabled: !userGameData.in_collection },
       ],
@@ -22,6 +29,7 @@ export function fillGameForm(userGameData?: UserGame) {
     return {
       format: [{ value: 'physical', disabled: true }],
       progress: [{ value: 'not-started', disabled: true }],
+      playtime: [{ value: 0, disabled: true }],
       notes: [{ value: '', disabled: true }],
       added_on: [{ value: 0, disabled: true }],
     };
@@ -37,6 +45,7 @@ export function createGameObject(
     in_collection: true,
     format: gameForm.value.format,
     progress: gameForm.value.progress,
+    playtime: gameForm.value.playtime,
     notes: gameForm.value.notes,
     added_on: gameForm.value.added_on,
   };

@@ -20,6 +20,7 @@ import { GamesService } from '../../core/services/games.service';
 import { UsersService } from '../../core/services/users.service';
 import { LoadingComponent } from '../../core/layout/loading/loading.component';
 import { userItemsTemplate } from '../../shared/templates/user-items.template';
+import { PaginatorModule } from 'primeng/paginator';
 
 @Component({
   selector: 'app-game',
@@ -35,6 +36,7 @@ import { userItemsTemplate } from '../../shared/templates/user-items.template';
     NgOptimizedImage,
     NgIconComponent,
     LoadingComponent,
+    PaginatorModule,
   ],
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.scss'],
