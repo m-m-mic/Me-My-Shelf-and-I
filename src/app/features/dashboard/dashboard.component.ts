@@ -22,6 +22,7 @@ import {
 import { UserStatistics } from '../../core/models/statistics.interface';
 import { AlbumStatisticsComponent } from '../../core/components/album-statistics/album-statistics.component';
 import { MovieStatisticsComponent } from '../../core/components/movie-statistics/movie-statistics.component';
+import { MediaTableComponent } from '../../core/components/media-table/media-table.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -39,6 +40,7 @@ import { MovieStatisticsComponent } from '../../core/components/movie-statistics
     GameStatisticsComponent,
     AlbumStatisticsComponent,
     MovieStatisticsComponent,
+    MediaTableComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],

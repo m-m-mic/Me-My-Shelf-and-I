@@ -8,13 +8,9 @@
 
 <ng-template [ngIf]="activeTab.label === 'Games'">
   <app-game-statistics [statistics]="statistics?.games" />
-  <ag-grid-angular
+  <app-media-table
     *ngIf="collection && collection.games.length > 0"
-    class="ag-theme-alpine-dark media-grid"
-    [gridOptions]="gridOptions"
-    [getRowId]="getRowId"
-    [rowData]="collection.games"
-    [columnDefs]="gameColumns" />
+    [rows]="collection.games" />
 </ng-template>
 
 <ng-template [ngIf]="activeTab.label === 'Movies'">

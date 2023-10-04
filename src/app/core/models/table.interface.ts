@@ -4,7 +4,8 @@ export type MediaColumn =
   | 'progress'
   | 'platform'
   | 'artist'
-  | 'director';
+  | 'director'
+  | 'added_on';
 
 type MediaSortDirection = 'asc' | 'desc';
 

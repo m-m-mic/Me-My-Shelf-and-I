@@ -1,47 +1,71 @@
-<div role="table">
+<div class="table" role="table">
   <div class="filter">
-    <input [formControl]="query" />
+    <input [formControl]="query" placeholder="Search for Games..." />
+    <button
+      *ngIf="query.value"
+      class="clear-button"
+      (click)="query.setValue('')">
+      <ng-icon size="20" name="ionClose" />
+    </button>
   </div>
   <div class="header" role="rowheader">
     <div class="row header-row" role="row">
-      <div
+      <div class="row-item header-row-item index">#</div>
+      <button
         class="row-item header-row-item title"
         role="columnheader"
         (click)="toggleSort('title')">
         <span>Title</span>
         <app-sort-button [sort]="sortBy" column="title" />
-      </div>
-      <div
+      </button>
+      <button
         class="row-item header-row-item"
         role="columnheader"
         (click)="toggleSort('platform')">
         <span>Platform</span>
         <app-sort-button [sort]="sortBy" column="platform" />
-      </div>
-      <div
+      </button>
+      <button
         class="row-item header-row-item"
         role="columnheader"
         (click)="toggleSort('progress')">
         <span>Progress</span>
         <app-sort-button [sort]="sortBy" column="progress" />
-      </div>
-      <div
+      </button>
+      <button
         class="row-item header-row-item"
         role="columnheader"
         (click)="toggleSort('format')">
         <span>Format</span>
         <app-sort-button [sort]="sortBy" column="format" />
-      </div>
+      </button>
+      <button
+        class="row-item header-row-item date"
+        role="columnheader"
+        (click)="toggleSort('added_on')">
+        <span>Added on</span>
+        <app-sort-button [sort]="sortBy" column="added_on" />
+      </button>
     </div>
   </div>
   <div class="body" role="rowgroup">
-    <div class="row" role="row" *ngFor="let row of sortedRows">
-      <div class="row-item title" role="columnheader">
-        {{ row.title }}
+    <div class="row" role="row" *ngFor="let row of sortedRows; index as i">
+      <div class="row-item index" role="columnheader">
+        {{ i + 1 }}
       </div>
-      <div class="row-item" role="columnheader">{{ row.platform }}</div>
-      <div class="row-item" role="columnheader">{{ row.progress }}</div>
-      <div class="row-item" role="columnheader">{{ row.format }}</div>
+      <div class="row-item title">
+        <a class="item-link" [routerLink]="['/games/' + row.id]">
+          {{ row.title }}
+        </a>
+      </div>
+      <div class="row-item">{{ row.platform }}</div>
+      <div class="row-item">{{ row.progress }}</div>
+      <div class="row-item">{{ row.format }}</div>
+      <div class="row-item date">{{ formatDate(row.added_on) }}</div>
     </div>
   </div>
+  <div class="no-results" *ngIf="sortedRows.length === 0">
+    No results found.
+  </div>
+  <div class="underline"></div>
 </div>

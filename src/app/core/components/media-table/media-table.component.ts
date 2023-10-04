@@ -4,13 +4,24 @@ import { GameRow } from '../../models/game.interface';
 import { MediaColumn, MediaSort } from '../../models/table.interface';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { SortButtonComponent } from '../sort-button/sort-button.component';
+import { RouterLink } from '@angular/router';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { ionClose } from '@ng-icons/ionicons';
 
 @Component({
   selector: 'app-media-table',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, SortButtonComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    SortButtonComponent,
+    RouterLink,
+    NgIconComponent,
+  ],
   templateUrl: './media-table.component.html',
   styleUrls: ['./media-table.component.scss'],
+
+  viewProviders: [provideIcons({ ionClose })],
 })
 export class MediaTableComponent {
   @Input() rows: GameRow[] = [];
@@ -18,18 +29,11 @@ export class MediaTableComponent {
   query = new FormControl('');
 
   toggleSort(sort: MediaColumn) {
-    if (sort === this.sortBy.column) {
-      if (sort === this.sortBy.column || this.sortBy.direction === 'asc') {
-        this.sortBy = {
-          column: sort,
-          direction: 'desc',
-        };
-      } else {
-        this.sortBy = {
-          column: sort,
-          direction: 'asc',
-        };
-      }
+    if (sort === this.sortBy.column && this.sortBy.direction === 'asc') {
+      this.sortBy = {
+        column: sort,
+        direction: 'desc',
+      };
     } else {
       this.sortBy = {
         column: sort,
@@ -41,31 +45,32 @@ export class MediaTableComponent {
   get sortedRows(): GameRow[] {
     let sortedRows = this.rows;
     const column = this.sortBy.column;
-    if (this.sortBy.direction === 'asc') {
-      sortedRows = this.rows.sort(function (row1, row2) {
+
+    if (column === 'added_on') {
+      sortedRows = this.rows.sort((row1, row2) => {
         // @ts-ignore
-        const x = row1[column].toLowerCase();
+        const x = row1[column];
         // @ts-ignore
-        const y = row2[column].toLowerCase();
+        const y = row2[column];
         if (x < y) {
-          return -1;
+          return this.sortBy.direction === 'asc' ? -1 : 1;
         }
         if (x > y) {
-          return 1;
+          return this.sortBy.direction === 'asc' ? 1 : -1;
         }
         return 0;
       });
-    } else if (this.sortBy.direction === 'desc') {
-      sortedRows = this.rows.sort(function (row1, row2) {
+    } else {
+      sortedRows = this.rows.sort((row1, row2) => {
         // @ts-ignore
         const x = row1[column].toLowerCase();
         // @ts-ignore
         const y = row2[column].toLowerCase();
-        if (x > y) {
-          return -1;
-        }
         if (x < y) {
-          return 1;
+          return this.sortBy.direction === 'asc' ? -1 : 1;
+        }
+        if (x > y) {
+          return this.sortBy.direction === 'asc' ? 1 : -1;
         }
         return 0;
       });
@@ -77,5 +82,13 @@ export class MediaTableComponent {
       );
     }
     return sortedRows;
+  }
+
+  formatDate(date: number) {
+    return new Date(date).toLocaleString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
   }
 }
