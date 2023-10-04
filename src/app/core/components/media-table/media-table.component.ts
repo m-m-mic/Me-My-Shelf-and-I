@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GameRow } from '../../models/game.interface';
-import { MediaColumn, MediaSort } from '../../models/table.interface';
+import { MediaColumn, MediaRow, MediaSort } from '../../models/table.interface';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { SortButtonComponent } from '../sort-button/sort-button.component';
 import { RouterLink } from '@angular/router';
@@ -24,7 +23,8 @@ import { ionClose } from '@ng-icons/ionicons';
   viewProviders: [provideIcons({ ionClose })],
 })
 export class MediaTableComponent {
-  @Input() rows: GameRow[] = [];
+  @Input() rows: MediaRow[] = [];
+  @Input() mediaType: 'game' | 'movie' | 'album' = 'game';
   sortBy: MediaSort = { column: 'title', direction: 'asc' };
   query = new FormControl('');
 
@@ -42,15 +42,13 @@ export class MediaTableComponent {
     }
   }
 
-  get sortedRows(): GameRow[] {
-    let sortedRows = this.rows;
+  get sortedRows(): MediaRow[] {
+    let sortedRows: MediaRow[];
     const column = this.sortBy.column;
 
     if (column === 'added_on') {
       sortedRows = this.rows.sort((row1, row2) => {
-        // @ts-ignore
         const x = row1[column];
-        // @ts-ignore
         const y = row2[column];
         if (x < y) {
           return this.sortBy.direction === 'asc' ? -1 : 1;
@@ -62,10 +60,8 @@ export class MediaTableComponent {
       });
     } else {
       sortedRows = this.rows.sort((row1, row2) => {
-        // @ts-ignore
-        const x = row1[column].toLowerCase();
-        // @ts-ignore
-        const y = row2[column].toLowerCase();
+        const x = row1[column]?.toLowerCase() ?? '';
+        const y = row2[column]?.toLowerCase() ?? '';
         if (x < y) {
           return this.sortBy.direction === 'asc' ? -1 : 1;
         }
@@ -82,6 +78,10 @@ export class MediaTableComponent {
       );
     }
     return sortedRows;
+  }
+
+  formatLink(id: string) {
+    return `/${this.mediaType}s/${id}`;
   }
 
   formatDate(date: number) {

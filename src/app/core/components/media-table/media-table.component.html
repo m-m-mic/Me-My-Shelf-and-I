@@ -1,6 +1,9 @@
 <div class="table" role="table">
   <div class="filter">
-    <input [formControl]="query" placeholder="Search for Games..." />
+    <input
+      class="filter-input"
+      [formControl]="query"
+      placeholder="Search for Games..." />
     <button
       *ngIf="query.value"
       class="clear-button"
@@ -19,25 +22,35 @@
         <app-sort-button [sort]="sortBy" column="title" />
       </button>
       <button
-        class="row-item header-row-item"
+        *ngIf="mediaType === 'game'"
+        class="row-item header-row-item platform"
         role="columnheader"
         (click)="toggleSort('platform')">
         <span>Platform</span>
         <app-sort-button [sort]="sortBy" column="platform" />
       </button>
       <button
-        class="row-item header-row-item"
+        *ngIf="mediaType === 'movie'"
+        class="row-item header-row-item director"
+        role="columnheader"
+        (click)="toggleSort('director')">
+        <span>Director</span>
+        <app-sort-button [sort]="sortBy" column="director" />
+      </button>
+      <button
+        *ngIf="mediaType === 'album'"
+        class="row-item header-row-item artist"
+        role="columnheader"
+        (click)="toggleSort('artist')">
+        <span>Artist</span>
+        <app-sort-button [sort]="sortBy" column="artist" />
+      </button>
+      <button
+        class="row-item header-row-item progress"
         role="columnheader"
         (click)="toggleSort('progress')">
         <span>Progress</span>
         <app-sort-button [sort]="sortBy" column="progress" />
-      </button>
-      <button
-        class="row-item header-row-item"
-        role="columnheader"
-        (click)="toggleSort('format')">
-        <span>Format</span>
-        <app-sort-button [sort]="sortBy" column="format" />
       </button>
       <button
         class="row-item header-row-item date"
@@ -54,13 +67,20 @@
         {{ i + 1 }}
       </div>
       <div class="row-item title">
-        <a class="item-link" [routerLink]="['/games/' + row.id]">
+        <a class="item-link" [routerLink]="formatLink(row.id)">
           {{ row.title }}
         </a>
       </div>
-      <div class="row-item">{{ row.platform }}</div>
-      <div class="row-item">{{ row.progress }}</div>
-      <div class="row-item">{{ row.format }}</div>
+      <div class="row-item platform" *ngIf="mediaType === 'game'">
+        {{ row.platform }}
+      </div>
+      <div class="row-item director" *ngIf="mediaType === 'movie'">
+        {{ row.director }}
+      </div>
+      <div class="row-item artist" *ngIf="mediaType === 'album'">
+        {{ row.artist }}
+      </div>
+      <div class="row-item progress">{{ row.progress }}</div>
       <div class="row-item date">{{ formatDate(row.added_on) }}</div>
     </div>
   </div>

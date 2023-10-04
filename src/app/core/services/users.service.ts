@@ -15,6 +15,7 @@ import {
   convertFormat,
   convertProgress,
 } from '../../shared/converters/attribute.converter';
+import { MediaRow } from '../models/table.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -132,7 +133,7 @@ export class UsersService {
     };
   }
 
-  getStatistics(collection: GameRow[] | MovieRow[] | AlbumRow[]) {
+  getStatistics(collection: MediaRow[]) {
     const statistics = statisticsTemplate();
     collection.forEach((item) => {
       statistics.amountInCollection++;
