@@ -1,5 +1,5 @@
 <button type="button" class="account-button" (click)="menu.toggle($event)">
-  <span class="account-button-label">{{ displayName }}</span>
+  <span class="account-button-label">{{ account ?? 'Account' }}</span>
   <span class="account-icon">
     <ng-icon name="ionPerson" size="24" />
   </span>
@@ -15,7 +15,7 @@
 </button>
 <p-sidebar [(visible)]="sidebarVisible" position="right">
   <div class="sidebar-content">
-    <ng-template [ngIf]="isLoggedIn">
+    <ng-template [ngIf]="account">
       <a
         class="sidebar-button"
         [routerLink]="['/']"
@@ -28,7 +28,6 @@
         class="sidebar-button"
         [routerLink]="['/games']"
         [routerLinkActive]="['active']"
-        [routerLinkActiveOptions]="{ exact: true }"
         (click)="sidebarVisible = false">
         Games
       </a>
@@ -36,7 +35,6 @@
         class="sidebar-button"
         [routerLink]="['/movies']"
         [routerLinkActive]="['active']"
-        [routerLinkActiveOptions]="{ exact: true }"
         (click)="sidebarVisible = false">
         Movies
       </a>
@@ -44,7 +42,6 @@
         class="sidebar-button"
         [routerLink]="['/albums']"
         [routerLinkActive]="['active']"
-        [routerLinkActiveOptions]="{ exact: true }"
         (click)="sidebarVisible = false">
         Albums
       </a>
@@ -53,18 +50,16 @@
         class="sidebar-button"
         [routerLink]="['/settings']"
         [routerLinkActive]="['active']"
-        [routerLinkActiveOptions]="{ exact: true }"
         (click)="sidebarVisible = false">
         Settings
       </a>
       <button class="sidebar-button" (click)="signOut()">Sign Out</button>
     </ng-template>
-    <ng-template [ngIf]="!isLoggedIn">
+    <ng-template [ngIf]="!account">
       <a
         class="sidebar-button"
         [routerLink]="['/sign-in']"
         [routerLinkActive]="['active']"
-        [routerLinkActiveOptions]="{ exact: true }"
         (click)="sidebarVisible = false">
         Sign In
       </a>
@@ -72,7 +67,6 @@
         class="sidebar-button"
         [routerLink]="['/sign-up']"
         [routerLinkActive]="['active']"
-        [routerLinkActiveOptions]="{ exact: true }"
         (click)="sidebarVisible = false">
         Sign Up
       </a>

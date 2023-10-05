@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store';
 import { signOut } from '../../states/auth/auth.actions';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MainNavigationComponent } from '../../components/main-navigation/main-navigation.component';
-import { map, Observable, tap } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -23,44 +23,50 @@ import { map, Observable, tap } from 'rxjs';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  isLoggedIn = false;
-  displayName$?: Observable<string | undefined>;
-  menuItems!: MenuItem[];
+  displayName$: Observable<string | undefined>;
+  menuItems$: Observable<MenuItem[]>;
 
   constructor(
     private authenticationService: AuthenticationService,
     private store: Store,
   ) {
-    this.displayName$ = this.authenticationService.getUser().pipe(
+    this.displayName$ = this.authenticationService.authUser$.pipe(
       takeUntilDestroyed(),
-      tap((user) => {
-        this.isLoggedIn = !!user;
-        this.menuItems = [
+      map((user) => {
+        if (user) {
+          return user.displayName ?? user.email ?? 'Account';
+        }
+        return undefined;
+      }),
+    );
+    this.menuItems$ = this.authenticationService.authUser$.pipe(
+      takeUntilDestroyed(),
+      map((user) => {
+        if (user) {
+          return [
+            {
+              label: 'Settings',
+              routerLink: '/settings',
+            },
+            {
+              label: 'Sign Out',
+              command: () => {
+                this.store.dispatch(signOut());
+              },
+            },
+          ];
+        }
+        return [
           {
             label: 'Sign In',
             routerLink: '/sign-in',
-            visible: !this.isLoggedIn,
           },
           {
             label: 'Sign Up',
             routerLink: '/sign-up',
-            visible: !this.isLoggedIn,
-          },
-          {
-            label: 'Settings',
-            routerLink: '/settings',
-            visible: this.isLoggedIn,
-          },
-          {
-            label: 'Sign Out',
-            command: () => {
-              this.store.dispatch(signOut());
-            },
-            visible: this.isLoggedIn,
           },
         ];
       }),
-      map((user) => user?.displayName ?? undefined),
     );
   }
 }

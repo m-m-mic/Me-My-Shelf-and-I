@@ -31,11 +31,12 @@ export class ChangeDisplayNameComponent implements OnChanges {
   );
 
   ngOnChanges(changes: SimpleChanges) {
-    if (this.displayName)
+    if (this.displayName) {
       this.displayNameFormControl.setValue(this.displayName);
+    }
   }
 
-  toggleDisplayNameDisabled() {
+  toggleFormControlDisabled() {
     if (this.displayNameFormControl.disabled) {
       this.displayNameFormControl.enable();
     } else {
@@ -44,7 +45,7 @@ export class ChangeDisplayNameComponent implements OnChanges {
     }
   }
 
-  updateDisplayName() {
+  update() {
     if (this.displayNameFormControl.value) {
       this.authenticationService.updateDisplayName(
         this.displayNameFormControl.value,

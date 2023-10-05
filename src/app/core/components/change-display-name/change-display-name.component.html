@@ -6,20 +6,20 @@
       label="Change"
       styleClass="p-button-text p-button-sm"
       icon="pi pi-pencil"
-      (click)="toggleDisplayNameDisabled()" />
+      (click)="toggleFormControlDisabled()" />
     <ng-template #displayNameEnabled>
       <div class="enabled-options">
         <p-button
           label="Discard"
           styleClass="p-button-text p-button-sm"
           icon="pi pi-times"
-          (click)="toggleDisplayNameDisabled()" />
+          (click)="toggleFormControlDisabled()" />
         <p-button
           label="Update"
           styleClass="p-button-sm"
           [disabled]="!displayNameFormControl.valid"
           icon="pi pi-check"
-          (click)="updateDisplayName()" />
+          (click)="update()" />
       </div>
     </ng-template>
   </div>
@@ -44,20 +44,20 @@
     label="Change"
     styleClass="p-button-text p-button-sm"
     icon="pi pi-pencil"
-    (click)="toggleDisplayNameDisabled()" />
+    (click)="toggleFormControlDisabled()" />
   <ng-template #displayNameEnabled>
     <div class="enabled-options">
       <p-button
         label="Discard"
         styleClass="p-button-text p-button-sm"
         icon="pi pi-times"
-        (click)="toggleDisplayNameDisabled()" />
+        (click)="toggleFormControlDisabled()" />
       <p-button
         label="Update"
         styleClass="p-button-sm"
         [disabled]="!displayNameFormControl.valid"
         icon="pi pi-check"
-        (click)="updateDisplayName()" />
+        (click)="update()" />
     </div>
   </ng-template>
 </div>

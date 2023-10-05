@@ -60,13 +60,17 @@ export class AuthenticationService {
 
   updateDisplayName(name: string) {
     this.auth.authState.pipe(take(1)).subscribe((user) => {
-      if (user) user.updateProfile({ displayName: name });
+      if (user) {
+        user.updateProfile({ displayName: name });
+      }
     });
   }
 
   updatePassword(password: string) {
     this.auth.authState.pipe(take(1)).subscribe((user) => {
-      if (user) user.updatePassword(password);
+      if (user) {
+        user.updatePassword(password);
+      }
     });
   }
 

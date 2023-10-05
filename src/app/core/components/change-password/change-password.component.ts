@@ -29,7 +29,7 @@ export class ChangePasswordComponent {
     this.passwordFormControl.disable();
   }
 
-  togglePasswordDisabled() {
+  toggleFormControlDisabled() {
     if (this.passwordFormControl.disabled) {
       this.passwordFormControl.enable();
     } else {
@@ -38,11 +38,11 @@ export class ChangePasswordComponent {
     }
   }
 
-  updatePassword() {
+  updateFormControl() {
     const password = this.passwordFormControl.controls['password'].value;
     if (password) {
       this.authenticationService.updatePassword(password);
-      this.togglePasswordDisabled();
+      this.toggleFormControlDisabled();
     }
   }
 }
