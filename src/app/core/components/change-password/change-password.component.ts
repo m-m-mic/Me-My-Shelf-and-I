@@ -38,7 +38,7 @@ export class ChangePasswordComponent {
     }
   }
 
-  updateFormControl() {
+  update() {
     const password = this.passwordFormControl.controls['password'].value;
     if (password) {
       this.authenticationService.updatePassword(password);
