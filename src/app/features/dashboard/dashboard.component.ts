@@ -10,15 +10,7 @@ import { MovieCardComponent } from '../../core/components/movie-card/movie-card.
 import { AlbumCardComponent } from '../../core/components/album-card/album-card.component';
 import { MenuItem } from 'primeng/api';
 import { TabMenuModule } from 'primeng/tabmenu';
-import { GetRowIdFunc, GetRowIdParams } from 'ag-grid-community';
-import { AgGridModule } from 'ag-grid-angular';
 import { GameStatisticsComponent } from '../../core/components/game-statistics/game-statistics.component';
-import {
-  albumColumns,
-  gameColumns,
-  gridOptions,
-  movieColumns,
-} from './dashboard.ag-grid';
 import { UserStatistics } from '../../core/models/statistics.interface';
 import { AlbumStatisticsComponent } from '../../core/components/album-statistics/album-statistics.component';
 import { MovieStatisticsComponent } from '../../core/components/movie-statistics/movie-statistics.component';
@@ -36,7 +28,6 @@ import { MediaTableComponent } from '../../core/components/media-table/media-tab
     MovieCardComponent,
     AlbumCardComponent,
     TabMenuModule,
-    AgGridModule,
     GameStatisticsComponent,
     AlbumStatisticsComponent,
     MovieStatisticsComponent,
@@ -55,12 +46,6 @@ export class DashboardComponent {
     { label: 'Albums' },
   ];
   activeTab: MenuItem = this.tabItems[0];
-
-  gridOptions = gridOptions;
-  gameColumns = gameColumns;
-  movieColumns = movieColumns;
-  albumColumns = albumColumns;
-  getRowId: GetRowIdFunc = (params: GetRowIdParams) => params.data.id;
 
   constructor(private usersService: UsersService) {
     usersService.getCollection().then((collection) => {
