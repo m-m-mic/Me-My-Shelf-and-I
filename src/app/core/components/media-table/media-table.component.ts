@@ -27,6 +27,7 @@ export class MediaTableComponent {
   @Input() mediaType: 'game' | 'movie' | 'album' = 'game';
   sortBy: MediaSort = { column: 'title', direction: 'asc' };
   query = new FormControl('');
+  currentPage = 0;
 
   toggleSort(sort: MediaColumn) {
     if (sort === this.sortBy.column && this.sortBy.direction === 'asc') {
@@ -42,12 +43,23 @@ export class MediaTableComponent {
     }
   }
 
-  get sortedRows(): MediaRow[] {
-    let sortedRows: MediaRow[];
-    const column = this.sortBy.column;
+  get rowArray() {
+    let modifiedRows = this.sortRows();
+    modifiedRows = this.filterRows(modifiedRows);
+    const paginatedRows = this.paginateRows(modifiedRows);
 
+    if (this.currentPage > paginatedRows.length - 1)
+      this.currentPage = paginatedRows.length - 1;
+
+    if (paginatedRows.length === 0) this.currentPage = 0;
+
+    return paginatedRows;
+  }
+
+  sortRows() {
+    const column = this.sortBy.column;
     if (column === 'added_on') {
-      sortedRows = this.rows.sort((row1, row2) => {
+      return this.rows.sort((row1, row2) => {
         const x = row1[column];
         const y = row2[column];
         if (x < y) {
@@ -59,7 +71,7 @@ export class MediaTableComponent {
         return 0;
       });
     } else {
-      sortedRows = this.rows.sort((row1, row2) => {
+      return this.rows.sort((row1, row2) => {
         const x = row1[column]?.toLowerCase() ?? '';
         const y = row2[column]?.toLowerCase() ?? '';
         if (x < y) {
@@ -71,13 +83,24 @@ export class MediaTableComponent {
         return 0;
       });
     }
+  }
 
+  filterRows(rows: MediaRow[]) {
     if (this.query.value && this.query.value?.trim() != '') {
-      sortedRows = sortedRows.filter((row) =>
+      return rows.filter((row) =>
         row.title.toLowerCase().includes(this.query.value?.toLowerCase() ?? ''),
       );
     }
-    return sortedRows;
+    return rows;
+  }
+
+  paginateRows(rows: MediaRow[]) {
+    const paginatedRows = [];
+    const pageSize = 100;
+    for (let i = 0; i < rows.length; i += pageSize) {
+      paginatedRows.push(rows.slice(i, i + pageSize));
+    }
+    return paginatedRows;
   }
 
   formatLink(id: string) {
