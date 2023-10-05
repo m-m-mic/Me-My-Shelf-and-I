@@ -3,7 +3,7 @@
     <input
       class="filter-input"
       [formControl]="query"
-      placeholder="Search for Games..." />
+      [placeholder]="placeholder" />
     <button
       *ngIf="query.value"
       class="clear-button"

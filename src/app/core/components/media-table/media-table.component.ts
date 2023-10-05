@@ -60,6 +60,17 @@ export class MediaTableComponent {
     return paginatedRows;
   }
 
+  get placeholder() {
+    switch (this.mediaType) {
+      case 'game':
+        return 'Search for Games...';
+      case 'movie':
+        return 'Search for Movies...';
+      case 'album':
+        return 'Search for Albums...';
+    }
+  }
+
   sortRows() {
     const column = this.sortBy.column;
     if (column === 'added_on') {
