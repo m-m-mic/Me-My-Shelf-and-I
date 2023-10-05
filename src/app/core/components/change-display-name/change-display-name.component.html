@@ -1,0 +1,63 @@
+<div class="headline-button">
+  <h2>Display Name</h2>
+  <div class="options-headline">
+    <p-button
+      *ngIf="displayNameFormControl.disabled; else displayNameEnabled"
+      label="Change"
+      styleClass="p-button-text p-button-sm"
+      icon="pi pi-pencil"
+      (click)="toggleFormControlDisabled()" />
+    <ng-template #displayNameEnabled>
+      <div class="enabled-options">
+        <p-button
+          label="Discard"
+          styleClass="p-button-text p-button-sm"
+          icon="pi pi-times"
+          (click)="toggleFormControlDisabled()" />
+        <p-button
+          label="Update"
+          styleClass="p-button-sm"
+          [disabled]="!displayNameFormControl.valid"
+          icon="pi pi-check"
+          (click)="update()" />
+      </div>
+    </ng-template>
+  </div>
+</div>
+
+<div class="input-wrapper">
+  <input
+    pInputText
+    type="text"
+    id="displayName"
+    [formControl]="displayNameFormControl" />
+  <small
+    class="validator-error"
+    *ngIf="displayNameFormControl.errors?.['maxlength']">
+    Can't be longer than 12 characters
+  </small>
+</div>
+
+<div class="options-below">
+  <p-button
+    *ngIf="displayNameFormControl.disabled; else displayNameEnabled"
+    label="Change"
+    styleClass="p-button-text p-button-sm"
+    icon="pi pi-pencil"
+    (click)="toggleFormControlDisabled()" />
+  <ng-template #displayNameEnabled>
+    <div class="enabled-options">
+      <p-button
+        label="Discard"
+        styleClass="p-button-text p-button-sm"
+        icon="pi pi-times"
+        (click)="toggleFormControlDisabled()" />
+      <p-button
+        label="Update"
+        styleClass="p-button-sm"
+        [disabled]="!displayNameFormControl.valid"
+        icon="pi pi-check"
+        (click)="update()" />
+    </div>
+  </ng-template>
+</div>

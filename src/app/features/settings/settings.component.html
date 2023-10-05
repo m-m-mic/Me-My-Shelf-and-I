@@ -1,0 +1,6 @@
+<h1>Settings</h1>
+<div class="email" *ngIf="email$ | async">{{ email$ | async }}</div>
+<p-divider />
+<app-change-display-name [displayName]="(displayName$ | async) ?? ''" />
+<p-divider />
+<app-change-password />
