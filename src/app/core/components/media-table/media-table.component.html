@@ -1,19 +1,21 @@
-<div class="table" role="table">
+<div class="table" role="table" aria-label="Media table">
   <div class="filter">
     <input
       class="filter-input"
+      aria-label="Filter table"
       [formControl]="query"
       [placeholder]="placeholder" />
     <button
       *ngIf="query.value"
       class="clear-button"
+      aria-label="Clear filter input"
       (click)="query.setValue('')">
       <ng-icon size="20" name="ionClose" />
     </button>
   </div>
-  <div class="header" role="rowheader">
+  <div class="header" role="rowgroup">
     <div class="row header-row" role="row">
-      <div class="row-item header-row-item index">#</div>
+      <div class="row-item header-row-item index" role="columnheader">#</div>
       <button
         class="row-item header-row-item title"
         role="columnheader"
@@ -66,25 +68,27 @@
       class="row"
       role="row"
       *ngFor="let row of rowArray[currentPage]; index as i">
-      <div class="row-item index" role="columnheader">
+      <div class="row-item index" role="cell">
         {{ i + 1 }}
       </div>
-      <div class="row-item title">
+      <div class="row-item title" role="cell">
         <a class="item-link" [routerLink]="formatLink(row.id)">
           {{ row.title }}
         </a>
       </div>
-      <div class="row-item platform" *ngIf="mediaType === 'game'">
+      <div class="row-item platform" role="cell" *ngIf="mediaType === 'game'">
         {{ row.platform }}
       </div>
-      <div class="row-item director" *ngIf="mediaType === 'movie'">
+      <div class="row-item director" role="cell" *ngIf="mediaType === 'movie'">
         {{ row.director }}
       </div>
-      <div class="row-item artist" *ngIf="mediaType === 'album'">
+      <div class="row-item artist" role="cell" *ngIf="mediaType === 'album'">
         {{ row.artist }}
       </div>
-      <div class="row-item progress">{{ row.progress }}</div>
-      <div class="row-item date">{{ formatDate(row.added_on) }}</div>
+      <div class="row-item progress" role="cell">{{ row.progress }}</div>
+      <div class="row-item date" role="cell">
+        {{ formatDate(row.added_on) }}
+      </div>
     </div>
   </div>
   <div class="no-results" *ngIf="rowArray.length === 0">No results found.</div>
