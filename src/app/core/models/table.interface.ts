@@ -1,4 +1,9 @@
-export type MediaColumn =
+export interface MediaSort {
+  column: MediaSortColumn;
+  direction?: MediaSortDirection;
+}
+
+export type MediaSortColumn =
   | 'title'
   | 'format'
   | 'progress'
@@ -8,11 +13,6 @@ export type MediaColumn =
   | 'added_on';
 
 type MediaSortDirection = 'asc' | 'desc';
-
-export interface MediaSort {
-  column: MediaColumn;
-  direction?: MediaSortDirection;
-}
 
 export interface MediaRow {
   id: string;

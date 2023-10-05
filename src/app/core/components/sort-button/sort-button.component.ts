@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MediaColumn, MediaSort } from '../../models/table.interface';
+import { MediaSortColumn, MediaSort } from '../../models/table.interface';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { ionArrowDown, ionArrowUp } from '@ng-icons/ionicons';
 
@@ -13,7 +13,7 @@ import { ionArrowDown, ionArrowUp } from '@ng-icons/ionicons';
   viewProviders: [provideIcons({ ionArrowUp, ionArrowDown })],
 })
 export class SortButtonComponent implements OnChanges {
-  @Input({ required: true }) column!: MediaColumn;
+  @Input({ required: true }) column!: MediaSortColumn;
   @Input({ required: true }) sort!: MediaSort;
   currentDirection: 'asc' | 'desc' | 'none' = 'none';
 

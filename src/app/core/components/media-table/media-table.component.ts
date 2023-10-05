@@ -1,6 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MediaColumn, MediaRow, MediaSort } from '../../models/table.interface';
+import {
+  MediaSortColumn,
+  MediaRow,
+  MediaSort,
+} from '../../models/table.interface';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { SortButtonComponent } from '../sort-button/sort-button.component';
 import { RouterLink } from '@angular/router';
@@ -29,7 +33,7 @@ export class MediaTableComponent {
   query = new FormControl('');
   currentPage = 0;
 
-  toggleSort(sort: MediaColumn) {
+  toggleSort(sort: MediaSortColumn) {
     if (sort === this.sortBy.column && this.sortBy.direction === 'asc') {
       this.sortBy = {
         column: sort,
