@@ -22,12 +22,3 @@ export interface UserGame {
   added_on: number;
   score?: number;
 }
-
-export interface GameRow {
-  id: string;
-  title: string;
-  platform: string;
-  progress: string;
-  format: string;
-  added_on: number;
-}
