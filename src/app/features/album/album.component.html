@@ -9,6 +9,14 @@
       Artist:
       <b>{{ albumData.artist }}</b>
     </span>
+    <ng-template [ngIf]="albumData.runtime">
+      <span class="data-divider">|</span>
+      <span>
+        Runtime:
+        <b>{{ albumData.runtime | number: '1.0-0' : 'en-US' }}</b>
+        {{ albumData.runtime === 1 ? 'minute' : 'minutes' }}
+      </span>
+    </ng-template>
     <span class="data-divider">|</span>
     <span>
       In

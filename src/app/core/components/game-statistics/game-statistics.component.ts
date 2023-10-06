@@ -13,4 +13,20 @@ import { Statistics } from '../../models/statistics.interface';
 })
 export class GameStatisticsComponent {
   @Input() statistics?: Statistics;
+
+  get playtimeInHours() {
+    if (!this.statistics) {
+      return 0;
+    }
+    return Math.round(this.statistics.time / 60);
+  }
+
+  get hoursPerEntry() {
+    if (!this.statistics || this.playtimeInHours === 0) {
+      return 0;
+    }
+    return Math.round(
+      this.playtimeInHours / this.statistics.amountInCollection,
+    );
+  }
 }

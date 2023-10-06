@@ -10,7 +10,8 @@ export type MediaSortColumn =
   | 'platform'
   | 'artist'
   | 'director'
-  | 'added_on';
+  | 'added_on'
+  | 'time';
 
 type MediaSortDirection = 'asc' | 'desc';
 
@@ -23,4 +24,5 @@ export interface MediaRow {
   director?: string;
   artist?: string;
   platform?: string;
+  time: number;
 }

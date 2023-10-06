@@ -9,6 +9,14 @@
       Director:
       <b>{{ movieData.director }}</b>
     </span>
+    <ng-template [ngIf]="movieData.runtime">
+      <span class="data-divider">|</span>
+      <span>
+        Runtime:
+        <b>{{ movieData.runtime | number: '1.0-0' : 'en-US' }}</b>
+        {{ movieData.runtime === 1 ? 'minute' : 'minutes' }}
+      </span>
+    </ng-template>
     <span class="data-divider">|</span>
     <span>
       In

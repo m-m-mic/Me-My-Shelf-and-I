@@ -20,7 +20,6 @@ import { MediaRow } from '../models/table.interface';
 
 const USERS_PATH = '/users';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -104,7 +103,10 @@ export class UsersService {
             director: movieData.director ?? '',
             format: convertFormat(movie.format),
             progress: convertProgress(movie.progress),
-            time: movieData.runtime ?? 0,
+            time:
+              movieData.runtime && movie.progress === 'completed'
+                ? movieData.runtime
+                : 0,
             added_on: movie.added_on,
           });
         }
@@ -122,7 +124,10 @@ export class UsersService {
             artist: albumData.artist ?? '',
             format: convertFormat(album.format),
             progress: convertProgress(album.progress),
-            time: albumData.runtime ?? 0,
+            time:
+              albumData.runtime && album.progress === 'completed'
+                ? albumData.runtime
+                : 0,
             added_on: album.added_on,
           });
         }

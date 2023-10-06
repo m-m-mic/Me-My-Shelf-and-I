@@ -5,8 +5,16 @@
   </div>
   <span class="stat-container main">
     <span class="total-amount">
-      {{ statistics.amountInCollection }}
+      {{ statistics.amountInCollection | number: '1.0-0' : 'en-US' }}
       {{ statistics.amountInCollection === 1 ? 'Album' : 'Albums' }}
+    </span>
+    <span class="total-time">
+      {{ runtimeInHours | number: '1.0-0' : 'en-US' }}
+      {{ runtimeInHours === 1 ? 'hour listened' : 'hours listened' }}
+    </span>
+    <span>
+      {{ hoursPerEntry | number: '1.0-0' : 'en-US' }}
+      {{ hoursPerEntry === 1 ? 'hour per Album' : 'hours per Album' }}
     </span>
   </span>
   <span class="stat-container">

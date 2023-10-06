@@ -16,7 +16,7 @@ export function fillGameForm(userGameData?: UserGame) {
       ],
       playtime: [
         {
-          value: userGameData.playtime ?? 0,
+          value: userGameData.playtime ? userGameData.playtime / 60 : 0,
           disabled: !userGameData.in_collection,
         },
         [Validators.min(0), Validators.required],
@@ -52,7 +52,7 @@ export function createGameObject(
     in_collection: true,
     format: gameForm.value.format,
     progress: gameForm.value.progress,
-    playtime: gameForm.value.playtime,
+    playtime: gameForm.value.playtime * 60,
     notes: gameForm.value.notes,
     added_on: gameForm.value.added_on,
     score: gameForm.value.score,

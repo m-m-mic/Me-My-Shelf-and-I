@@ -5,8 +5,16 @@
   </div>
   <span class="stat-container main">
     <span class="total-amount">
-      {{ statistics.amountInCollection }}
+      {{ statistics.amountInCollection | number: '1.0-0' : 'en-US' }}
       {{ statistics.amountInCollection === 1 ? 'Movie' : 'Movies' }}
+    </span>
+    <span class="total-time">
+      {{ runtimeInHours | number: '1.0-0' : 'en-US' }}
+      {{ runtimeInHours === 1 ? 'hour watched' : 'hours watched' }}
+    </span>
+    <span>
+      {{ hoursPerEntry | number: '1.0-0' : 'en-US' }}
+      {{ hoursPerEntry === 1 ? 'hour per Movie' : 'hours per Movie' }}
     </span>
   </span>
   <span class="stat-container">
