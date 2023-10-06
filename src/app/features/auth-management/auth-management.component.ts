@@ -1,12 +1,13 @@
 import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { InitResetPasswordComponent } from '../../core/components/init-reset-password/init-reset-password.component';
 import { AuthenticationService } from '../../core/services/authentication.service';
 import { ResetPasswordComponent } from '../../core/components/reset-password/reset-password.component';
 import { Store } from '@ngrx/store';
 import { resolveAuthManagementErrors } from '../../core/states/error/error.actions';
+import { map, Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-auth-management',
@@ -24,6 +25,7 @@ export class AuthManagementComponent implements OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private authenticationService: AuthenticationService,
     private store: Store,
   ) {
@@ -31,9 +33,12 @@ export class AuthManagementComponent implements OnDestroy {
       .pipe(takeUntilDestroyed())
       .subscribe((params) => (this.params = params));
 
+    const routerData = this.router.getCurrentNavigation()?.extras.state;
+
+    this.email = routerData ? routerData['email'] : '';
+
     if (!this.params) return;
     this.mode = this.params['mode'];
-    this.email = this.params['email'];
     this.oobCode = this.params['oobCode'];
 
     if (this.mode === 'resetPassword') {

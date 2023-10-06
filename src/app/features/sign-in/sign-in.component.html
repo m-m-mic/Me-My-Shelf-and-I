@@ -29,5 +29,12 @@
     [disabled]="!loginForm.valid"
     label="Log In"
     (click)="signIn()"></p-button>
-  <a routerLink="/auth" [queryParams]="passwordResetParams">Forgot password?</a>
+  <a
+    routerLink="/auth"
+    [queryParams]="{ mode: 'initResetPassword' }"
+    [state]="{
+      email: email
+    }">
+    Forgot password?
+  </a>
 </form>
