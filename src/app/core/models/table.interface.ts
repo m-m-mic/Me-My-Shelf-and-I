@@ -1,6 +1,6 @@
 export interface MediaSort {
   column: MediaSortColumn;
-  direction?: MediaSortDirection;
+  direction: MediaSortDirection;
 }
 
 export type MediaSortColumn =

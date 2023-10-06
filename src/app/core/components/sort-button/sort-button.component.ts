@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MediaSortColumn, MediaSort } from '../../models/table.interface';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
@@ -12,16 +12,15 @@ import { ionArrowDown, ionArrowUp } from '@ng-icons/ionicons';
   styleUrls: ['./sort-button.component.scss'],
   viewProviders: [provideIcons({ ionArrowUp, ionArrowDown })],
 })
-export class SortButtonComponent implements OnChanges {
+export class SortButtonComponent {
   @Input({ required: true }) column!: MediaSortColumn;
   @Input({ required: true }) sort!: MediaSort;
-  currentDirection: 'asc' | 'desc' | 'none' = 'none';
 
-  ngOnChanges(changes: SimpleChanges) {
+  get currentDirection(): 'asc' | 'desc' | 'none' {
     if (this.column === this.sort.column) {
-      this.currentDirection = this.sort.direction ?? 'none';
+      return this.sort.direction;
     } else {
-      this.currentDirection = 'none';
+      return 'none';
     }
   }
 }

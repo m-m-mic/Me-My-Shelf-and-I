@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   MediaSortColumn,
@@ -10,6 +10,7 @@ import { SortButtonComponent } from '../sort-button/sort-button.component';
 import { RouterLink } from '@angular/router';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { ionClose } from '@ng-icons/ionicons';
+import { TableService } from '../../services/table.service';
 
 @Component({
   selector: 'app-media-table',
@@ -27,10 +28,12 @@ import { ionClose } from '@ng-icons/ionicons';
   viewProviders: [provideIcons({ ionClose })],
 })
 export class MediaTableComponent {
+  tableService = inject(TableService);
+
   @Input() rows: MediaRow[] = [];
   @Input() mediaType: 'game' | 'movie' | 'album' = 'game';
   sortBy: MediaSort = { column: 'title', direction: 'asc' };
-  query = new FormControl('');
+  queryFormControl = new FormControl('');
   currentPage = 0;
 
   toggleSort(sort: MediaSortColumn) {
@@ -47,10 +50,13 @@ export class MediaTableComponent {
     }
   }
 
-  get rowArray() {
-    let modifiedRows = this.sortRows();
-    modifiedRows = this.filterRows(modifiedRows);
-    const paginatedRows = this.paginateRows(modifiedRows);
+  rowArray() {
+    let modifiedRows = this.tableService.sortRows(this.rows, this.sortBy);
+    modifiedRows = this.tableService.filterRows(
+      modifiedRows,
+      this.queryFormControl.value ?? '',
+    );
+    const paginatedRows = this.tableService.paginateRows(modifiedRows);
 
     if (this.currentPage > paginatedRows.length - 1)
       this.currentPage = paginatedRows.length - 1;
@@ -69,53 +75,6 @@ export class MediaTableComponent {
       case 'album':
         return 'Search for Albums...';
     }
-  }
-
-  sortRows() {
-    const column = this.sortBy.column;
-    if (column === 'added_on') {
-      return this.rows.sort((row1, row2) => {
-        const x = row1[column];
-        const y = row2[column];
-        if (x < y) {
-          return this.sortBy.direction === 'asc' ? -1 : 1;
-        }
-        if (x > y) {
-          return this.sortBy.direction === 'asc' ? 1 : -1;
-        }
-        return 0;
-      });
-    } else {
-      return this.rows.sort((row1, row2) => {
-        const x = row1[column]?.toLowerCase() ?? '';
-        const y = row2[column]?.toLowerCase() ?? '';
-        if (x < y) {
-          return this.sortBy.direction === 'asc' ? -1 : 1;
-        }
-        if (x > y) {
-          return this.sortBy.direction === 'asc' ? 1 : -1;
-        }
-        return 0;
-      });
-    }
-  }
-
-  filterRows(rows: MediaRow[]) {
-    if (this.query.value && this.query.value?.trim() != '') {
-      return rows.filter((row) =>
-        row.title.toLowerCase().includes(this.query.value?.toLowerCase() ?? ''),
-      );
-    }
-    return rows;
-  }
-
-  paginateRows(rows: MediaRow[]) {
-    const paginatedRows = [];
-    const pageSize = 100;
-    for (let i = 0; i < rows.length; i += pageSize) {
-      paginatedRows.push(rows.slice(i, i + pageSize));
-    }
-    return paginatedRows;
   }
 
   formatLink(id: string) {
