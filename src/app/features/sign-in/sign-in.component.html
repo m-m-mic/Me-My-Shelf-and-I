@@ -20,7 +20,7 @@
       <label htmlFor="password">Password</label>
     </span>
   </div>
-  <a routerLink="/auth" [queryParams]="passwordResetURL">Forgot password?</a>
+
   <div *ngIf="errorMessage$ | async" class="error-disclaimer">
     {{ errorMessage$ | async }}
   </div>
@@ -29,8 +29,5 @@
     [disabled]="!loginForm.valid"
     label="Log In"
     (click)="signIn()"></p-button>
-  <div class="sign-up-disclaimer">
-    Don't have an account?
-    <a routerLink="/sign-up">Sign up here.</a>
-  </div>
+  <a routerLink="/auth" [queryParams]="passwordResetParams">Forgot password?</a>
 </form>

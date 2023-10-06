@@ -49,7 +49,7 @@ export class SignInComponent implements OnInit, OnDestroy {
     });
   }
 
-  get passwordResetURL() {
+  get passwordResetParams() {
     if (this.loginForm.controls['email'].value.trim() !== '') {
       return {
         mode: 'initResetPassword',

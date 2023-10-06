@@ -2,13 +2,13 @@ import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthenticationService } from '../../services/authentication.service';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { matchPasswords } from '../../../features/sign-up/sign-up.validators';
 import { Router } from '@angular/router';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { selectErrorMessage } from '../../states/error/error.selectors';
 import { Store } from '@ngrx/store';
 import { resetPasswordForm } from './reset-password.form';
+import { AuthValidator } from '../../../shared/validators/auth.validator';
 
 @Component({
   selector: 'app-reset-password',
@@ -28,7 +28,7 @@ export class ResetPasswordComponent {
 
   passwordChanged = false;
   passwordFormControl = this.formBuilder.group(resetPasswordForm, {
-    validators: matchPasswords,
+    validators: AuthValidator.matchPassword,
   });
   errorMessage$ = this.store.select(
     selectErrorMessage({ error: 'resetPassword' }),

@@ -6,7 +6,7 @@ import { InitResetPasswordComponent } from '../../core/components/init-reset-pas
 import { AuthenticationService } from '../../core/services/authentication.service';
 import { ResetPasswordComponent } from '../../core/components/reset-password/reset-password.component';
 import { Store } from '@ngrx/store';
-import { resolveAllErrors } from '../../core/states/error/error.actions';
+import { resolveAuthManagementErrors } from '../../core/states/error/error.actions';
 
 @Component({
   selector: 'app-auth-management',
@@ -51,6 +51,6 @@ export class AuthManagementComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.store.dispatch(resolveAllErrors());
+    this.store.dispatch(resolveAuthManagementErrors());
   }
 }
