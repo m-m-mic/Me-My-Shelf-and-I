@@ -15,20 +15,23 @@ import {
   convertFormat,
   convertProgress,
 } from '../../shared/converters/attribute.converter';
+import { RatingsService } from './ratings.service';
+
+const USERS_PATH = '/users';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
-  private usersPath = '/users';
   usersRef: AngularFirestoreCollection<User>;
 
   constructor(
     private db: AngularFirestore,
     private authenticationService: AuthenticationService,
     private destroyRef: DestroyRef,
+    private ratingsService: RatingsService,
   ) {
-    this.usersRef = db.collection(this.usersPath);
+    this.usersRef = db.collection(USERS_PATH);
   }
 
   get() {
@@ -195,9 +198,19 @@ export class UsersService {
     return this.usersRef.doc(userData.uid).update(data);
   }
 
-  async updateGameFromCollection(gameData: UserGame) {
+  async updateGameFromCollection(gameData: UserGame, initialScore: number) {
     const userData = await this.getUserData();
     if (!userData) return;
+
+    if (gameData.score != undefined && initialScore != gameData.score) {
+      if (initialScore === 0) {
+        this.ratingsService.addRating(gameData.ref.id, gameData.score);
+      } else if (gameData.score === 0) {
+        this.ratingsService.removeRating(gameData.ref.id);
+      } else {
+        this.ratingsService.updateRating(gameData.ref.id, gameData.score);
+      }
+    }
 
     const data = userData.document;
     const gamesCollection = data.collection.games;
@@ -207,6 +220,7 @@ export class UsersService {
         break;
       }
     }
+
     data.collection.games = gamesCollection;
     return this.usersRef.doc(userData.uid).update(data);
   }
@@ -269,9 +283,19 @@ export class UsersService {
     return this.usersRef.doc(userData.uid).update(data);
   }
 
-  async updateMovieFromCollection(movieData: UserMovie) {
+  async updateMovieFromCollection(movieData: UserMovie, initialScore: number) {
     const userData = await this.getUserData();
     if (!userData) return;
+
+    if (movieData.score != undefined && initialScore != movieData.score) {
+      if (initialScore === 0) {
+        this.ratingsService.addRating(movieData.ref.id, movieData.score);
+      } else if (movieData.score === 0) {
+        this.ratingsService.removeRating(movieData.ref.id);
+      } else {
+        this.ratingsService.updateRating(movieData.ref.id, movieData.score);
+      }
+    }
 
     const data = userData.document;
     const moviesCollection = data.collection.movies;
@@ -343,9 +367,19 @@ export class UsersService {
     return this.usersRef.doc(userData.uid).update(data);
   }
 
-  async updateAlbumFromCollection(albumData: UserAlbum) {
+  async updateAlbumFromCollection(albumData: UserAlbum, initialScore: number) {
     const userData = await this.getUserData();
     if (!userData) return;
+
+    if (albumData.score != undefined && initialScore != albumData.score) {
+      if (initialScore === 0) {
+        this.ratingsService.addRating(albumData.ref.id, albumData.score);
+      } else if (albumData.score === 0) {
+        this.ratingsService.removeRating(albumData.ref.id);
+      } else {
+        this.ratingsService.updateRating(albumData.ref.id, albumData.score);
+      }
+    }
 
     const data = userData.document;
     const albumsCollection = data.collection.albums;

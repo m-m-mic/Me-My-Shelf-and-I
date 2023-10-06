@@ -23,6 +23,12 @@ export function fillMovieForm(userMovieData?: UserMovie) {
           disabled: !userMovieData.in_collection,
         },
       ],
+      score: [
+        {
+          value: userMovieData.score ?? 0,
+          disabled: !userMovieData.in_collection,
+        },
+      ],
     };
   } else {
     return {
@@ -30,6 +36,7 @@ export function fillMovieForm(userMovieData?: UserMovie) {
       progress: [{ value: 'not-started', disabled: true }],
       notes: [{ value: '', disabled: true }],
       added_on: [{ value: 0, disabled: true }],
+      score: [{ value: 0, disabled: true }],
     };
   }
 }
@@ -45,5 +52,6 @@ export function createMovieObject(
     progress: movieForm.value.progress,
     notes: movieForm.value.notes,
     added_on: movieForm.value.added_on,
+    score: movieForm.value.score,
   };
 }

@@ -23,6 +23,12 @@ export function fillAlbumForm(userAlbumData?: UserAlbum) {
           disabled: !userAlbumData.in_collection,
         },
       ],
+      score: [
+        {
+          value: userAlbumData.score ?? 0,
+          disabled: !userAlbumData.in_collection,
+        },
+      ],
     };
   } else {
     return {
@@ -30,6 +36,7 @@ export function fillAlbumForm(userAlbumData?: UserAlbum) {
       progress: [{ value: 'not-started', disabled: true }],
       notes: [{ value: '', disabled: true }],
       added_on: [{ value: 0, disabled: true }],
+      score: [{ value: 0, disabled: true }],
     };
   }
 }
@@ -45,5 +52,6 @@ export function createAlbumObject(
     progress: albumForm.value.progress,
     notes: albumForm.value.notes,
     added_on: albumForm.value.added_on,
+    score: albumForm.value.score,
   };
 }

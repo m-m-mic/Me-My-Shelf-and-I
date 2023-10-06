@@ -6,64 +6,68 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import { ionAdd, ionBookmark, ionRemove } from '@ng-icons/ionicons';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { UsersService } from '../../core/services/users.service';
-import { AlbumsService } from '../../core/services/albums.service';
 import { createAlbumObject, fillAlbumForm } from './album.form';
 import { Album, UserAlbum } from '../../core/models/album.interface';
 import { ButtonModule } from 'primeng/button';
-import { LoadingComponent } from '../../core/layout/loading/loading.component';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { userItemsTemplate } from '../../shared/templates/user-items.template';
+import { Score } from '../../core/models/rating.interface';
+import { convertScoreToColor } from '../../shared/converters/score-color.converter';
+import { MediaDataComponent } from '../../core/components/media-data/media-data.component';
+import { SliderModule } from 'primeng/slider';
 
 @Component({
   selector: 'app-album',
   standalone: true,
   imports: [
     CommonModule,
-    NgIconComponent,
     ButtonModule,
-    LoadingComponent,
     InputTextareaModule,
     ReactiveFormsModule,
     SelectButtonModule,
+    MediaDataComponent,
+    SliderModule,
   ],
   templateUrl: './album.component.html',
   styleUrls: ['./album.component.scss'],
-  viewProviders: [provideIcons({ ionAdd, ionRemove, ionBookmark })],
 })
 export class AlbumComponent implements OnChanges {
   formBuilder = inject(FormBuilder);
-  albumsService = inject(AlbumsService);
   usersService = inject(UsersService);
 
   @Input() albumData?: Album;
   @Input() userAlbumData?: UserAlbum;
   @Input() id?: string;
+  @Input() score?: Score;
 
   albumForm: FormGroup = this.formBuilder.group(fillAlbumForm());
   selectItems = userItemsTemplate;
+  initialScore = 0;
 
   ngOnChanges(changes: SimpleChanges) {
+    this.initialScore = this.userAlbumData?.score ?? 0;
     this.albumForm = this.formBuilder.group(fillAlbumForm(this.userAlbumData));
   }
 
-  addToCollection() {
-    if (this.id) this.albumsService.saveToUserCollection(this.id);
+  get currentScore() {
+    const score = this.albumForm.controls['score'].value;
+    if (score === 0) return 'Unrated';
+    return score.toString();
+  }
+
+  get containerColorClass() {
+    return convertScoreToColor(this.albumForm.controls['score'].value);
   }
 
   updateData() {
     if (this.userAlbumData && this.albumForm) {
       this.usersService.updateAlbumFromCollection(
         createAlbumObject(this.userAlbumData.ref, this.albumForm),
+        this.initialScore,
       );
     }
-  }
-
-  removeFromCollection() {
-    if (this.id) this.albumsService.removeFromUserCollection(this.id);
   }
 }

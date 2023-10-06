@@ -17,6 +17,12 @@ export function fillGameForm(userGameData?: UserGame) {
       added_on: [
         { value: userGameData.added_on, disabled: !userGameData.in_collection },
       ],
+      score: [
+        {
+          value: userGameData.score ?? 0,
+          disabled: !userGameData.in_collection,
+        },
+      ],
     };
   } else {
     return {
@@ -24,6 +30,7 @@ export function fillGameForm(userGameData?: UserGame) {
       progress: [{ value: 'not-started', disabled: true }],
       notes: [{ value: '', disabled: true }],
       added_on: [{ value: 0, disabled: true }],
+      score: [{ value: 0, disabled: true }],
     };
   }
 }
@@ -39,5 +46,6 @@ export function createGameObject(
     progress: gameForm.value.progress,
     notes: gameForm.value.notes,
     added_on: gameForm.value.added_on,
+    score: gameForm.value.score,
   };
 }

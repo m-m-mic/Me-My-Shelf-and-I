@@ -1,0 +1,8 @@
+<div class="container" [ngClass]="containerColorClass">
+  <div class="average">
+    {{ score.average | number: '1.1-1' }}
+  </div>
+  <div class="ratings">
+    {{ score.ratings }} {{ score.ratings === 1 ? 'user' : 'users' }}
+  </div>
+</div>

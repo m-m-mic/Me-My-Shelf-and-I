@@ -20,6 +20,7 @@ export interface UserAlbum {
   format: FormatType;
   notes: string;
   added_on: number;
+  score?: number;
 }
 
 export interface AlbumRow {
