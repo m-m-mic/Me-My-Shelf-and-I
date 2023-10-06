@@ -8,33 +8,23 @@
 
 <ng-template [ngIf]="activeTab.label === 'Games'">
   <app-game-statistics [statistics]="statistics?.games" />
-  <ag-grid-angular
+  <app-media-table
     *ngIf="collection && collection.games.length > 0"
-    class="ag-theme-alpine-dark media-grid"
-    [gridOptions]="gridOptions"
-    [getRowId]="getRowId"
-    [rowData]="collection.games"
-    [columnDefs]="gameColumns" />
+    [rows]="collection.games" />
 </ng-template>
 
 <ng-template [ngIf]="activeTab.label === 'Movies'">
   <app-movie-statistics [statistics]="statistics?.movies" />
-  <ag-grid-angular
+  <app-media-table
     *ngIf="collection && collection.movies.length > 0"
-    class="ag-theme-alpine-dark media-grid"
-    [gridOptions]="gridOptions"
-    [getRowId]="getRowId"
-    [rowData]="collection.movies"
-    [columnDefs]="movieColumns" />
+    mediaType="movie"
+    [rows]="collection.movies" />
 </ng-template>
 
 <ng-template [ngIf]="activeTab.label === 'Albums'">
   <app-album-statistics [statistics]="statistics?.albums" />
-  <ag-grid-angular
+  <app-media-table
     *ngIf="collection && collection.albums.length > 0"
-    class="ag-theme-alpine-dark media-grid"
-    [gridOptions]="gridOptions"
-    [getRowId]="getRowId"
-    [rowData]="collection.albums"
-    [columnDefs]="albumColumns" />
+    mediaType="album"
+    [rows]="collection.albums" />
 </ng-template>
