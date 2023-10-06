@@ -1,5 +1,4 @@
-<app-main-navigation *ngIf="isLoggedIn" />
+<app-main-navigation *ngIf="displayName$ | async" />
 <app-header-button
-  [isLoggedIn]="isLoggedIn"
-  [menuItems]="menuItems"
-  [displayName]="displayName" />
+  [menuItems]="(menuItems$ | async) ?? []"
+  [account]="(displayName$ | async) ?? undefined" />

@@ -22,7 +22,7 @@ import { SignInStoreFacade } from './sign-in.store-facade';
     RouterLink,
   ],
   templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.scss', '../../shared/styles/form.scss'],
+  styleUrls: ['./sign-in.component.scss'],
 })
 export class SignInComponent implements OnInit, OnDestroy {
   private formBuilder = inject(FormBuilder);
