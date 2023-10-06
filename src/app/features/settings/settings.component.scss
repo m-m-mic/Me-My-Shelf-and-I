@@ -1,0 +1,11 @@
+@import '../../shared/styles/flexContent';
+@import '../../shared/styles/breakpoints';
+
+:host {
+  margin-top: 72px;
+  @include flexContent;
+}
+
+.email {
+  color: #958ba8;
+}

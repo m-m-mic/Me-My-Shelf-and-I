@@ -76,6 +76,7 @@ export class GamesService {
       notes: '',
       playtime: 0,
       added_on: new Date().getTime(),
+      score: 0,
     };
     this.addUser(gameId);
     this.usersService.addGameToCollection(game);

@@ -21,6 +21,7 @@ export interface UserGame {
   notes: string;
   added_on: number;
   playtime?: number;
+  score?: number;
 }
 
 export interface GameRow {

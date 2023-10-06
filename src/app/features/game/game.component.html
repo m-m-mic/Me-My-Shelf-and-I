@@ -1,45 +1,23 @@
-<div *ngIf="gameData; else gameDataLoading" class="media-header">
-  <div class="media-image">
-    <span [ngClass]="{ bookmark: true, visible: userGameData?.in_collection }">
-      <ng-icon name="ionBookmark" size="24" />
+<app-media-data
+  [data]="gameData"
+  [score]="score"
+  [inCollection]="userGameData?.in_collection"
+  [id]="id">
+  <ng-template [ngIf]="gameData">
+    <span>
+      Platform:
+      <b>{{ gameData.platform }}</b>
     </span>
-    <img src="assets/no_cover_placeholder.jpg" alt="Cover" />
-  </div>
-  <div class="media-info">
-    <h1>{{ gameData.title }}</h1>
-    <div class="media-data">
-      <span>
-        Platform:
-        <b>{{ gameData.platform }}</b>
-      </span>
-      <span class="data-divider">|</span>
-      <span>
-        In
-        <b>{{ gameData.saved_by.length }}</b>
-        {{ gameData.saved_by.length === 1 ? 'collection' : 'collections' }}
-      </span>
-    </div>
-  </div>
-  <button
-    *ngIf="userGameData?.in_collection; else notInCollection"
-    class="media-button remove"
-    (click)="removeFromCollection()">
-    <ng-icon name="ionRemove" size="36" />
-    <span class="media-button-title">Remove</span>
-  </button>
-  <ng-template #notInCollection>
-    <button class="media-button add" (click)="addToCollection()">
-      <ng-icon name="ionAdd" size="36" />
-      <span class="media-button-title">Add</span>
-    </button>
+    <span class="data-divider">|</span>
+    <span>
+      In
+      <b>{{ gameData.saved_by.length }}</b>
+      {{ gameData.saved_by.length === 1 ? 'collection' : 'collections' }}
+    </span>
   </ng-template>
-</div>
-<ng-template #gameDataLoading>
-  <app-loading class="media-loading" [height]="160" />
-</ng-template>
+</app-media-data>
 
 <form
-  *ngIf="gameForm; else gameFormLoading"
   [formGroup]="gameForm"
   [ngClass]="{ 'form-group': true, disabled: !userGameData?.in_collection }">
   <div class="form-header">
@@ -51,6 +29,21 @@
       icon="pi pi-check"
       styleClass="p-button-sm"
       (click)="updateData()" />
+  </div>
+  <div class="form-rating">
+    <div class="form-container">
+      <h3>Score</h3>
+      <div class="rating-selector">
+        <span class="current-score" [ngClass]="containerColorClass">
+          {{ currentScore }}
+        </span>
+        <p-slider
+          class="score-slider"
+          formControlName="score"
+          [step]="1"
+          [max]="10" />
+      </div>
+    </div>
   </div>
   <div class="form-selection">
     <span class="form-container">
@@ -84,6 +77,3 @@
     </span>
   </div>
 </form>
-<ng-template #gameFormLoading>
-  <app-loading class="media-loading" [height]="160" />
-</ng-template>

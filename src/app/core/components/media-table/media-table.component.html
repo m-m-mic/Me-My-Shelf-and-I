@@ -1,0 +1,108 @@
+<div class="table" role="table" aria-label="Media table">
+  <div class="filter">
+    <input
+      class="filter-input"
+      aria-label="Filter table"
+      [formControl]="queryFormControl"
+      [placeholder]="placeholder" />
+    <button
+      *ngIf="queryFormControl.value"
+      class="clear-button"
+      aria-label="Clear filter input"
+      (click)="queryFormControl.setValue('')">
+      <ng-icon size="20" name="ionClose" />
+    </button>
+  </div>
+  <div class="header" role="rowgroup">
+    <div class="row header-row" role="row">
+      <div class="row-item header-row-item index" role="columnheader">#</div>
+      <button
+        class="row-item header-row-item title"
+        role="columnheader"
+        (click)="toggleSort('title')">
+        <span>Title</span>
+        <app-sort-button [sort]="sortBy" column="title" />
+      </button>
+      <button
+        *ngIf="mediaType === 'game'"
+        class="row-item header-row-item platform"
+        role="columnheader"
+        (click)="toggleSort('platform')">
+        <span>Platform</span>
+        <app-sort-button [sort]="sortBy" column="platform" />
+      </button>
+      <button
+        *ngIf="mediaType === 'movie'"
+        class="row-item header-row-item director"
+        role="columnheader"
+        (click)="toggleSort('director')">
+        <span>Director</span>
+        <app-sort-button [sort]="sortBy" column="director" />
+      </button>
+      <button
+        *ngIf="mediaType === 'album'"
+        class="row-item header-row-item artist"
+        role="columnheader"
+        (click)="toggleSort('artist')">
+        <span>Artist</span>
+        <app-sort-button [sort]="sortBy" column="artist" />
+      </button>
+      <button
+        class="row-item header-row-item progress"
+        role="columnheader"
+        (click)="toggleSort('progress')">
+        <span>Progress</span>
+        <app-sort-button [sort]="sortBy" column="progress" />
+      </button>
+      <button
+        class="row-item header-row-item date"
+        role="columnheader"
+        (click)="toggleSort('added_on')">
+        <span>Added on</span>
+        <app-sort-button [sort]="sortBy" column="added_on" />
+      </button>
+    </div>
+  </div>
+  <div class="body" role="rowgroup">
+    <div
+      class="row"
+      role="row"
+      *ngFor="let row of rowArray()[currentPage]; index as i">
+      <div class="row-item index" role="cell">
+        {{ i + 1 }}
+      </div>
+      <div class="row-item title" role="cell">
+        <a class="item-link" [routerLink]="formatLink(row.id)">
+          {{ row.title }}
+        </a>
+      </div>
+      <div class="row-item platform" role="cell" *ngIf="mediaType === 'game'">
+        {{ row.platform }}
+      </div>
+      <div class="row-item director" role="cell" *ngIf="mediaType === 'movie'">
+        {{ row.director }}
+      </div>
+      <div class="row-item artist" role="cell" *ngIf="mediaType === 'album'">
+        {{ row.artist }}
+      </div>
+      <div class="row-item progress" role="cell">{{ row.progress }}</div>
+      <div class="row-item date" role="cell">
+        {{ formatDate(row.added_on) }}
+      </div>
+    </div>
+  </div>
+  <div class="no-results" *ngIf="rowArray().length === 0">
+    No results found.
+  </div>
+  <div class="underline">
+    <ng-template [ngIf]="rowArray().length > 1">
+      <button
+        class="page-button"
+        [ngClass]="{ active: i === currentPage }"
+        *ngFor="let rowPage of rowArray(); index as i"
+        (click)="currentPage = i">
+        {{ i + 1 }}
+      </button>
+    </ng-template>
+  </div>
+</div>
