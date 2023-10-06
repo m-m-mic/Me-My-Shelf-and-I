@@ -7,7 +7,7 @@ import { AuthenticationService } from '../../core/services/authentication.servic
 import { ResetPasswordComponent } from '../../core/components/reset-password/reset-password.component';
 import { Store } from '@ngrx/store';
 import { resolveAuthManagementErrors } from '../../core/states/error/error.actions';
-import { map, Observable, of } from 'rxjs';
+import { map, Observable, of, tap } from 'rxjs';
 
 @Component({
   selector: 'app-auth-management',
@@ -30,8 +30,11 @@ export class AuthManagementComponent implements OnDestroy {
     private store: Store,
   ) {
     this.route.queryParams
-      .pipe(takeUntilDestroyed())
-      .subscribe((params) => (this.params = params));
+      .pipe(
+        takeUntilDestroyed(),
+        tap((params) => (this.params = params)),
+      )
+      .subscribe();
 
     const routerData = this.router.getCurrentNavigation()?.extras.state;
 
