@@ -31,25 +31,28 @@ export class MediaDataComponent {
   @Input() id?: string;
   @Input() mediaType: 'game' | 'movie' | 'album' = 'game';
 
-  addToCollection() {
-    if (this.id) {
-      if (this.mediaType === 'game')
-        this.gamesService.saveToUserCollection(this.id);
-      if (this.mediaType === 'movie')
-        this.moviesService.saveToUserCollection(this.id);
-      if (this.mediaType === 'album')
-        this.albumsService.saveToUserCollection(this.id);
+  get mediaService() {
+    switch (this.mediaType) {
+      case 'game':
+        return this.gamesService;
+      case 'movie':
+        return this.moviesService;
+      case 'album':
+        return this.albumsService;
     }
   }
 
-  removeFromCollection() {
-    if (this.id) {
-      if (this.mediaType === 'game')
-        this.gamesService.removeFromUserCollection(this.id);
-      if (this.mediaType === 'movie')
-        this.moviesService.removeFromUserCollection(this.id);
-      if (this.mediaType === 'album')
-        this.albumsService.removeFromUserCollection(this.id);
+  addToCollection() {
+    if (!this.id) {
+      return;
     }
+    this.mediaService.saveToUserCollection(this.id);
+  }
+
+  removeFromCollection() {
+    if (!this.id) {
+      return;
+    }
+    this.mediaService.removeFromUserCollection(this.id);
   }
 }

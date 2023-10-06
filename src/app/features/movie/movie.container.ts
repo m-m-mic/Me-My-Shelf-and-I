@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { UsersService } from '../../core/services/users.service';
 import { ActivatedRoute } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
-import { Observable, of, switchMap } from 'rxjs';
+import { filter, map, Observable, of, switchMap } from 'rxjs';
 import { MoviesService } from '../../core/services/movies.service';
 import { Movie, UserMovie } from '../../core/models/movie.interface';
 import { MovieComponent } from './movie.component';
@@ -22,10 +22,10 @@ import { RatingsService } from '../../core/services/ratings.service';
   `,
 })
 export class MovieContainerComponent {
-  movieId$?: Observable<string | undefined>;
+  movieId$?: Observable<string>;
   movieData$?: Observable<Movie | undefined>;
   userMovieData$?: Observable<UserMovie | undefined>;
-  movieScore$?: Observable<Score | undefined>;
+  movieScore$?: Observable<Score>;
 
   constructor(
     private moviesService: MoviesService,
@@ -34,32 +34,24 @@ export class MovieContainerComponent {
     private route: ActivatedRoute,
   ) {
     this.movieId$ = this.route.paramMap.pipe(
-      switchMap((paramMap) => {
-        const id = paramMap.get('movieId');
-        if (id) return of(id);
-        return of(undefined);
-      }),
+      map((paramMap) => paramMap.get('movieId') ?? ''),
     );
     this.movieData$ = this.route.paramMap.pipe(
-      switchMap((paramMap) => {
-        const id = paramMap.get('movieId');
-        if (id) return this.moviesService.get(id);
-        return of(undefined);
-      }),
+      map((paramMap) => paramMap.get('movieId')),
+      filter((movieId) => movieId !== null),
+      switchMap((movieId) => this.moviesService.get(movieId ?? '')),
     );
     this.userMovieData$ = this.route.paramMap.pipe(
-      switchMap((paramMap) => {
-        const id = paramMap.get('movieId');
-        if (id) return this.usersService.getUserMovie(id);
-        return of(undefined);
-      }),
+      map((paramMap) => paramMap.get('movieId')),
+      filter((movieId) => movieId !== null),
+      switchMap((movieId) => this.usersService.getUserMovie(movieId ?? '')),
     );
     this.movieScore$ = this.route.paramMap.pipe(
-      switchMap((paramMap) => {
-        const id = paramMap.get('movieId');
-        if (id) return this.ratingsService.getAverageScore(id);
-        return of(undefined);
-      }),
+      map((paramMap) => paramMap.get('movieId')),
+      filter((movieId) => movieId !== null),
+      switchMap((movieId) =>
+        this.ratingsService.getAverageScore(movieId ?? ''),
+      ),
     );
   }
 }

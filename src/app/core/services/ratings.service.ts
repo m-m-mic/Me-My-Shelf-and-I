@@ -1,11 +1,10 @@
-import { DestroyRef, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
 import { Rating, Score } from '../models/rating.interface';
 import { AuthenticationService } from './authentication.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { firstValueFrom, map, Observable } from 'rxjs';
 
 const RATINGS_PATH = '/ratings';
@@ -19,7 +18,6 @@ export class RatingsService {
   constructor(
     private db: AngularFirestore,
     private authenticationService: AuthenticationService,
-    private destroyRef: DestroyRef,
   ) {
     this.ratingsRef = db.collection(RATINGS_PATH);
   }
@@ -31,7 +29,6 @@ export class RatingsService {
       )
       .valueChanges()
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
         map((items) => {
           let cumulativeScore = 0;
           items.forEach(

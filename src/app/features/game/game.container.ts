@@ -4,7 +4,7 @@ import { GamesService } from '../../core/services/games.service';
 import { UsersService } from '../../core/services/users.service';
 import { ActivatedRoute } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
-import { Observable, of, switchMap } from 'rxjs';
+import { filter, map, Observable, switchMap } from 'rxjs';
 import { Game, UserGame } from '../../core/models/game.interface';
 import { Score } from '../../core/models/rating.interface';
 import { RatingsService } from '../../core/services/ratings.service';
@@ -21,10 +21,10 @@ import { RatingsService } from '../../core/services/ratings.service';
   `,
 })
 export class GameContainerComponent {
-  gameId$?: Observable<string | undefined>;
+  gameId$?: Observable<string>;
   gameData$?: Observable<Game | undefined>;
   userGameData$?: Observable<UserGame | undefined>;
-  gameScore$?: Observable<Score | undefined>;
+  gameScore$?: Observable<Score>;
 
   constructor(
     private gamesService: GamesService,
@@ -33,32 +33,22 @@ export class GameContainerComponent {
     private route: ActivatedRoute,
   ) {
     this.gameId$ = this.route.paramMap.pipe(
-      switchMap((paramMap) => {
-        const id = paramMap.get('gameId');
-        if (id) return of(id);
-        return of(undefined);
-      }),
+      map((paramMap) => paramMap.get('gameId') ?? ''),
     );
     this.gameData$ = this.route.paramMap.pipe(
-      switchMap((paramMap) => {
-        const id = paramMap.get('gameId');
-        if (id) return this.gamesService.get(id);
-        return of(undefined);
-      }),
+      map((paramMap) => paramMap.get('gameId')),
+      filter((gameId) => gameId !== null),
+      switchMap((gameId) => this.gamesService.get(gameId ?? '')),
     );
     this.userGameData$ = this.route.paramMap.pipe(
-      switchMap((paramMap) => {
-        const id = paramMap.get('gameId');
-        if (id) return this.usersService.getUserGame(id);
-        return of(undefined);
-      }),
+      map((paramMap) => paramMap.get('gameId')),
+      filter((gameId) => gameId !== null),
+      switchMap((gameId) => this.usersService.getUserGame(gameId ?? '')),
     );
     this.gameScore$ = this.route.paramMap.pipe(
-      switchMap((paramMap) => {
-        const id = paramMap.get('gameId');
-        if (id) return this.ratingsService.getAverageScore(id);
-        return of(undefined);
-      }),
+      map((paramMap) => paramMap.get('gameId')),
+      filter((gameId) => gameId !== null),
+      switchMap((gameId) => this.ratingsService.getAverageScore(gameId ?? '')),
     );
   }
 }
