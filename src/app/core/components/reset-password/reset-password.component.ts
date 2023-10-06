@@ -28,7 +28,7 @@ export class ResetPasswordComponent {
 
   passwordChanged = false;
   passwordFormControl = this.formBuilder.group(resetPasswordForm, {
-    validators: AuthValidator.matchPassword,
+    validators: AuthValidator.matchPassword(),
   });
   errorMessage$ = this.store.select(
     selectErrorMessage({ error: 'resetPassword' }),
