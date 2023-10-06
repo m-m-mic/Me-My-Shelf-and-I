@@ -39,6 +39,10 @@ export class InitResetPasswordComponent implements OnChanges {
   emailSent = false;
 
   ngOnChanges(changes: SimpleChanges) {
+    if (!changes['email'].currentValue) {
+      return;
+    }
+
     if (this.email) {
       this.emailForm.setValue(this.email);
     }
