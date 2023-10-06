@@ -1,5 +1,6 @@
 .form-container {
-  width: 440px;
+  max-width: 440px;
+  width: 100%;
   background: var(--highlight-bg);
   display: flex;
   flex-flow: column;
