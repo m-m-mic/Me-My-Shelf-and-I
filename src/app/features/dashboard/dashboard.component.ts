@@ -5,7 +5,7 @@ import { UsersService } from '../../core/services/users.service';
 import { GameCardComponent } from '../../core/components/game-card/game-card.component';
 import { UserCollection } from '../../core/models/user.interface';
 import { LoadingComponent } from '../../core/layout/loading/loading.component';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
 import { MovieCardComponent } from '../../core/components/movie-card/movie-card.component';
 import { AlbumCardComponent } from '../../core/components/album-card/album-card.component';
 import { MenuItem } from 'primeng/api';
@@ -15,6 +15,8 @@ import { UserStatistics } from '../../core/models/statistics.interface';
 import { AlbumStatisticsComponent } from '../../core/components/album-statistics/album-statistics.component';
 import { MovieStatisticsComponent } from '../../core/components/movie-statistics/movie-statistics.component';
 import { MediaTableComponent } from '../../core/components/media-table/media-table.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -47,16 +49,38 @@ export class DashboardComponent {
   ];
   activeTab: MenuItem = this.tabItems[0];
 
-  constructor(private usersService: UsersService) {
+  constructor(
+    private usersService: UsersService,
+    private route: ActivatedRoute,
+    private router: Router,
+  ) {
     usersService.getCollection().then((collection) => {
       if (collection) {
         this.collection = collection;
         this.statistics = usersService.getCollectionStatistics(collection);
       }
     });
+
+    route.queryParams.pipe(takeUntilDestroyed()).subscribe((params) => {
+      if (!params) return;
+      const mediaType = params['tab'];
+      switch (mediaType) {
+        case 'movies':
+          this.activeTab = this.tabItems[1];
+          return;
+        case 'albums':
+          this.activeTab = this.tabItems[2];
+          return;
+        default:
+          this.activeTab = this.tabItems[0];
+          return;
+      }
+    });
   }
 
   changeActiveItem(event: MenuItem) {
-    this.activeTab = event;
+    this.router.navigate(['/dashboard'], {
+      queryParams: { tab: event.label?.toLowerCase() },
+    });
   }
 }
