@@ -1,12 +1,18 @@
 <form [formGroup]="loginForm" class="form-container">
-  <h2>Sign In</h2>
+  <h2 class="form-title">Sign In</h2>
   <div class="form-inputs">
-    <span class="p-float-label">
-      <input pInputText type="email" id="email" formControlName="email" />
+    <span class="p-float-label form-input-wrapper">
+      <input
+        class="form-input"
+        pInputText
+        type="email"
+        id="email"
+        formControlName="email" />
       <label htmlFor="email">Email</label>
     </span>
-    <span class="p-float-label">
+    <span class="p-float-label form-input-wrapper">
       <input
+        class="form-input"
         pInputText
         type="password"
         id="password"

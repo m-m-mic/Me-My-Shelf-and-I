@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "host": "ng serve --host 0.0.0.0",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
@@ -25,8 +26,6 @@
     "@ngrx/effects": "^16.2.0",
     "@ngrx/store": "^16.2.0",
     "@ngrx/store-devtools": "^16.2.0",
-    "ag-grid-angular": "^30.1.0",
-    "ag-grid-community": "^30.1.0",
     "firebase": "^10.3.1",
     "primeicons": "^6.0.1",
     "primeng": "^16.3.1",

@@ -1,4 +1,4 @@
-import { Component, DestroyRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { signOut } from '../../states/auth/auth.actions';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MainNavigationComponent } from '../../components/main-navigation/main-navigation.component';
+import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -22,44 +23,50 @@ import { MainNavigationComponent } from '../../components/main-navigation/main-n
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  isLoggedIn = false;
-  displayName = 'Account';
-  menuItems!: MenuItem[];
+  displayName$: Observable<string | undefined>;
+  menuItems$: Observable<MenuItem[]>;
 
   constructor(
     private authenticationService: AuthenticationService,
     private store: Store,
   ) {
-    this.authenticationService
-      .getUser()
-      .pipe(takeUntilDestroyed())
-      .subscribe((user) => {
+    this.displayName$ = this.authenticationService.authUser$.pipe(
+      takeUntilDestroyed(),
+      map((user) => {
         if (user) {
-          this.isLoggedIn = true;
-          this.displayName = user.displayName ?? (user.email as string);
-        } else {
-          this.isLoggedIn = false;
-          this.displayName = 'Account';
+          return user.displayName ?? user.email ?? 'Account';
         }
-        this.menuItems = [
+        return undefined;
+      }),
+    );
+    this.menuItems$ = this.authenticationService.authUser$.pipe(
+      takeUntilDestroyed(),
+      map((user) => {
+        if (user) {
+          return [
+            {
+              label: 'Settings',
+              routerLink: '/settings',
+            },
+            {
+              label: 'Sign Out',
+              command: () => {
+                this.store.dispatch(signOut());
+              },
+            },
+          ];
+        }
+        return [
           {
             label: 'Sign In',
             routerLink: '/sign-in',
-            visible: !this.isLoggedIn,
           },
           {
             label: 'Sign Up',
             routerLink: '/sign-up',
-            visible: !this.isLoggedIn,
-          },
-          {
-            label: 'Sign Out',
-            command: () => {
-              this.store.dispatch(signOut());
-            },
-            visible: this.isLoggedIn,
           },
         ];
-      });
+      }),
+    );
   }
 }

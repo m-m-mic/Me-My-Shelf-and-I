@@ -1,0 +1,47 @@
+@import '../../../shared/styles/breakpoints';
+
+:host {
+  display: flex;
+  flex-flow: column;
+  gap: 16px;
+}
+
+.options-headline {
+  @include breakpoint-max(440px) {
+    display: none;
+  }
+}
+
+.options-below {
+  display: none;
+  justify-content: center;
+  @include breakpoint-max(440px) {
+    display: flex;
+  }
+}
+
+.headline-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.input-wrapper {
+  max-width: 400px;
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  gap: 4px;
+}
+
+.enabled-options {
+  display: flex;
+  gap: 8px;
+}
+
+.validator-error {
+  margin-top: 4px;
+  width: 100%;
+  text-align: right;
+  color: var(--red-100);
+}

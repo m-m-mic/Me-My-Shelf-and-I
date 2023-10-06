@@ -1,12 +1,13 @@
 import { inject, Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { catchError, from, Observable, throwError } from 'rxjs';
+import { catchError, from, Observable, take, throwError } from 'rxjs';
 import firebase from 'firebase/compat';
 import { Store } from '@ngrx/store';
 import { resolveError, setErrorMessage } from '../states/error/error.actions';
 import { AuthCredentials } from '../models/authCredentials.interface';
 import FirebaseError = firebase.FirebaseError;
 import UserCredential = firebase.auth.UserCredential;
+import { EmailAuthProvider } from 'firebase/auth';
 
 @Injectable({
   providedIn: 'root',
@@ -104,6 +105,38 @@ export class AuthenticationService {
         }),
       );
       return;
+    }
+  }
+
+  updateDisplayName(name: string) {
+    this.auth.authState.pipe(take(1)).subscribe((user) => {
+      if (user) {
+        user.updateProfile({ displayName: name });
+      }
+    });
+  }
+
+  updatePassword(password: string) {
+    this.auth.authState.pipe(take(1)).subscribe((user) => {
+      if (user) {
+        user.updatePassword(password);
+      }
+    });
+  }
+
+  async validatePassword(password: string) {
+    const user = await this.auth.currentUser;
+    if (!user?.email) {
+      throw new Error('Could not find user');
+    }
+
+    const credential = EmailAuthProvider.credential(user.email, password);
+
+    try {
+      const reauth = await user.reauthenticateWithCredential(credential);
+      return !!reauth;
+    } catch {
+      return false;
     }
   }
 

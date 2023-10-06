@@ -28,8 +28,7 @@ import { signOut } from '../../states/auth/auth.actions';
 export class HeaderButtonComponent {
   store = inject(Store);
 
-  @Input() isLoggedIn = false;
-  @Input() displayName = 'Account';
+  @Input() account?: string;
   @Input({ required: true }) menuItems!: MenuItem[];
 
   sidebarVisible = false;

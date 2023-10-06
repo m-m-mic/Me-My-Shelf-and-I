@@ -77,6 +77,7 @@ export class AlbumsService {
       progress: 'not-started',
       notes: '',
       added_on: new Date().getTime(),
+      score: 0,
     };
     this.addUser(albumId);
     this.usersService.addAlbumToCollection(album);
