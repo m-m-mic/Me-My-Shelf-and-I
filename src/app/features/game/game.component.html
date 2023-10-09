@@ -57,13 +57,15 @@
         formControlName="progress" />
     </span>
     <span class="form-container">
-      <h3>Play time</h3>
-      <div class="playtime-wrapper">
-        <span style="flex-shrink: unset">
-          <p-inputNumber formControlName="playtime" />
-        </span>
+      <h3>Playtime</h3>
+      <span class="playtime-wrapper">
+        <p-inputNumber
+          formControlName="playtime"
+          locale="en-US"
+          [min]="0"
+          [max]="99999" />
         <span>hours</span>
-      </div>
+      </span>
     </span>
   </div>
   <div class="form-notes">
