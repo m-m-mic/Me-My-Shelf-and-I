@@ -18,6 +18,8 @@ import { Score } from '../../core/models/rating.interface';
 import { convertScoreToColor } from '../../shared/converters/score-color.converter';
 import { MediaDataComponent } from '../../core/components/media-data/media-data.component';
 import { SliderModule } from 'primeng/slider';
+import { Title } from '@angular/platform-browser';
+import { convertTitle } from '../../shared/converters/title.converter';
 
 @Component({
   selector: 'app-album',
@@ -37,6 +39,7 @@ import { SliderModule } from 'primeng/slider';
 export class AlbumComponent implements OnChanges {
   formBuilder = inject(FormBuilder);
   usersService = inject(UsersService);
+  title = inject(Title);
 
   @Input() albumData?: Album;
   @Input() userAlbumData?: UserAlbum;
@@ -49,6 +52,9 @@ export class AlbumComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     this.initialScore = this.userAlbumData?.score ?? 0;
+    if (this.albumData) {
+      this.title.setTitle(convertTitle(this.albumData.title));
+    }
     this.albumForm = this.formBuilder.group(fillAlbumForm(this.userAlbumData));
   }
 

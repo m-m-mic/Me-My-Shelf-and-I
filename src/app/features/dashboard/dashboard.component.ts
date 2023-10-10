@@ -15,6 +15,8 @@ import { UserStatistics } from '../../core/models/statistics.interface';
 import { AlbumStatisticsComponent } from '../../core/components/album-statistics/album-statistics.component';
 import { MovieStatisticsComponent } from '../../core/components/movie-statistics/movie-statistics.component';
 import { MediaTableComponent } from '../../core/components/media-table/media-table.component';
+import { Title } from '@angular/platform-browser';
+import { convertTitle } from '../../shared/converters/title.converter';
 
 @Component({
   selector: 'app-dashboard',
@@ -47,13 +49,17 @@ export class DashboardComponent {
   ];
   activeTab: MenuItem = this.tabItems[0];
 
-  constructor(private usersService: UsersService) {
+  constructor(
+    private usersService: UsersService,
+    private title: Title,
+  ) {
     usersService.getCollection().then((collection) => {
       if (collection) {
         this.collection = collection;
         this.statistics = usersService.getCollectionStatistics(collection);
       }
     });
+    title.setTitle(convertTitle('Dashboard'));
   }
 
   changeActiveItem(event: MenuItem) {

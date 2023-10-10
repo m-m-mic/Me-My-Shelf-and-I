@@ -1,4 +1,5 @@
 export const EnvironmentDefault = {
+  pageName: 'Me, My Shelf & I',
   firebaseConfig: {
     apiKey: 'AIzaSyBD1TWB0-MsRtLRkoVnfRyCm7bGs-XynV0',
     authDomain: 'me-my-shelf-and-i-d39be.firebaseapp.com',

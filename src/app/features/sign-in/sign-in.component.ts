@@ -10,6 +10,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { RouterLink } from '@angular/router';
 import { SignInStoreFacade } from './sign-in.store-facade';
+import { Title } from '@angular/platform-browser';
+import { convertTitle } from '../../shared/converters/title.converter';
 
 @Component({
   selector: 'app-sign-in',
@@ -27,6 +29,7 @@ import { SignInStoreFacade } from './sign-in.store-facade';
 export class SignInComponent implements OnInit, OnDestroy {
   private formBuilder = inject(FormBuilder);
   private store = inject(SignInStoreFacade);
+  private title = inject(Title);
 
   loginForm!: FormGroup;
   errorMessage$ = this.store.errorMessage$;
@@ -36,6 +39,7 @@ export class SignInComponent implements OnInit, OnDestroy {
       email: ['', [Validators.required]],
       password: ['', [Validators.required]],
     });
+    this.title.setTitle(convertTitle('Sign In'));
   }
 
   ngOnDestroy() {

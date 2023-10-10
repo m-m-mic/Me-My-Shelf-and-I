@@ -20,6 +20,8 @@ import { Score } from '../../core/models/rating.interface';
 import { SliderModule } from 'primeng/slider';
 import { convertScoreToColor } from '../../shared/converters/score-color.converter';
 import { MediaDataComponent } from '../../core/components/media-data/media-data.component';
+import { Title } from '@angular/platform-browser';
+import { convertTitle } from '../../shared/converters/title.converter';
 
 @Component({
   selector: 'app-game',
@@ -41,6 +43,7 @@ import { MediaDataComponent } from '../../core/components/media-data/media-data.
 export class GameComponent implements OnChanges {
   formBuilder = inject(FormBuilder);
   usersService = inject(UsersService);
+  title = inject(Title);
 
   @Input() gameData?: Game;
   @Input() userGameData?: UserGame;
@@ -53,6 +56,9 @@ export class GameComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     this.initialScore = this.userGameData?.score ?? 0;
+    if (this.gameData) {
+      this.title.setTitle(convertTitle(this.gameData.title));
+    }
     this.gameForm = this.formBuilder.group(fillGameForm(this.userGameData));
   }
 
