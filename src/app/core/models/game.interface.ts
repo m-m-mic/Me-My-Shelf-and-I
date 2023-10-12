@@ -20,6 +20,7 @@ export interface UserGame {
   format: FormatType;
   notes: string;
   added_on: number;
+  playtime?: number;
   score?: number;
 }
 
@@ -30,4 +31,5 @@ export interface GameRow {
   progress: string;
   format: string;
   added_on: number;
+  time: number;
 }

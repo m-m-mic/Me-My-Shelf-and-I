@@ -159,8 +159,14 @@
   background: #7f74a8;
 }
 
-@container table (max-width: 870px) {
+@container table (max-width: 950px) {
   .row-item.date {
+    display: none;
+  }
+}
+
+@container table (max-width: 750px) {
+  .row-item.time {
     display: none;
   }
 }

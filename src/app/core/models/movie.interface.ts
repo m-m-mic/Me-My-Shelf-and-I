@@ -5,6 +5,7 @@ export interface Movie {
   title: string;
   director?: string;
   genres?: string[];
+  runtime?: number;
   saved_by: string[];
 }
 
@@ -29,4 +30,5 @@ export interface MovieRow {
   progress: string;
   format: string;
   added_on: number;
+  time: number;
 }

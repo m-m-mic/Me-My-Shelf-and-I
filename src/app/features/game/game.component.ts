@@ -20,6 +20,7 @@ import { Score } from '../../core/models/rating.interface';
 import { SliderModule } from 'primeng/slider';
 import { convertScoreToColor } from '../../shared/converters/score-color.converter';
 import { MediaDataComponent } from '../../core/components/media-data/media-data.component';
+import { PaginatorModule } from 'primeng/paginator';
 
 @Component({
   selector: 'app-game',
@@ -32,6 +33,7 @@ import { MediaDataComponent } from '../../core/components/media-data/media-data.
     SelectButtonModule,
     InputTextareaModule,
     ChipModule,
+    PaginatorModule,
     SliderModule,
     MediaDataComponent,
   ],

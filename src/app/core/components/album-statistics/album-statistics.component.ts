@@ -13,4 +13,18 @@ import { Statistics } from '../../models/statistics.interface';
 })
 export class AlbumStatisticsComponent {
   @Input() statistics?: Statistics;
+
+  get runtimeInHours() {
+    if (!this.statistics) {
+      return 0;
+    }
+    return Math.round(this.statistics.time / 60);
+  }
+
+  get hoursPerEntry() {
+    if (!this.statistics || this.runtimeInHours === 0) {
+      return 0;
+    }
+    return Math.round(this.runtimeInHours / this.statistics.amountInCollection);
+  }
 }
