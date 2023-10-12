@@ -5,15 +5,15 @@
   </div>
   <span class="stat-container main">
     <span class="total-amount">
-      {{ statistics.amountInCollection | number: '1.0-0' : 'en-US' }}
+      {{ statistics.amountInCollection | number: '1.0-0' }}
       {{ statistics.amountInCollection === 1 ? 'Game' : 'Games' }}
     </span>
     <span class="total-time">
-      {{ playtimeInHours | number: '1.0-0' : 'en-US' }}
+      {{ playtimeInHours | number: '1.0-0' }}
       {{ playtimeInHours === 1 ? 'hour played' : 'hours played' }}
     </span>
     <span>
-      {{ hoursPerEntry | number: '1.0-0' : 'en-US' }}
+      {{ hoursPerEntry | number: '1.0-0' }}
       {{ hoursPerEntry === 1 ? 'hour per Game' : 'hours per Game' }}
     </span>
   </span>

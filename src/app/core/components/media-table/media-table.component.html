@@ -95,7 +95,7 @@
       </div>
       <div class="row-item progress" role="cell">{{ row.progress }}</div>
       <div class="row-item time" role="cell" *ngIf="mediaType === 'game'">
-        {{ row.time / 60 | number: '1.0-0' : 'en-US' }}
+        {{ row.time / 60 | number: '1.0-0' }}
         {{ row.time / 60 === 1 ? 'hour' : 'hours' }}
       </div>
       <div class="row-item date" role="cell">
