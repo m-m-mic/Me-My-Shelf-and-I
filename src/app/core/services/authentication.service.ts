@@ -2,10 +2,10 @@ import { inject, Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { catchError, from, Observable, take, throwError } from 'rxjs';
 import firebase from 'firebase/compat';
-import FirebaseError = firebase.FirebaseError;
 import { Store } from '@ngrx/store';
 import { resolveError, setErrorMessage } from '../states/error/error.actions';
 import { AuthCredentials } from '../models/authCredentials.interface';
+import FirebaseError = firebase.FirebaseError;
 import UserCredential = firebase.auth.UserCredential;
 import { EmailAuthProvider } from 'firebase/auth';
 
@@ -55,7 +55,48 @@ export class AuthenticationService {
   }
 
   getUser() {
-    return from(this.auth.authState);
+    return this.auth.authState;
+  }
+
+  async initializeResetPassword(email: string) {
+    try {
+      this.auth.sendPasswordResetEmail(email);
+    } catch {
+      return;
+    }
+  }
+
+  async verifyResetPasswordCode(code: string) {
+    try {
+      return await this.auth.verifyPasswordResetCode(code);
+    } catch {
+      this.store.dispatch(
+        setErrorMessage({
+          error: {
+            error: 'verifyOobCode',
+            message: 'The authentication code is invalid.',
+          },
+        }),
+      );
+      return;
+    }
+  }
+
+  async resetPassword(code: string, password: string) {
+    try {
+      this.auth.confirmPasswordReset(code, password);
+      return true;
+    } catch {
+      this.store.dispatch(
+        setErrorMessage({
+          error: {
+            error: 'resetPassword',
+            message: 'Password could not be reset.',
+          },
+        }),
+      );
+      return;
+    }
   }
 
   updateDisplayName(name: string) {

@@ -11,6 +11,7 @@ import { AlbumContainerComponent } from './features/album/album.container';
 import { GamesContainerComponent } from './features/games/games.container';
 import { MoviesContainerComponent } from './features/movies/movies.container';
 import { AlbumsContainerComponent } from './features/albums/albums.container';
+import { AuthManagementComponent } from './features/auth-management/auth-management.component';
 import { SettingsComponent } from './features/settings/settings.component';
 
 export const ROUTES: Routes = [
@@ -79,6 +80,12 @@ export const ROUTES: Routes = [
     component: SignInComponent,
     canActivate: [AuthenticationGuard],
     data: { blockAuthenticated: true, redirectToSignIn: false },
+  },
+  {
+    path: 'auth',
+    component: AuthManagementComponent,
+    canActivate: [AuthenticationGuard],
+    data: { blockAuthenticated: true, redirectToSignIn: false, email: '' },
   },
   { path: '404', component: NotFoundComponent },
   { path: '**', redirectTo: '404' },
