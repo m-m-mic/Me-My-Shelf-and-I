@@ -55,6 +55,14 @@
         <app-sort-button [sort]="sortBy" column="progress" />
       </button>
       <button
+        *ngIf="mediaType === 'game'"
+        class="row-item header-row-item time"
+        role="columnheader"
+        (click)="toggleSort('time')">
+        <span>Playtime</span>
+        <app-sort-button [sort]="sortBy" column="time" />
+      </button>
+      <button
         class="row-item header-row-item date"
         role="columnheader"
         (click)="toggleSort('added_on')">
@@ -86,6 +94,10 @@
         {{ row.artist }}
       </div>
       <div class="row-item progress" role="cell">{{ row.progress }}</div>
+      <div class="row-item time" role="cell" *ngIf="mediaType === 'game'">
+        {{ row.time / 60 | number: '1.0-0' }}
+        {{ row.time / 60 === 1 ? 'hour' : 'hours' }}
+      </div>
       <div class="row-item date" role="cell">
         {{ formatDate(row.added_on) }}
       </div>

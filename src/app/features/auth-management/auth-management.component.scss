@@ -1,0 +1,8 @@
+@import '../../shared/styles/flexContent';
+
+:host {
+  @include flexContent;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+}

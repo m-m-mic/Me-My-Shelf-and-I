@@ -6,6 +6,7 @@ export interface Album {
   artist: string;
   record?: RecordType;
   genres?: string[];
+  runtime?: number;
   saved_by: string[];
 }
 

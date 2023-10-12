@@ -10,3 +10,7 @@ export const resolveError = createAction(
   '[Error] Resolve Error',
   props<{ errorType: string }>(),
 );
+
+export const resolveAuthManagementErrors = createAction(
+  '[Error] Resolve Auth Management errors',
+);

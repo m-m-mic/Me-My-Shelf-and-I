@@ -1,6 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
 import { ErrorState, initialErrorState } from './error.state';
-import { resolveError, setErrorMessage } from './error.actions';
+import {
+  resolveAuthManagementErrors,
+  resolveError,
+  setErrorMessage,
+} from './error.actions';
 
 export const errorReducer = createReducer(
   initialErrorState,
@@ -21,6 +25,18 @@ export const errorReducer = createReducer(
       if (errorArray[i] && errorArray[i].error === errorType) {
         delete errorArray[i];
       }
+    }
+    return errorArray;
+  }),
+  on(resolveAuthManagementErrors, (state): ErrorState => {
+    const errorTypes = ['resetPassword'];
+    const errorArray = [...state];
+    for (let i = 0; i < errorArray.length; i++) {
+      errorTypes.forEach((error) => {
+        if (errorArray[i] && errorArray[i].error === error) {
+          delete errorArray[i];
+        }
+      });
     }
     return errorArray;
   }),
