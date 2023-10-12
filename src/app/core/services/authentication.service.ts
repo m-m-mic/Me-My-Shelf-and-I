@@ -60,17 +60,8 @@ export class AuthenticationService {
 
   async initializeResetPassword(email: string) {
     try {
-      await this.auth.sendPasswordResetEmail(email);
-      return true;
+      this.auth.sendPasswordResetEmail(email);
     } catch {
-      this.store.dispatch(
-        setErrorMessage({
-          error: {
-            error: 'initResetPassword',
-            message: 'Reset password email could not be sent.',
-          },
-        }),
-      );
       return;
     }
   }
@@ -93,7 +84,7 @@ export class AuthenticationService {
 
   async resetPassword(code: string, password: string) {
     try {
-      await this.auth.confirmPasswordReset(code, password);
+      this.auth.confirmPasswordReset(code, password);
       return true;
     } catch {
       this.store.dispatch(

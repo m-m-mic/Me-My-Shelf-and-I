@@ -7,7 +7,7 @@ import { AuthenticationService } from '../../core/services/authentication.servic
 import { ResetPasswordComponent } from '../../core/components/reset-password/reset-password.component';
 import { Store } from '@ngrx/store';
 import { resolveAuthManagementErrors } from '../../core/states/error/error.actions';
-import { map, Observable, of, tap } from 'rxjs';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-auth-management',
@@ -44,6 +44,10 @@ export class AuthManagementComponent implements OnDestroy {
     this.mode = this.params['mode'];
     this.oobCode = this.params['oobCode'];
 
+    this.handleMode();
+  }
+
+  handleMode() {
     if (this.mode === 'resetPassword') {
       this.authenticationService
         .verifyResetPasswordCode(this.oobCode ?? '')
@@ -55,6 +59,11 @@ export class AuthManagementComponent implements OnDestroy {
             this.mode = 'initResetPassword';
           }
         });
+      return;
+    }
+
+    if (this.mode != 'initResetPassword') {
+      this.router.navigate(['/404']);
     }
   }
 

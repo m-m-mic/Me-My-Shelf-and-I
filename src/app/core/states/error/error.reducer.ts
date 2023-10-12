@@ -29,7 +29,7 @@ export const errorReducer = createReducer(
     return errorArray;
   }),
   on(resolveAuthManagementErrors, (state): ErrorState => {
-    const errorTypes = ['initResetPassword', 'resetPassword'];
+    const errorTypes = ['resetPassword'];
     const errorArray = [...state];
     for (let i = 0; i < errorArray.length; i++) {
       errorTypes.forEach((error) => {
