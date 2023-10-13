@@ -24,10 +24,10 @@
     <h2>Your Details</h2>
     <p-button
       [disabled]="!userGameData?.in_collection || !gameForm.valid"
-      class="p-button-success"
       label="Save"
       icon="pi pi-check"
-      styleClass="p-button-sm"
+      size="small"
+      severity="success"
       (click)="updateData()" />
   </div>
   <div class="form-rating">
