@@ -6,6 +6,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DividerModule } from 'primeng/divider';
 import { ChangeDisplayNameComponent } from '../../core/components/change-display-name/change-display-name.component';
 import { ChangePasswordComponent } from '../../core/components/change-password/change-password.component';
+import { VerifyEmailDisclaimerComponent } from '../../core/components/verify-email-disclaimer/verify-email-disclaimer.component';
 
 @Component({
   selector: 'app-settings',
@@ -15,6 +16,7 @@ import { ChangePasswordComponent } from '../../core/components/change-password/c
     DividerModule,
     ChangeDisplayNameComponent,
     ChangePasswordComponent,
+    VerifyEmailDisclaimerComponent,
   ],
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss'],
@@ -30,4 +32,6 @@ export class SettingsComponent {
     takeUntilDestroyed(),
     map((user) => user?.displayName ?? ''),
   );
+
+  isEmailVerified$ = this.authenticationService.isEmailVerified$;
 }

@@ -1,5 +1,8 @@
 <h1>Settings</h1>
 <div class="email" *ngIf="email$ | async">{{ email$ | async }}</div>
+<app-verify-email-disclaimer
+  *ngIf="(isEmailVerified$ | async) === false"
+  [static]="true" />
 <p-divider />
 <app-change-display-name [displayName]="(displayName$ | async) ?? ''" />
 <p-divider />

@@ -1,0 +1,24 @@
+.verify-email-disclaimer {
+  box-sizing: border-box;
+  overflow: hidden;
+  height: 60px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--primary-900);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: 200ms ease-out;
+  visibility: visible;
+}
+
+.verify-email-disclaimer.hidden {
+  visibility: hidden;
+  height: 0;
+}
+
+.verify-email-disclaimer.static {
+  border-radius: 12px;
+}

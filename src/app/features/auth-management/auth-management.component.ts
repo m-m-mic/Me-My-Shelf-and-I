@@ -48,23 +48,26 @@ export class AuthManagementComponent implements OnDestroy {
   }
 
   handleMode() {
-    if (this.mode === 'resetPassword') {
-      this.authenticationService
-        .verifyResetPasswordCode(this.oobCode ?? '')
-        .then((email) => {
-          if (email) {
-            this.validCode = true;
-            this.email = email;
-          } else {
-            this.mode = 'initResetPassword';
-          }
-        });
-      return;
+    switch (this.mode) {
+      case 'resetPassword':
+        this.authenticationService
+          .verifyResetPasswordCode(this.oobCode ?? '')
+          .then((email) => {
+            if (email) {
+              this.validCode = true;
+              this.email = email;
+            } else {
+              this.mode = 'initResetPassword';
+            }
+          });
+        return;
+      case 'initResetPassword':
+        return;
+      case 'verifyEmail':
+        return;
     }
 
-    if (this.mode != 'initResetPassword') {
-      this.router.navigate(['/404']);
-    }
+    this.router.navigate(['/404']);
   }
 
   ngOnDestroy() {

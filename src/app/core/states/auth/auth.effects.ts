@@ -26,6 +26,9 @@ export class AuthEffects {
         return this.authenticationService.signIn({ email, password }).pipe(
           map((result) => {
             if (result.user) {
+              this.authenticationService.isEmailVerified.next(
+                result.user.emailVerified,
+              );
               return authSuccess({ redirect: true });
             } else {
               return authFailure();
@@ -43,6 +46,9 @@ export class AuthEffects {
         return this.authenticationService.signUp({ email, password }).pipe(
           map((result) => {
             if (result.user) {
+              this.authenticationService.isEmailVerified.next(
+                result.user.emailVerified,
+              );
               result.user?.updateProfile({ displayName: displayName });
               this.usersService.create(result.user.uid);
               return authSuccess({ redirect: true });
@@ -81,6 +87,7 @@ export class AuthEffects {
         mergeMap(() => {
           return this.authenticationService.signOut().pipe(
             tap(() => {
+              this.authenticationService.isEmailVerified.next(true);
               this.router.navigate(['/']);
             }),
           );

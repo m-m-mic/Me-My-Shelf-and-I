@@ -1,6 +1,13 @@
 :host {
   min-height: 100vh;
   display: flex;
+  flex-flow: column;
+}
+
+.app {
+  position: relative;
+  flex: 1;
+  display: flex;
   gap: 24px;
   flex-flow: column;
   align-items: center;

@@ -1,4 +1,6 @@
 import { createAction, props } from '@ngrx/store';
+import firebase from 'firebase/compat';
+import UserCredential = firebase.auth.UserCredential;
 
 export const signIn = createAction(
   '[Auth] Sign In',

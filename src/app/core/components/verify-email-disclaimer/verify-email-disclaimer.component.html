@@ -1,0 +1,20 @@
+<div
+  class="verify-email-disclaimer"
+  [ngClass]="{
+    static,
+    hidden: (isEmailVerified$ | async) || isDismissed
+  }">
+  <span>Please verify your email!</span>
+  <p-button
+    size="small"
+    severity="secondary"
+    [text]="true"
+    (click)="sendEmail()"
+    label="Send email" />
+  <p-button
+    *ngIf="!static"
+    size="small"
+    [text]="true"
+    icon="pi pi-times"
+    (click)="dismiss()" />
+</div>

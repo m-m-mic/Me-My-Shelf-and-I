@@ -1,6 +1,14 @@
 import { inject, Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { catchError, from, Observable, take, throwError } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  from,
+  Observable,
+  take,
+  tap,
+  throwError,
+} from 'rxjs';
 import firebase from 'firebase/compat';
 import { Store } from '@ngrx/store';
 import { resolveError, setErrorMessage } from '../states/error/error.actions';
@@ -16,6 +24,8 @@ export class AuthenticationService {
   auth = inject(AngularFireAuth);
   store = inject(Store);
   authUser$ = this.auth.authState;
+  isEmailVerified = new BehaviorSubject(false);
+  isEmailVerified$ = this.isEmailVerified.asObservable();
 
   signIn({ email, password }: AuthCredentials): Observable<UserCredential> {
     this.store.dispatch(resolveError({ errorType: 'signIn' }));
@@ -97,6 +107,22 @@ export class AuthenticationService {
       );
       return;
     }
+  }
+
+  async initializeVerifyEmail() {
+    try {
+      const user = await this.auth.currentUser;
+      if (!user) {
+        throw new Error();
+      }
+      user.sendEmailVerification();
+    } catch {
+      throw new Error('Could not reset email');
+    }
+  }
+
+  async verifyEmail(code: string) {
+    const user = await this.auth.currentUser;
   }
 
   updateDisplayName(name: string) {
