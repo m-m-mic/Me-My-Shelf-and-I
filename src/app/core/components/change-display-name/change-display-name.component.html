@@ -4,19 +4,21 @@
     <p-button
       *ngIf="displayNameFormControl.disabled; else displayNameEnabled"
       label="Change"
-      styleClass="p-button-text p-button-sm"
+      [text]="true"
+      size="small"
       icon="pi pi-pencil"
       (click)="toggleFormControlDisabled()" />
     <ng-template #displayNameEnabled>
       <div class="enabled-options">
         <p-button
           label="Discard"
-          styleClass="p-button-text p-button-sm"
+          [text]="true"
+          size="small"
           icon="pi pi-times"
           (click)="toggleFormControlDisabled()" />
         <p-button
           label="Update"
-          styleClass="p-button-sm"
+          size="small"
           [disabled]="!displayNameFormControl.valid"
           icon="pi pi-check"
           (click)="update()" />
@@ -42,19 +44,21 @@
   <p-button
     *ngIf="displayNameFormControl.disabled; else displayNameEnabled"
     label="Change"
-    styleClass="p-button-text p-button-sm"
+    [text]="true"
+    size="small"
     icon="pi pi-pencil"
     (click)="toggleFormControlDisabled()" />
   <ng-template #displayNameEnabled>
     <div class="enabled-options">
       <p-button
         label="Discard"
-        styleClass="p-button-text p-button-sm"
+        [text]="true"
+        size="small"
         icon="pi pi-times"
         (click)="toggleFormControlDisabled()" />
       <p-button
         label="Update"
-        styleClass="p-button-sm"
+        size="small"
         [disabled]="!displayNameFormControl.valid"
         icon="pi pi-check"
         (click)="update()" />
