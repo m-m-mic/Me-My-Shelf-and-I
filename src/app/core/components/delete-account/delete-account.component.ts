@@ -4,16 +4,8 @@ import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ModalComponent } from '../modal/modal.component';
 import { ModalService } from '../../services/modal.service';
-import {
-  AbstractControl,
-  FormControl,
-  ReactiveFormsModule,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
-import { UsersService } from '../../services/users.service';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
 import { DeletionService } from '../../services/deletion.service';

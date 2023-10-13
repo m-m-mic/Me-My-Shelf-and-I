@@ -15,6 +15,7 @@ export class ModalComponent implements OnDestroy {
   isVisible$ = this.modalService.isVisible$;
 
   @Input() title = 'Modal';
+  @Input() state: 'default' | 'danger' | 'warning' | 'success' = 'default';
 
   closeModal() {
     this.modalService.close();

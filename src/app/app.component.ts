@@ -11,6 +11,7 @@ import { FooterComponent } from './core/layout/footer/footer.component';
 import { HeaderComponent } from './core/layout/header/header.component';
 import { LoadingComponent } from './core/layout/loading/loading.component';
 import { NgIf } from '@angular/common';
+import { ModalComponent } from './core/components/modal/modal.component';
 
 @Component({
   standalone: true,
@@ -24,6 +25,7 @@ import { NgIf } from '@angular/common';
     HeaderComponent,
     LoadingComponent,
     NgIf,
+    ModalComponent,
   ],
 })
 export class AppComponent {
