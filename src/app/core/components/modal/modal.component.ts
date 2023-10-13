@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject, Input, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
   selector: 'app-modal',
@@ -9,4 +10,17 @@ import { ButtonModule } from 'primeng/button';
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
 })
-export class ModalComponent {}
+export class ModalComponent implements OnDestroy {
+  modalService = inject(ModalService);
+  isVisible$ = this.modalService.isVisible$;
+
+  @Input() title = 'Modal';
+
+  closeModal() {
+    this.modalService.close();
+  }
+
+  ngOnDestroy() {
+    this.closeModal();
+  }
+}

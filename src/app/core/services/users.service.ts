@@ -17,6 +17,7 @@ import {
 } from '../../shared/converters/attribute.converter';
 import { RatingsService } from './ratings.service';
 import { MediaRow } from '../models/table.interface';
+import { Router } from '@angular/router';
 
 const USERS_PATH = '/users';
 
@@ -31,6 +32,7 @@ export class UsersService {
     private authenticationService: AuthenticationService,
     private destroyRef: DestroyRef,
     private ratingsService: RatingsService,
+    private router: Router,
   ) {
     this.usersRef = db.collection(USERS_PATH);
   }
@@ -62,6 +64,10 @@ export class UsersService {
     return this.usersRef
       .doc(id)
       .set({ collection: { games: [], movies: [], albums: [] } });
+  }
+
+  delete(id: string) {
+    return this.usersRef.doc(id).delete();
   }
 
   async getCollection() {

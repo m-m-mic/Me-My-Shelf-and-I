@@ -1,2 +1,20 @@
 <h2>Delete Account</h2>
-<p-button label="Delete Account" />
+<p-button label="Delete Account" severity="danger" (click)="openModal()" />
+<app-modal title="Delete Account">
+  <div>Are you certain you want to delete your account?</div>
+  <div>
+    <div>Enter your password to confirm your decision.</div>
+  </div>
+  <input
+    pInputText
+    type="password"
+    [formControl]="deletionFormControl"
+    placeholder="Enter your password here..." />
+  <div class="delete-button">
+    <p-button
+      label="Yes, delete my account"
+      severity="danger"
+      [disabled]="!deletionFormControl.valid"
+      (click)="deleteAccount()" />
+  </div>
+</app-modal>
