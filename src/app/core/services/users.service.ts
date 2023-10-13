@@ -5,10 +5,10 @@ import {
 } from '@angular/fire/compat/firestore';
 import { User, UserCollection } from '../models/user.interface';
 import { firstValueFrom, map, of, switchMap, take } from 'rxjs';
-import { GameRow, UserGame } from '../models/game.interface';
+import { UserGame } from '../models/game.interface';
 import { AuthenticationService } from './authentication.service';
-import { MovieRow, UserMovie } from '../models/movie.interface';
-import { AlbumRow, UserAlbum } from '../models/album.interface';
+import { UserMovie } from '../models/movie.interface';
+import { UserAlbum } from '../models/album.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { statisticsTemplate } from '../../shared/templates/statistics.template';
 import {

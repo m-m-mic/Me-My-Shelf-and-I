@@ -22,13 +22,3 @@ export interface UserMovie {
   added_on: number;
   score?: number;
 }
-
-export interface MovieRow {
-  id: string;
-  title: string;
-  director: string;
-  progress: string;
-  format: string;
-  added_on: number;
-  time: number;
-}

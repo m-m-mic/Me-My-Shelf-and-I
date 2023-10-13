@@ -23,13 +23,3 @@ export interface UserAlbum {
   added_on: number;
   score?: number;
 }
-
-export interface AlbumRow {
-  id: string;
-  title: string;
-  artist: string;
-  progress: string;
-  format: string;
-  added_on: number;
-  time: number;
-}

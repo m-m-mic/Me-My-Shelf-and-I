@@ -17,6 +17,12 @@ import { SettingsComponent } from './features/settings/settings.component';
 export const ROUTES: Routes = [
   {
     path: '',
+    component: LandingPageComponent,
+    canActivate: [AuthenticationGuard],
+    data: { blockAuthenticated: true, redirectToSignIn: false },
+  },
+  {
+    path: 'dashboard',
     component: DashboardComponent,
     canActivate: [AuthenticationGuard],
     data: { blockAuthenticated: false, redirectToSignIn: false },
@@ -62,12 +68,6 @@ export const ROUTES: Routes = [
     component: SettingsComponent,
     canActivate: [AuthenticationGuard],
     data: { blockAuthenticated: false, redirectToSignIn: true },
-  },
-  {
-    path: 'welcome',
-    component: LandingPageComponent,
-    canActivate: [AuthenticationGuard],
-    data: { blockAuthenticated: true, redirectToSignIn: false },
   },
   {
     path: 'sign-up',

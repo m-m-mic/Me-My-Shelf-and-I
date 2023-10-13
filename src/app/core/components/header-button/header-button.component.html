@@ -18,9 +18,8 @@
     <ng-template [ngIf]="account">
       <a
         class="sidebar-button"
-        [routerLink]="['/']"
+        [routerLink]="['/dashboard']"
         [routerLinkActive]="['active']"
-        [routerLinkActiveOptions]="{ exact: true }"
         (click)="sidebarVisible = false">
         Dashboard
       </a>
