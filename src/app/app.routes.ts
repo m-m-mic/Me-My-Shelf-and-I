@@ -84,7 +84,6 @@ export const ROUTES: Routes = [
   {
     path: 'auth',
     component: AuthManagementComponent,
-    canActivate: [AuthenticationGuard],
     data: { blockAuthenticated: true, redirectToSignIn: false, email: '' },
   },
   { path: '404', component: NotFoundComponent },

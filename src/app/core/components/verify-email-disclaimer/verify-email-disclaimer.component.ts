@@ -24,6 +24,8 @@ export class VerifyEmailDisclaimerComponent {
 
   sendEmail() {
     this.authenticationService.initializeVerifyEmail();
-    this.dismiss();
+    if (!this.static) {
+      this.dismiss();
+    }
   }
 }

@@ -1,0 +1,15 @@
+<div class="form-container">
+  <h2 class="form-title">Email verified</h2>
+  <ng-template [ngIf]="validCode" [ngIfElse]="invalidCode">
+    <div class="confirmed-verified">
+      <div>Your email has been verified.</div>
+      <p-button label="Return to dashboard" (click)="navigateToDashboard()" />
+    </div>
+  </ng-template>
+</div>
+
+<ng-template #invalidCode>
+  <div class="failed-verified">
+    <div>Email could not be verified. Please try again.</div>
+  </div>
+</ng-template>

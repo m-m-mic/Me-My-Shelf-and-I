@@ -8,11 +8,17 @@ import { ResetPasswordComponent } from '../../core/components/reset-password/res
 import { Store } from '@ngrx/store';
 import { resolveAuthManagementErrors } from '../../core/states/error/error.actions';
 import { tap } from 'rxjs';
+import { VerifyEmailComponent } from '../../core/components/verify-email/verify-email.component';
 
 @Component({
   selector: 'app-auth-management',
   standalone: true,
-  imports: [CommonModule, InitResetPasswordComponent, ResetPasswordComponent],
+  imports: [
+    CommonModule,
+    InitResetPasswordComponent,
+    ResetPasswordComponent,
+    VerifyEmailComponent,
+  ],
   templateUrl: './auth-management.component.html',
   styleUrls: ['./auth-management.component.scss'],
 })
@@ -64,6 +70,14 @@ export class AuthManagementComponent implements OnDestroy {
       case 'initResetPassword':
         return;
       case 'verifyEmail':
+        this.authenticationService
+          .verifyEmail(this.oobCode ?? '')
+          .then((result) => {
+            this.authenticationService.authUser$.subscribe((user) =>
+              console.log(user?.emailVerified),
+            );
+            this.validCode = result;
+          });
         return;
     }
 

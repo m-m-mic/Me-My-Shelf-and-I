@@ -3,3 +3,4 @@
   *ngIf="mode === 'resetPassword'"
   [email]="email"
   [oobCode]="oobCode" />
+<app-verify-email *ngIf="mode === 'verifyEmail'" [validCode]="validCode" />

@@ -122,7 +122,12 @@ export class AuthenticationService {
   }
 
   async verifyEmail(code: string) {
-    const user = await this.auth.currentUser;
+    try {
+      await this.auth.checkActionCode(code);
+      return true;
+    } catch {
+      throw new Error('Invalid code');
+    }
   }
 
   updateDisplayName(name: string) {
