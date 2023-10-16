@@ -6,6 +6,7 @@ export interface UserStatistics {
 
 export interface Statistics {
   amountInCollection: number;
+  time: number;
   formatDistribution: FormatDistribution;
   progressDistribution: ProgressDistribution;
 }

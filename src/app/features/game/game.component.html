@@ -23,11 +23,11 @@
   <div class="form-header">
     <h2>Your Details</h2>
     <p-button
-      [disabled]="!userGameData?.in_collection"
-      class="p-button-success"
+      [disabled]="!userGameData?.in_collection || !gameForm.valid"
       label="Save"
       icon="pi pi-check"
-      styleClass="p-button-sm"
+      size="small"
+      severity="success"
       (click)="updateData()" />
   </div>
   <div class="form-rating">
@@ -55,6 +55,17 @@
       <p-selectButton
         [options]="selectItems.progress"
         formControlName="progress" />
+    </span>
+    <span class="form-container">
+      <h3>Playtime</h3>
+      <span class="playtime-wrapper">
+        <p-inputNumber
+          formControlName="playtime"
+          locale="en-US"
+          [min]="0"
+          [max]="99999" />
+        <span>hours</span>
+      </span>
     </span>
   </div>
   <div class="form-notes">

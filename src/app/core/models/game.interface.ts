@@ -20,14 +20,6 @@ export interface UserGame {
   format: FormatType;
   notes: string;
   added_on: number;
+  playtime?: number;
   score?: number;
-}
-
-export interface GameRow {
-  id: string;
-  title: string;
-  platform: string;
-  progress: string;
-  format: string;
-  added_on: number;
 }

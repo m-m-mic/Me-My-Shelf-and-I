@@ -52,4 +52,8 @@ export class SignInComponent implements OnInit, OnDestroy {
       password: this.loginForm.value.password,
     });
   }
+
+  get email() {
+    return this.loginForm.value.email;
+  }
 }

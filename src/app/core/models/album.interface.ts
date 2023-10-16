@@ -6,6 +6,7 @@ export interface Album {
   artist: string;
   record?: RecordType;
   genres?: string[];
+  runtime?: number;
   saved_by: string[];
 }
 
@@ -21,13 +22,4 @@ export interface UserAlbum {
   notes: string;
   added_on: number;
   score?: number;
-}
-
-export interface AlbumRow {
-  id: string;
-  title: string;
-  artist: string;
-  progress: string;
-  format: string;
-  added_on: number;
 }

@@ -7,7 +7,7 @@ import { MediaRow, MediaSort } from '../models/table.interface';
 export class TableService {
   sortRows(rows: MediaRow[], sortBy: MediaSort) {
     const column = sortBy.column;
-    if (column === 'added_on') {
+    if (column === 'added_on' || column === 'time') {
       return rows.sort((row1, row2) => {
         const x = row1[column];
         const y = row2[column];

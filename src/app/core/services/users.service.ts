@@ -5,10 +5,10 @@ import {
 } from '@angular/fire/compat/firestore';
 import { User, UserCollection } from '../models/user.interface';
 import { firstValueFrom, map, of, switchMap, take } from 'rxjs';
-import { GameRow, UserGame } from '../models/game.interface';
+import { UserGame } from '../models/game.interface';
 import { AuthenticationService } from './authentication.service';
-import { MovieRow, UserMovie } from '../models/movie.interface';
-import { AlbumRow, UserAlbum } from '../models/album.interface';
+import { UserMovie } from '../models/movie.interface';
+import { UserAlbum } from '../models/album.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { statisticsTemplate } from '../../shared/templates/statistics.template';
 import {
@@ -19,7 +19,6 @@ import { RatingsService } from './ratings.service';
 import { MediaRow } from '../models/table.interface';
 
 const USERS_PATH = '/users';
-
 
 @Injectable({
   providedIn: 'root',
@@ -86,6 +85,7 @@ export class UsersService {
             platform: gameData.platform ?? '',
             format: convertFormat(game.format),
             progress: convertProgress(game.progress),
+            time: game.playtime ?? 0,
             added_on: game.added_on,
           });
         }
@@ -103,6 +103,10 @@ export class UsersService {
             director: movieData.director ?? '',
             format: convertFormat(movie.format),
             progress: convertProgress(movie.progress),
+            time:
+              movieData.runtime && movie.progress === 'completed'
+                ? movieData.runtime
+                : 0,
             added_on: movie.added_on,
           });
         }
@@ -120,6 +124,10 @@ export class UsersService {
             artist: albumData.artist ?? '',
             format: convertFormat(album.format),
             progress: convertProgress(album.progress),
+            time:
+              albumData.runtime && album.progress === 'completed'
+                ? albumData.runtime
+                : 0,
             added_on: album.added_on,
           });
         }
@@ -141,6 +149,7 @@ export class UsersService {
     const statistics = statisticsTemplate();
     collection.forEach((item) => {
       statistics.amountInCollection++;
+      statistics.time = statistics.time + item.time;
       switch (item.format) {
         case 'Physical':
           statistics.formatDistribution.physical++;
