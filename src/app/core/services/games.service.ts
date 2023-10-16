@@ -1,4 +1,4 @@
-import { DestroyRef, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
@@ -7,7 +7,6 @@ import { Game, UserGame } from '../models/game.interface';
 import { UsersService } from './users.service';
 import { firstValueFrom, map } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MediaCategory, MediaItem } from '../models/media.interface';
 
 const GAMES_PATH = '/games';
@@ -28,9 +27,9 @@ export class GamesService {
       this.db
         .collection<Game>(GAMES_PATH, (ref) => {
           if (query.trim() === '') {
-            return ref;
+            return ref.orderBy('title');
           }
-          return ref.where('title', '==', query);
+          return ref.where('title', '==', query).orderBy('title');
         })
         .snapshotChanges()
         .pipe(

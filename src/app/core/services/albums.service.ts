@@ -29,9 +29,9 @@ export class AlbumsService {
       this.db
         .collection<Album>(ALBUMS_PATH, (ref) => {
           if (query.trim() === '') {
-            return ref;
+            return ref.orderBy('title');
           }
-          return ref.where('title', '==', query);
+          return ref.where('title', '==', query).orderBy('title');
         })
         .snapshotChanges()
         .pipe(
@@ -39,7 +39,7 @@ export class AlbumsService {
             return albums.map(
               (album): MediaItem => ({
                 id: album.payload.doc.id,
-                category: MediaCategory.GAMES,
+                category: MediaCategory.ALBUMS,
                 ...album.payload.doc.data(),
               }),
             );

@@ -1,11 +1,12 @@
 :host {
   display: block;
   flex: 1;
+  min-width: 200px;
 }
 
 .card {
-  height: 140px;
   display: flex;
+  flex-flow: column;
   align-items: center;
   color: inherit;
   text-decoration: none;
@@ -18,10 +19,12 @@
 
   &:hover,
   &:focus {
+    transform: scale(1.02);
     background: var(--primary-800);
   }
 
   &:active {
+    transform: scale(0.98);
     background: var(--primary-700);
   }
 }
@@ -30,8 +33,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   position: relative;
 }
 
@@ -56,8 +59,8 @@
 }
 
 .card-image {
-  max-width: 100px;
-  max-height: 100px;
+  max-width: 150px;
+  max-height: 150px;
   border-radius: 8px;
 }
 
@@ -71,8 +74,16 @@
   gap: 8px;
 }
 
-.card-title {
+.card-title-wrapper {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 60px;
+}
+
+.card-title {
+  text-align: center;
   text-transform: none;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -81,6 +92,7 @@
 }
 
 .card-data {
+  text-align: center;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

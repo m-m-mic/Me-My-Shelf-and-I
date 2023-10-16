@@ -28,9 +28,9 @@ export class MoviesService {
       this.db
         .collection<Movie>(MOVIES_PATH, (ref) => {
           if (query.trim() === '') {
-            return ref;
+            return ref.orderBy('title');
           }
-          return ref.where('title', '==', query);
+          return ref.where('title', '==', query).orderBy('title');
         })
         .snapshotChanges()
         .pipe(
@@ -38,7 +38,7 @@ export class MoviesService {
             return movies.map(
               (movie): MediaItem => ({
                 id: movie.payload.doc.id,
-                category: MediaCategory.GAMES,
+                category: MediaCategory.MOVIES,
                 ...movie.payload.doc.data(),
               }),
             );

@@ -1,4 +1,4 @@
-<a class="card" [routerLink]="['/', data.category, '/', data.id]">
+<a class="card" [routerLink]="['/', data.category, data.id]">
   <span class="card-image-container">
     <span class="bookmark" [ngClass]="{ visible: isInUserCollection() }">
       <ng-icon name="ionBookmark" size="24" />
@@ -6,19 +6,18 @@
     <img class="card-image" src="assets/no_cover_placeholder.jpg" alt="Cover" />
   </span>
   <span class="card-info-container">
-    <h2 class="card-title">{{ data.title }}</h2>
-    <span class="card-data" *ngIf="data.platform">
-      Platform:
-      <b>{{ data.platform }}</b>
+    <span class="card-title-wrapper">
+      <h2 class="card-title">{{ data.title }}</h2>
     </span>
-    <span class="card-data" *ngIf="data.director">
-      Platform:
-      <b>{{ data.director }}</b>
-    </span>
-    <span class="card-data" *ngIf="data.artist">
-      Platform:
-      <b>{{ data.artist }}</b>
-    </span>
+    <b class="card-data" *ngIf="data.platform">
+      {{ data.platform }}
+    </b>
+    <b class="card-data" *ngIf="data.director">
+      {{ data.director }}
+    </b>
+    <b class="card-data" *ngIf="data.artist">
+      {{ data.artist }}
+    </b>
     <span class="card-data">
       In
       <b>{{ data.saved_by.length }}</b>
