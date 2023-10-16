@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CardComponent } from '../../core/components/card/card.component';
 import { MediaSearchComponent } from '../../core/components/media-search/media-search.component';
 import { MediaCategory } from '../../core/models/media.interface';
 import { MediaDataComponent } from '../../core/components/media-data/media-data.component';
@@ -8,12 +7,7 @@ import { MediaDataComponent } from '../../core/components/media-data/media-data.
 @Component({
   selector: 'app-games',
   standalone: true,
-  imports: [
-    CommonModule,
-    CardComponent,
-    MediaSearchComponent,
-    MediaDataComponent,
-  ],
+  imports: [CommonModule, MediaSearchComponent, MediaDataComponent],
   templateUrl: './games.component.html',
   styleUrls: ['./games.component.scss'],
 })

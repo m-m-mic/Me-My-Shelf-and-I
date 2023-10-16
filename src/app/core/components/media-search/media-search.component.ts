@@ -13,8 +13,6 @@ import { Store } from '@ngrx/store';
 import { setSearchMediaState } from '../../states/search/search.actions';
 import { selectMediaState } from '../../states/search/search.selectors';
 import { firstValueFrom } from 'rxjs';
-import { MovieCardComponent } from '../movie-card/movie-card.component';
-import { AlbumCardComponent } from '../album-card/album-card.component';
 import { MediaCategory, MediaItem } from '../../models/media.interface';
 
 @Component({
@@ -27,8 +25,6 @@ import { MediaCategory, MediaItem } from '../../models/media.interface';
     ReactiveFormsModule,
     CardComponent,
     InputSwitchModule,
-    MovieCardComponent,
-    AlbumCardComponent,
   ],
   templateUrl: './media-search.component.html',
   styleUrls: ['./media-search.component.scss'],
@@ -103,7 +99,7 @@ export class MediaSearchComponent implements OnInit {
   }
 
   async getSearchResults() {
-    this.results = await this.gamesService.getSearchResults(
+    this.results = await this.mediaService.getSearchResults(
       this.query,
       this.filterSaved,
       this.uid,

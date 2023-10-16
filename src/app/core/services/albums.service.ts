@@ -1,4 +1,4 @@
-import { DestroyRef, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
@@ -7,7 +7,6 @@ import { UsersService } from './users.service';
 import { AuthenticationService } from './authentication.service';
 import { firstValueFrom, map } from 'rxjs';
 import { Album, UserAlbum } from '../models/album.interface';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MediaCategory, MediaItem } from '../models/media.interface';
 
 const ALBUMS_PATH = '/albums';
@@ -20,25 +19,39 @@ export class AlbumsService {
   constructor(
     private usersService: UsersService,
     private authenticationService: AuthenticationService,
-    private destroyRef: DestroyRef,
     private db: AngularFirestore,
   ) {
     this.albumsRef = db.collection(ALBUMS_PATH);
   }
 
-  getAll() {
-    return this.albumsRef.snapshotChanges().pipe(
-      takeUntilDestroyed(this.destroyRef),
-      map((albums) => {
-        return albums.map(
-          (game): MediaItem => ({
-            id: game.payload.doc.id,
-            category: MediaCategory.ALBUMS,
-            ...game.payload.doc.data(),
+  async getSearchResults(query: string, filterSaved: boolean, uid: string) {
+    let results = await firstValueFrom(
+      this.db
+        .collection<Album>(ALBUMS_PATH, (ref) => {
+          if (query.trim() === '') {
+            return ref;
+          }
+          return ref.where('title', '==', query);
+        })
+        .snapshotChanges()
+        .pipe(
+          map((albums) => {
+            return albums.map(
+              (album): MediaItem => ({
+                id: album.payload.doc.id,
+                category: MediaCategory.GAMES,
+                ...album.payload.doc.data(),
+              }),
+            );
           }),
-        );
-      }),
+        ),
     );
+
+    if (filterSaved) {
+      results = results.filter((result) => !result.saved_by.includes(uid));
+    }
+
+    return results;
   }
 
   get(id: string) {
