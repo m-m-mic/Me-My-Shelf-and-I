@@ -1,6 +1,6 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { PaginatorModule } from 'primeng/paginator';
 import { GamesService } from '../../services/games.service';
@@ -10,6 +10,10 @@ import { GameCardComponent } from '../game-card/game-card.component';
 import { GameWithId } from '../../models/game.interface';
 import { ionClose } from '@ng-icons/ionicons';
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { Store } from '@ngrx/store';
+import { setSearchMediaState } from '../../states/search/search.actions';
+import { selectMediaState } from '../../states/search/search.selectors';
+import { firstValueFrom, take, tap } from 'rxjs';
 
 @Component({
   selector: 'app-media-search',
@@ -31,8 +35,9 @@ export class MediaSearchComponent implements OnInit {
   moviesService = inject(MoviesService);
   albumsService = inject(AlbumsService);
   formBuilder = inject(FormBuilder);
+  store = inject(Store);
 
-  @Input() mediaType: 'game' | 'movie' | 'album' = 'game';
+  @Input() mediaType: 'games' | 'movies' | 'albums' = 'games';
   @Input() uid = '';
   searchFormControl = this.formBuilder.group({
     query: '',
@@ -41,35 +46,29 @@ export class MediaSearchComponent implements OnInit {
   results: GameWithId[] = [];
 
   ngOnInit() {
-    this.getSearchResults();
+    this.getSearchMediaFromStore();
   }
 
   get mediaService() {
     switch (this.mediaType) {
-      case 'game':
+      case 'games':
         return this.gamesService;
-      case 'movie':
+      case 'movies':
         return this.moviesService;
-      case 'album':
+      case 'albums':
         return this.albumsService;
     }
   }
 
   get placeholder() {
     switch (this.mediaType) {
-      case 'game':
+      case 'games':
         return 'Search for Games...';
-      case 'movie':
+      case 'movies':
         return 'Search for Movies...';
-      case 'album':
+      case 'albums':
         return 'Search for Albums...';
     }
-  }
-
-  toggleSavedFilter() {
-    this.searchFormControl.controls['filterSaved'].setValue(
-      !this.searchFormControl.controls['filterSaved'].value,
-    );
   }
 
   get query() {
@@ -80,11 +79,40 @@ export class MediaSearchComponent implements OnInit {
     return this.searchFormControl.controls['filterSaved'].value ?? false;
   }
 
+  async getSearchMediaFromStore() {
+    const state = await firstValueFrom(
+      this.store.select(selectMediaState({ media: this.mediaType })),
+    );
+    if (
+      state.filterSaved !== undefined &&
+      state.query !== undefined &&
+      state.results
+    ) {
+      this.searchFormControl.controls['query'].setValue(state.query);
+      this.searchFormControl.controls['filterSaved'].setValue(
+        state.filterSaved,
+      );
+      this.results = state.results;
+    } else {
+      this.getSearchResults();
+    }
+  }
+
   async getSearchResults() {
     this.results = await this.gamesService.getSearchResults(
       this.query,
       this.filterSaved,
       this.uid,
+    );
+
+    const mediaState = {
+      query: this.query,
+      filterSaved: this.filterSaved,
+      results: this.results,
+    };
+
+    this.store.dispatch(
+      setSearchMediaState({ media: this.mediaType, mediaState }),
     );
   }
 
