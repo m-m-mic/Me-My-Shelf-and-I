@@ -10,6 +10,7 @@
   <app-game-statistics [statistics]="statistics?.games" />
   <app-media-table
     *ngIf="collection && collection.games.length > 0"
+    [category]="MediaCategory.GAMES"
     [rows]="collection.games" />
 </ng-template>
 
@@ -17,7 +18,7 @@
   <app-movie-statistics [statistics]="statistics?.movies" />
   <app-media-table
     *ngIf="collection && collection.movies.length > 0"
-    mediaType="movie"
+    [category]="MediaCategory.MOVIES"
     [rows]="collection.movies" />
 </ng-template>
 
@@ -25,6 +26,6 @@
   <app-album-statistics [statistics]="statistics?.albums" />
   <app-media-table
     *ngIf="collection && collection.albums.length > 0"
-    mediaType="album"
+    [category]="MediaCategory.ALBUMS"
     [rows]="collection.albums" />
 </ng-template>

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MovieWithId } from '../../core/models/movie.interface';
 import { MovieCardComponent } from '../../core/components/movie-card/movie-card.component';
+import { MediaItem } from '../../core/models/media.interface';
 
 @Component({
   selector: 'app-movies',
@@ -11,6 +11,6 @@ import { MovieCardComponent } from '../../core/components/movie-card/movie-card.
   styleUrls: ['./movies.component.scss'],
 })
 export class MoviesComponent {
-  @Input() moviesList: MovieWithId[] = [];
+  @Input() moviesList: MediaItem[] = [];
   @Input() uid = '';
 }

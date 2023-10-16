@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AlbumWithId } from '../../models/album.interface';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { RouterLink } from '@angular/router';
 import { ionBookmark } from '@ng-icons/ionicons';
+import { MediaItem } from '../../models/media.interface';
 
 @Component({
   selector: 'app-album-card',
@@ -14,7 +14,7 @@ import { ionBookmark } from '@ng-icons/ionicons';
   viewProviders: [provideIcons({ ionBookmark })],
 })
 export class AlbumCardComponent {
-  @Input({ required: true }) data!: AlbumWithId;
+  @Input({ required: true }) data!: MediaItem;
   @Input({ required: true }) uid!: string;
 
   isInUserCollection() {

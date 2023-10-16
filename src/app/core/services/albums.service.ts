@@ -6,8 +6,9 @@ import {
 import { UsersService } from './users.service';
 import { AuthenticationService } from './authentication.service';
 import { firstValueFrom, map } from 'rxjs';
-import { Album, AlbumWithId, UserAlbum } from '../models/album.interface';
+import { Album, UserAlbum } from '../models/album.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MediaCategory, MediaItem } from '../models/media.interface';
 
 const ALBUMS_PATH = '/albums';
 
@@ -30,8 +31,9 @@ export class AlbumsService {
       takeUntilDestroyed(this.destroyRef),
       map((albums) => {
         return albums.map(
-          (game): AlbumWithId => ({
+          (game): MediaItem => ({
             id: game.payload.doc.id,
+            category: MediaCategory.ALBUMS,
             ...game.payload.doc.data(),
           }),
         );

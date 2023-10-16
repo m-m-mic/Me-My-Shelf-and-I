@@ -6,14 +6,16 @@ import { PaginatorModule } from 'primeng/paginator';
 import { GamesService } from '../../services/games.service';
 import { MoviesService } from '../../services/movies.service';
 import { AlbumsService } from '../../services/albums.service';
-import { GameCardComponent } from '../game-card/game-card.component';
-import { GameWithId } from '../../models/game.interface';
+import { CardComponent } from '../card/card.component';
 import { ionClose } from '@ng-icons/ionicons';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { Store } from '@ngrx/store';
 import { setSearchMediaState } from '../../states/search/search.actions';
 import { selectMediaState } from '../../states/search/search.selectors';
-import { firstValueFrom, take, tap } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
+import { MovieCardComponent } from '../movie-card/movie-card.component';
+import { AlbumCardComponent } from '../album-card/album-card.component';
+import { MediaCategory, MediaItem } from '../../models/media.interface';
 
 @Component({
   selector: 'app-media-search',
@@ -23,8 +25,10 @@ import { firstValueFrom, take, tap } from 'rxjs';
     NgIcon,
     PaginatorModule,
     ReactiveFormsModule,
-    GameCardComponent,
+    CardComponent,
     InputSwitchModule,
+    MovieCardComponent,
+    AlbumCardComponent,
   ],
   templateUrl: './media-search.component.html',
   styleUrls: ['./media-search.component.scss'],
@@ -37,36 +41,36 @@ export class MediaSearchComponent implements OnInit {
   formBuilder = inject(FormBuilder);
   store = inject(Store);
 
-  @Input() mediaType: 'games' | 'movies' | 'albums' = 'games';
+  @Input() category: MediaCategory = MediaCategory.GAMES;
   @Input() uid = '';
   searchFormControl = this.formBuilder.group({
     query: '',
     filterSaved: false,
   });
-  results: GameWithId[] = [];
+  results: MediaItem[] = [];
 
   ngOnInit() {
     this.getSearchMediaFromStore();
   }
 
   get mediaService() {
-    switch (this.mediaType) {
-      case 'games':
+    switch (this.category) {
+      case MediaCategory.GAMES:
         return this.gamesService;
-      case 'movies':
+      case MediaCategory.MOVIES:
         return this.moviesService;
-      case 'albums':
+      case MediaCategory.ALBUMS:
         return this.albumsService;
     }
   }
 
   get placeholder() {
-    switch (this.mediaType) {
-      case 'games':
+    switch (this.category) {
+      case MediaCategory.GAMES:
         return 'Search for Games...';
-      case 'movies':
+      case MediaCategory.MOVIES:
         return 'Search for Movies...';
-      case 'albums':
+      case MediaCategory.ALBUMS:
         return 'Search for Albums...';
     }
   }
@@ -81,7 +85,7 @@ export class MediaSearchComponent implements OnInit {
 
   async getSearchMediaFromStore() {
     const state = await firstValueFrom(
-      this.store.select(selectMediaState({ media: this.mediaType })),
+      this.store.select(selectMediaState({ media: this.category })),
     );
     if (
       state.filterSaved !== undefined &&
@@ -112,7 +116,7 @@ export class MediaSearchComponent implements OnInit {
     };
 
     this.store.dispatch(
-      setSearchMediaState({ media: this.mediaType, mediaState }),
+      setSearchMediaState({ category: this.category, mediaState }),
     );
   }
 

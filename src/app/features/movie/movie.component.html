@@ -2,7 +2,7 @@
   [data]="movieData"
   [score]="score"
   [inCollection]="userMovieData?.in_collection"
-  mediaType="movie"
+  [category]="MediaCategory.MOVIES"
   [id]="id">
   <ng-template [ngIf]="movieData">
     <span>

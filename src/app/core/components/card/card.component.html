@@ -1,4 +1,4 @@
-<a class="card" [routerLink]="['/games/', data.id]">
+<a class="card" [routerLink]="['/', data.category, '/', data.id]">
   <span class="card-image-container">
     <span class="bookmark" [ngClass]="{ visible: isInUserCollection() }">
       <ng-icon name="ionBookmark" size="24" />
@@ -7,9 +7,17 @@
   </span>
   <span class="card-info-container">
     <h2 class="card-title">{{ data.title }}</h2>
-    <span class="card-data">
+    <span class="card-data" *ngIf="data.platform">
       Platform:
       <b>{{ data.platform }}</b>
+    </span>
+    <span class="card-data" *ngIf="data.director">
+      Platform:
+      <b>{{ data.director }}</b>
+    </span>
+    <span class="card-data" *ngIf="data.artist">
+      Platform:
+      <b>{{ data.artist }}</b>
     </span>
     <span class="card-data">
       In

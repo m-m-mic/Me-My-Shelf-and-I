@@ -1,17 +1,23 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GameWithId } from '../../core/models/game.interface';
-import { GameCardComponent } from '../../core/components/game-card/game-card.component';
+import { CardComponent } from '../../core/components/card/card.component';
 import { MediaSearchComponent } from '../../core/components/media-search/media-search.component';
+import { MediaCategory } from '../../core/models/media.interface';
+import { MediaDataComponent } from '../../core/components/media-data/media-data.component';
 
 @Component({
   selector: 'app-games',
   standalone: true,
-  imports: [CommonModule, GameCardComponent, MediaSearchComponent],
+  imports: [
+    CommonModule,
+    CardComponent,
+    MediaSearchComponent,
+    MediaDataComponent,
+  ],
   templateUrl: './games.component.html',
   styleUrls: ['./games.component.scss'],
 })
 export class GamesComponent {
-  @Input() gamesList: GameWithId[] = [];
   @Input() uid = '';
+  protected readonly MediaCategory = MediaCategory;
 }

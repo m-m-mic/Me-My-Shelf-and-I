@@ -18,6 +18,7 @@ import { Score } from '../../core/models/rating.interface';
 import { convertScoreToColor } from '../../shared/converters/score-color.converter';
 import { SliderModule } from 'primeng/slider';
 import { MediaDataComponent } from '../../core/components/media-data/media-data.component';
+import { MediaCategory } from '../../core/models/media.interface';
 
 @Component({
   selector: 'app-movie',
@@ -70,4 +71,6 @@ export class MovieComponent implements OnChanges {
       );
     }
   }
+
+  protected readonly MediaCategory = MediaCategory;
 }

@@ -3,12 +3,12 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
-import { Game, GameWithId, UserGame } from '../models/game.interface';
+import { Game, UserGame } from '../models/game.interface';
 import { UsersService } from './users.service';
 import { firstValueFrom, map } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Rating } from '../models/rating.interface';
+import { MediaCategory, MediaItem } from '../models/media.interface';
 
 const GAMES_PATH = '/games';
 
@@ -18,24 +18,9 @@ export class GamesService {
   constructor(
     private usersService: UsersService,
     private authenticationService: AuthenticationService,
-    private destroyRef: DestroyRef,
     private db: AngularFirestore,
   ) {
     this.gamesRef = db.collection(GAMES_PATH);
-  }
-
-  getAll() {
-    return this.gamesRef.snapshotChanges().pipe(
-      takeUntilDestroyed(this.destroyRef),
-      map((games) => {
-        return games.map(
-          (game): GameWithId => ({
-            id: game.payload.doc.id,
-            ...game.payload.doc.data(),
-          }),
-        );
-      }),
-    );
   }
 
   async getSearchResults(query: string, filterSaved: boolean, uid: string) {
@@ -51,8 +36,9 @@ export class GamesService {
         .pipe(
           map((games) => {
             return games.map(
-              (game): GameWithId => ({
+              (game): MediaItem => ({
                 id: game.payload.doc.id,
+                category: MediaCategory.GAMES,
                 ...game.payload.doc.data(),
               }),
             );

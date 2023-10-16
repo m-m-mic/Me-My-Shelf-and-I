@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { UsersService } from '../../core/services/users.service';
-import { GameCardComponent } from '../../core/components/game-card/game-card.component';
+import { CardComponent } from '../../core/components/card/card.component';
 import { UserCollection } from '../../core/models/user.interface';
 import { LoadingComponent } from '../../core/layout/loading/loading.component';
 import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
@@ -17,6 +17,7 @@ import { MovieStatisticsComponent } from '../../core/components/movie-statistics
 import { MediaTableComponent } from '../../core/components/media-table/media-table.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { tap } from 'rxjs';
+import { MediaCategory } from '../../core/models/media.interface';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,7 +25,7 @@ import { tap } from 'rxjs';
   imports: [
     CommonModule,
     ButtonModule,
-    GameCardComponent,
+    CardComponent,
     LoadingComponent,
     RouterLink,
     MovieCardComponent,
@@ -83,4 +84,6 @@ export class DashboardComponent {
       queryParams: { tab: event.label?.toLowerCase() },
     });
   }
+
+  protected readonly MediaCategory = MediaCategory;
 }

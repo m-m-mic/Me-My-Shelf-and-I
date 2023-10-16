@@ -1,6 +1,4 @@
-import { GameWithId } from '../../models/game.interface';
-import { MovieWithId } from '../../models/movie.interface';
-import { AlbumWithId } from '../../models/album.interface';
+import { MediaItem } from '../../models/media.interface';
 
 export interface SearchState {
   games: SearchMedia;
@@ -17,5 +15,5 @@ export const initialSearchState = {
 export interface SearchMedia {
   query?: string;
   filterSaved?: boolean;
-  results?: GameWithId[] | MovieWithId[] | AlbumWithId[];
+  results?: MediaItem[];
 }

@@ -8,14 +8,14 @@ import {
 
 export const searchReducer = createReducer(
   initialSearchState,
-  on(setSearchMediaState, (state, { media, mediaState }): SearchState => {
+  on(setSearchMediaState, (state, { category, mediaState }): SearchState => {
     const oldState = structuredClone(state);
-    oldState[media] = mediaState;
+    oldState[category] = mediaState;
     return oldState;
   }),
-  on(clearSearchMediaState, (state, { media }): SearchState => {
+  on(clearSearchMediaState, (state, { category }): SearchState => {
     const oldState = structuredClone(state);
-    oldState[media] = {};
+    oldState[category] = {};
     return oldState;
   }),
   on(clearSearchState, (): SearchState => initialSearchState),

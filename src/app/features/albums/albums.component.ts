@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AlbumCardComponent } from '../../core/components/album-card/album-card.component';
-import { AlbumWithId } from '../../core/models/album.interface';
+import { MediaItem } from '../../core/models/media.interface';
 
 @Component({
   selector: 'app-albums',
@@ -11,6 +11,6 @@ import { AlbumWithId } from '../../core/models/album.interface';
   styleUrls: ['./albums.component.scss'],
 })
 export class AlbumsComponent {
-  @Input() albumsList: AlbumWithId[] = [];
+  @Input() albumsList: MediaItem[] = [];
   @Input() uid = '';
 }

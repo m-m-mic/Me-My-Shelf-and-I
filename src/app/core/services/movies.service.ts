@@ -6,8 +6,9 @@ import {
 import { UsersService } from './users.service';
 import { AuthenticationService } from './authentication.service';
 import { firstValueFrom, map } from 'rxjs';
-import { Movie, MovieWithId, UserMovie } from '../models/movie.interface';
+import { Movie, UserMovie } from '../models/movie.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MediaCategory, MediaItem } from '../models/media.interface';
 
 const MOVIES_PATH = '/movies';
 
@@ -29,8 +30,9 @@ export class MoviesService {
       takeUntilDestroyed(this.destroyRef),
       map((movies) => {
         return movies.map(
-          (movie): MovieWithId => ({
+          (movie): MediaItem => ({
             id: movie.payload.doc.id,
+            category: MediaCategory.MOVIES,
             ...movie.payload.doc.data(),
           }),
         );

@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MovieWithId } from '../../models/movie.interface';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { RouterLink } from '@angular/router';
 import { ionBookmark } from '@ng-icons/ionicons';
+import { MediaItem } from '../../models/media.interface';
 
 @Component({
   selector: 'app-movie-card',
@@ -14,7 +14,7 @@ import { ionBookmark } from '@ng-icons/ionicons';
   viewProviders: [provideIcons({ ionBookmark })],
 })
 export class MovieCardComponent {
-  @Input({ required: true }) data!: MovieWithId;
+  @Input({ required: true }) data!: MediaItem;
   @Input({ required: true }) uid!: string;
 
   isInUserCollection() {

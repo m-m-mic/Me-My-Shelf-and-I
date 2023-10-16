@@ -23,5 +23,5 @@
 <b>{{ results.length }} {{ results.length === 1 ? 'result' : 'results' }}</b>
 
 <div class="search-results">
-  <app-game-card *ngFor="let result of results" [data]="result" [uid]="uid" />
+  <app-card *ngFor="let result of results" [data]="result" [uid]="uid" />
 </div>
