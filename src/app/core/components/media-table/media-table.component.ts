@@ -24,7 +24,6 @@ import { TableService } from '../../services/table.service';
   ],
   templateUrl: './media-table.component.html',
   styleUrls: ['./media-table.component.scss'],
-
   viewProviders: [provideIcons({ ionClose })],
 })
 export class MediaTableComponent {

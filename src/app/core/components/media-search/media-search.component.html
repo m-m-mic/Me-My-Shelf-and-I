@@ -1,0 +1,27 @@
+<form class="search-form" [formGroup]="searchFormControl">
+  <div class="search">
+    <input
+      class="search-input"
+      aria-label="Search for media"
+      formControlName="query"
+      [placeholder]="placeholder"
+      (blur)="getSearchResults()" />
+    <button
+      *ngIf="query"
+      class="clear-button"
+      aria-label="Clear search input"
+      (click)="clearSearchInput()">
+      <ng-icon size="20" name="ionClose" />
+    </button>
+  </div>
+  <div class="filter">
+    <p-inputSwitch formControlName="filterSaved" (click)="getSearchResults()" />
+    <span>Filter saved games</span>
+  </div>
+</form>
+
+<b>{{ results.length }} {{ results.length === 1 ? 'result' : 'results' }}</b>
+
+<div class="search-results">
+  <app-game-card *ngFor="let result of results" [data]="result" [uid]="uid" />
+</div>
