@@ -5,7 +5,7 @@ import { UsersService } from '../../core/services/users.service';
 import { GameCardComponent } from '../../core/components/game-card/game-card.component';
 import { UserCollection } from '../../core/models/user.interface';
 import { LoadingComponent } from '../../core/layout/loading/loading.component';
-import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MovieCardComponent } from '../../core/components/movie-card/movie-card.component';
 import { AlbumCardComponent } from '../../core/components/album-card/album-card.component';
 import { MenuItem } from 'primeng/api';
@@ -16,7 +16,6 @@ import { AlbumStatisticsComponent } from '../../core/components/album-statistics
 import { MovieStatisticsComponent } from '../../core/components/movie-statistics/movie-statistics.component';
 import { MediaTableComponent } from '../../core/components/media-table/media-table.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { tap } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { convertTitle } from '../../shared/converters/title.converter';
 

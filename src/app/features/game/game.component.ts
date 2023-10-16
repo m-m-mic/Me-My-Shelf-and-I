@@ -22,6 +22,7 @@ import { convertScoreToColor } from '../../shared/converters/score-color.convert
 import { MediaDataComponent } from '../../core/components/media-data/media-data.component';
 import { Title } from '@angular/platform-browser';
 import { convertTitle } from '../../shared/converters/title.converter';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 @Component({
   selector: 'app-game',
@@ -36,6 +37,7 @@ import { convertTitle } from '../../shared/converters/title.converter';
     ChipModule,
     SliderModule,
     MediaDataComponent,
+    InputNumberModule,
   ],
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.scss'],
