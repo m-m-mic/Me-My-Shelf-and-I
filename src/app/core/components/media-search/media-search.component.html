@@ -5,7 +5,7 @@
       aria-label="Search for media"
       formControlName="query"
       [placeholder]="placeholder"
-      (blur)="getSearchResults()" />
+      (blur)="triggerSearch()" />
     <button
       *ngIf="query"
       class="clear-button"
@@ -15,13 +15,20 @@
     </button>
   </div>
   <div class="filter">
-    <p-inputSwitch formControlName="filterSaved" (click)="getSearchResults()" />
+    <p-inputSwitch formControlName="filterSaved" (click)="getResults()" />
     <span>Filter saved {{ category }}</span>
   </div>
 </form>
 
-<b>{{ results.length }} {{ results.length === 1 ? 'result' : 'results' }}</b>
+<app-loading *ngIf="loading; else loaded" />
 
-<div class="search-results">
-  <app-card *ngFor="let result of results" [data]="result" [uid]="uid" />
-</div>
+<ng-template #loaded>
+  <b>{{ results.length }} {{ results.length === 1 ? 'result' : 'results' }}</b>
+
+  <div class="search-results" *ngIf="results.length; else noResults">
+    <app-card *ngFor="let result of results" [data]="result" [uid]="uid" />
+  </div>
+  <ng-template #noResults>
+    <div>No results found</div>
+  </ng-template>
+</ng-template>

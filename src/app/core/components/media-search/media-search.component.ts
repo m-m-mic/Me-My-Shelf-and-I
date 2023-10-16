@@ -8,6 +8,7 @@ import { ionClose } from '@ng-icons/ionicons';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { MediaCategory, MediaItem } from '../../models/media.interface';
 import { SearchService } from '../../services/search.service';
+import { LoadingComponent } from '../../layout/loading/loading.component';
 
 @Component({
   selector: 'app-media-search',
@@ -19,6 +20,7 @@ import { SearchService } from '../../services/search.service';
     ReactiveFormsModule,
     CardComponent,
     InputSwitchModule,
+    LoadingComponent,
   ],
   templateUrl: './media-search.component.html',
   styleUrls: ['./media-search.component.scss'],
@@ -35,6 +37,7 @@ export class MediaSearchComponent implements OnInit {
     filterSaved: false,
   });
   results: MediaItem[] = [];
+  loading = true;
 
   async ngOnInit() {
     const searchState = await this.searchService.getSearchMediaFromStore(
@@ -49,8 +52,9 @@ export class MediaSearchComponent implements OnInit {
         searchState.filterSaved ?? false,
       );
     } else {
-      this.getSearchResults();
+      await this.getResults();
     }
+    this.loading = false;
   }
 
   get placeholder() {
@@ -72,17 +76,26 @@ export class MediaSearchComponent implements OnInit {
     return this.searchFormControl.controls['filterSaved'].value ?? false;
   }
 
-  async getSearchResults() {
+  triggerSearch() {
+    if (this.query.trim() === '') {
+      return;
+    }
+    this.getResults();
+  }
+
+  async getResults() {
+    this.loading = true;
     this.results = await this.searchService.getSearchResults(
       this.category,
       this.query,
       this.filterSaved,
       this.uid,
     );
+    this.loading = false;
   }
 
   clearSearchInput() {
     this.searchFormControl.controls['query'].setValue('');
-    this.getSearchResults();
+    this.getResults();
   }
 }
