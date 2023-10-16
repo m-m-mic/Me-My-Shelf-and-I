@@ -5,6 +5,7 @@ import { AsyncPipe } from '@angular/common';
 import { MoviesComponent } from './movies.component';
 
 @Component({
+  selector: 'app-movies-container',
   standalone: true,
   imports: [AsyncPipe, MoviesComponent],
   template: `

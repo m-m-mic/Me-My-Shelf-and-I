@@ -5,6 +5,7 @@ import { AuthenticationService } from '../../core/services/authentication.servic
 import { AsyncPipe } from '@angular/common';
 
 @Component({
+  selector: 'app-games-container',
   standalone: true,
   imports: [GamesComponent, AsyncPipe],
   template: `

@@ -5,6 +5,7 @@ import { AsyncPipe } from '@angular/common';
 import { AlbumsComponent } from './albums.component';
 
 @Component({
+  selector: 'app-albums-container',
   standalone: true,
   imports: [AsyncPipe, AlbumsComponent],
   template: `
