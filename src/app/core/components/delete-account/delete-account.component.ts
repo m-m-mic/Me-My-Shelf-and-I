@@ -36,12 +36,18 @@ export class DeleteAccountComponent {
     asyncValidators: AuthValidator.checkPassword(this.authenticationService),
     updateOn: 'blur',
   });
+  isDeleting = false;
 
   openModal() {
     this.modalService.open();
   }
 
   async deleteAccount() {
-    await this.deletionService.delete();
+    this.isDeleting = true;
+    try {
+      await this.deletionService.delete();
+    } catch {
+      this.isDeleting = false;
+    }
   }
 }
