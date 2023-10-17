@@ -77,6 +77,10 @@ export class MediaTableComponent {
     }
   }
 
+  getRowIndex(index: number) {
+    return index + 1 + this.currentPage * 100;
+  }
+
   formatLink(id: string) {
     return `/${this.category}/${id}`;
   }

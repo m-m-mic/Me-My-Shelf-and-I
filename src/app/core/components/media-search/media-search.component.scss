@@ -68,6 +68,13 @@
   gap: 16px;
 }
 
+.no-results {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 160px;
+}
+
 @container search (max-width: 1100px) {
   .search-results {
     grid-template-columns: 1fr 1fr 1fr 1fr;

@@ -9,6 +9,7 @@
     <button
       *ngIf="query"
       class="clear-button"
+      type="button"
       aria-label="Clear search input"
       (click)="clearSearchInput()">
       <ng-icon size="20" name="ionClose" />
@@ -29,6 +30,6 @@
     <app-card *ngFor="let result of results" [data]="result" [uid]="uid" />
   </div>
   <ng-template #noResults>
-    <div>No results found</div>
+    <b class="no-results">No results found</b>
   </ng-template>
 </ng-template>

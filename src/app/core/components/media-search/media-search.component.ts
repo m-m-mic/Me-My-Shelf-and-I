@@ -37,6 +37,7 @@ export class MediaSearchComponent implements OnInit {
     filterSaved: false,
   });
   results: MediaItem[] = [];
+  previousQueryValue?: string;
   loading = true;
 
   async ngOnInit() {
@@ -51,6 +52,7 @@ export class MediaSearchComponent implements OnInit {
       this.searchFormControl.controls['filterSaved'].setValue(
         searchState.filterSaved ?? false,
       );
+      this.previousQueryValue = searchState.query ?? '';
     } else {
       await this.getResults();
     }
@@ -77,7 +79,7 @@ export class MediaSearchComponent implements OnInit {
   }
 
   triggerSearch() {
-    if (this.query.trim() === '') {
+    if (this.query.trim() === this.previousQueryValue) {
       return;
     }
     this.getResults();
@@ -91,6 +93,7 @@ export class MediaSearchComponent implements OnInit {
       this.filterSaved,
       this.uid,
     );
+    this.previousQueryValue = this.query.trim();
     this.loading = false;
   }
 
