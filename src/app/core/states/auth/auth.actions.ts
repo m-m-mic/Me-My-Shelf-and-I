@@ -10,6 +10,8 @@ export const signUp = createAction(
   props<{ email: string; password: string; displayName: string }>(),
 );
 
+export const signUpWithGoogle = createAction('[Auth] Sign Up With Google');
+
 export const signOut = createAction('[Auth] Sign Out');
 
 export const authSuccess = createAction(

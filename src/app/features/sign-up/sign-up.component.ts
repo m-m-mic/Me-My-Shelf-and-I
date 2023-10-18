@@ -60,4 +60,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
       displayName: this.registrationForm.value.displayName,
     });
   }
+
+  signUpWithGoogle() {
+    this.store.signUpWithGoogle();
+  }
 }

@@ -7,7 +7,7 @@ import { resolveError, setErrorMessage } from '../states/error/error.actions';
 import { AuthCredentials } from '../models/authCredentials.interface';
 import FirebaseError = firebase.FirebaseError;
 import UserCredential = firebase.auth.UserCredential;
-import { EmailAuthProvider } from 'firebase/auth';
+import { EmailAuthProvider, GoogleAuthProvider } from 'firebase/auth';
 
 @Injectable({
   providedIn: 'root',
@@ -48,6 +48,10 @@ export class AuthenticationService {
         ),
       ),
     );
+  }
+
+  signUpWithGoogle() {
+    return this.auth.signInWithPopup(new GoogleAuthProvider());
   }
 
   signOut() {

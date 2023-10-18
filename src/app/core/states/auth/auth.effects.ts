@@ -7,6 +7,7 @@ import {
   signOut,
   authSuccess,
   authFailure,
+  signUpWithGoogle,
 } from './auth.actions';
 import { exhaustMap, map, mergeMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
@@ -51,6 +52,21 @@ export class AuthEffects {
             }
           }),
         );
+      }),
+    );
+  });
+
+  signUpWithGoogle$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(signUpWithGoogle),
+      exhaustMap(() => {
+        return this.authenticationService.signUpWithGoogle().then((result) => {
+          if (result) {
+            return authSuccess({ redirect: true });
+          } else {
+            return authFailure();
+          }
+        });
       }),
     );
   });
