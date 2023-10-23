@@ -14,6 +14,10 @@ import { AlbumsContainerComponent } from './features/albums/albums.container';
 import { AuthManagementComponent } from './features/auth-management/auth-management.component';
 import { SettingsComponent } from './features/settings/settings.component';
 import { convertTitle } from './shared/converters/title.converter';
+import {
+  PageTitleService,
+  titleResolver,
+} from './core/services/page-title.service';
 
 export const ROUTES: Routes = [
   {
@@ -41,6 +45,7 @@ export const ROUTES: Routes = [
     path: 'games/:gameId',
     component: GameContainerComponent,
     canActivate: [AuthenticationGuard],
+    title: titleResolver,
     data: { blockAuthenticated: false, redirectToSignIn: true },
   },
   {
