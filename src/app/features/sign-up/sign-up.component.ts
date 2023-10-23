@@ -8,8 +8,6 @@ import { RouterLink } from '@angular/router';
 import { SignUpStoreFacade } from './sign-up.store-facade';
 import { signUpForm } from './sign-up.form';
 import { AuthValidator } from '../../shared/validators/auth.validator';
-import { Title } from '@angular/platform-browser';
-import { convertTitle } from '../../shared/converters/title.converter';
 
 @Component({
   standalone: true,
@@ -29,7 +27,6 @@ import { convertTitle } from '../../shared/converters/title.converter';
 export class SignUpComponent implements OnInit, OnDestroy {
   private formBuilder = inject(FormBuilder);
   private store = inject(SignUpStoreFacade);
-  private title = inject(Title);
 
   registrationForm!: FormGroup;
   errorMessage$ = this.store.errorMessage$;
@@ -38,7 +35,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.registrationForm = this.formBuilder.group(signUpForm, {
       validators: AuthValidator.matchPassword(),
     });
-    this.title.setTitle(convertTitle('Sign Up'));
   }
 
   ngOnDestroy() {

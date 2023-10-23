@@ -16,8 +16,6 @@ import { AlbumStatisticsComponent } from '../../core/components/album-statistics
 import { MovieStatisticsComponent } from '../../core/components/movie-statistics/movie-statistics.component';
 import { MediaTableComponent } from '../../core/components/media-table/media-table.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Title } from '@angular/platform-browser';
-import { convertTitle } from '../../shared/converters/title.converter';
 
 @Component({
   selector: 'app-dashboard',
@@ -54,7 +52,6 @@ export class DashboardComponent {
     private usersService: UsersService,
     private route: ActivatedRoute,
     private router: Router,
-    private title: Title,
   ) {
     usersService.getCollection().then((collection) => {
       if (collection) {
@@ -78,7 +75,6 @@ export class DashboardComponent {
           return;
       }
     });
-    title.setTitle(convertTitle('Dashboard'));
   }
 
   changeActiveItem(event: MenuItem) {
