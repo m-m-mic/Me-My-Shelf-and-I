@@ -1,0 +1,21 @@
+<div class="modal" [ngClass]="{ visible: (isVisible$ | async) }">
+  <div class="modal-border" [ngClass]="state">
+    <div class="modal-wrapper">
+      <div class="modal-header">
+        <h2 class="modal-title">{{ title }}</h2>
+        <p-button
+          icon="pi pi-times"
+          [rounded]="true"
+          [text]="true"
+          ariaLabel="Close Modal"
+          (click)="closeModal()" />
+      </div>
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>
+<button
+  *ngIf="isVisible$ | async"
+  class="modal-backdrop"
+  aria-label="Close modal"
+  (click)="closeModal()"></button>

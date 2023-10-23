@@ -1,8 +1,10 @@
-import { AuthenticationService } from '../../core/services/authentication.service';
+import { AuthenticationService } from '../../services/authentication.service';
 import { Validators } from '@angular/forms';
-import { AuthValidator } from '../../shared/validators/auth.validator';
+import { AuthValidator } from '../../../shared/validators/auth.validator';
 
-export const passwordForm = (authenticationService: AuthenticationService) => {
+export const changePasswordForm = (
+  authenticationService: AuthenticationService,
+) => {
   return {
     originalPassword: [
       '',

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { passwordForm } from '../../../features/settings/settings.form';
+import { changePasswordForm } from './change-password.form';
 import { AuthValidator } from '../../../shared/validators/auth.validator';
 import { AuthenticationService } from '../../services/authentication.service';
 
@@ -19,7 +19,7 @@ export class ChangePasswordComponent {
   formBuilder = inject(FormBuilder);
 
   passwordFormControl = this.formBuilder.group(
-    passwordForm(this.authenticationService),
+    changePasswordForm(this.authenticationService),
     {
       validators: AuthValidator.matchPassword(),
     },
