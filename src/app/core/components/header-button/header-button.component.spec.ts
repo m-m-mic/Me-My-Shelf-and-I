@@ -68,7 +68,7 @@ describe('HeaderButtonComponent', () => {
 
     screen.debug(screen.getAllByRole('menuitem')[1]);
 
-    // As this is a very specific, nested link without a testId or role in a PrimeNG
+    // This is a very specific, nested link without a testId or role in a PrimeNG component
     // So far I have found no better way of accessing it, might break by upgrading the PrimeNG package
     fireEvent.click(
       screen.debugElement.queryAll(By.css('.p-menuitem-link'))[1].nativeElement,

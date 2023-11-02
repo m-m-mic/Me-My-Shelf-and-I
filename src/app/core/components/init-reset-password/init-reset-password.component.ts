@@ -11,7 +11,6 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PaginatorModule } from 'primeng/paginator';
 import { ButtonModule } from 'primeng/button';
 import { AuthenticationService } from '../../services/authentication.service';
-import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-init-reset-password',
@@ -28,7 +27,6 @@ import { Store } from '@ngrx/store';
 })
 export class InitResetPasswordComponent implements OnChanges {
   authenticationService = inject(AuthenticationService);
-  store = inject(Store);
   @Input() email?: string;
 
   emailForm = new FormControl('', [Validators.required]);

@@ -57,11 +57,8 @@ describe('DeleteAccountComponent', () => {
     fireEvent.blur(input);
 
     // Wait for async validator to finish
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    console.log(screen.fixture.componentInstance.deletionFormControl.valid);
-
-    screen.debug();
+    await new Promise((resolve) => setTimeout(resolve, 200));
+    screen.detectChanges();
 
     const button = screen.getByTestId('delete-button');
 
