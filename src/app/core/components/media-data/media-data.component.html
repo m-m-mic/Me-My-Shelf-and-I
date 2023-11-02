@@ -15,12 +15,16 @@
   <button
     *ngIf="inCollection; else notInCollection"
     class="media-button remove"
+    data-testid="remove-button"
     (click)="removeFromCollection()">
     <ng-icon name="ionRemove" size="36" />
     <span class="media-button-title">Remove</span>
   </button>
   <ng-template #notInCollection>
-    <button class="media-button add" (click)="addToCollection()">
+    <button
+      class="media-button add"
+      data-testid="add-button"
+      (click)="addToCollection()">
       <ng-icon name="ionAdd" size="36" />
       <span class="media-button-title">Add</span>
     </button>

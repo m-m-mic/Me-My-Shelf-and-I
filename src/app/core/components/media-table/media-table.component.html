@@ -3,12 +3,14 @@
     <input
       class="filter-input"
       aria-label="Filter table"
+      data-testid="filter-input"
       [formControl]="queryFormControl"
       [placeholder]="placeholder" />
     <button
       *ngIf="queryFormControl.value"
       class="clear-button"
       aria-label="Clear filter input"
+      data-testid="clear-button"
       (click)="queryFormControl.setValue('')">
       <ng-icon size="20" name="ionClose" />
     </button>
@@ -80,7 +82,10 @@
         {{ i + 1 }}
       </div>
       <div class="row-item title" role="cell">
-        <a class="item-link" [routerLink]="formatLink(row.id)">
+        <a
+          class="item-link"
+          [routerLink]="formatLink(row.id)"
+          data-testid="title-link">
           {{ row.title }}
         </a>
       </div>
