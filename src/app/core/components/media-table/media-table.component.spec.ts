@@ -24,6 +24,24 @@ const gameRows: MediaRow[] = [
   },
 ];
 
+const rows = (): MediaRow[] => {
+  const rows: MediaRow[] = [];
+
+  for (let i = 0; i < 150; i++) {
+    rows.push({
+      title: `Media ${i + 1}`,
+      id: 'test-id',
+      progress: 'Not Started',
+      format: 'physical',
+      platform: 'Platform',
+      added_on: 0,
+      time: 0,
+    });
+  }
+
+  return rows;
+};
+
 describe('MediaTableComponent', () => {
   async function renderComponent() {
     return render(MediaTableComponent, {
@@ -56,6 +74,13 @@ describe('MediaTableComponent', () => {
 
     expect(rowTitles[0].textContent?.trim()).toEqual('B Game');
     expect(rowTitles[1].textContent?.trim()).toEqual('A Game');
+
+    fireEvent.click(columnHeaders[1]);
+
+    rowTitles = screen.getAllByTestId('title-link');
+
+    expect(rowTitles[0].textContent?.trim()).toEqual('A Game');
+    expect(rowTitles[1].textContent?.trim()).toEqual('B Game');
   });
 
   it('should filter rows and clear filter', async () => {
@@ -72,5 +97,40 @@ describe('MediaTableComponent', () => {
 
     expect(screen.queryByText('A Game')).toBeInTheDocument();
     expect(screen.queryByText('B Game')).toBeInTheDocument();
+  });
+
+  it('should split items into multiple pages', async () => {
+    const screen = await renderComponent();
+    await screen.rerender({ componentInputs: { rows: rows() } });
+
+    expect(screen.getAllByTestId('page-button').length).toEqual(2);
+
+    expect(screen.getAllByTestId('page-button')[0]).toHaveClass('active');
+    expect(screen.getAllByTestId('page-button')[1]).not.toHaveClass('active');
+    expect(screen.getAllByTestId('title-link').length).toEqual(100);
+
+    fireEvent.click(screen.getAllByTestId('page-button')[1]);
+
+    expect(screen.getAllByTestId('page-button')[0]).not.toHaveClass('active');
+    expect(screen.getAllByTestId('page-button')[1]).toHaveClass('active');
+    expect(screen.getAllByTestId('title-link').length).toEqual(50);
+  });
+
+  it('should display correct placeholder', async () => {
+    const screen = await renderComponent();
+
+    expect(screen.getByPlaceholderText('Search for Games...')).toBeVisible();
+
+    await screen.rerender({
+      componentInputs: { mediaType: 'movie', rows: [] },
+    });
+
+    expect(screen.getByPlaceholderText('Search for Movies...')).toBeVisible();
+
+    await screen.rerender({
+      componentInputs: { mediaType: 'album', rows: [] },
+    });
+
+    expect(screen.getByPlaceholderText('Search for Albums...')).toBeVisible();
   });
 });

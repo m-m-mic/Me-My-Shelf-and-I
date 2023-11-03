@@ -115,6 +115,7 @@
     <ng-template [ngIf]="rowArray().length > 1">
       <button
         class="page-button"
+        data-testid="page-button"
         [ngClass]="{ active: i === currentPage }"
         *ngFor="let rowPage of rowArray(); index as i"
         (click)="currentPage = i">
