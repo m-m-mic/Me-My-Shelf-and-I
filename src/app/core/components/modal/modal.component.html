@@ -1,5 +1,5 @@
 <div class="modal" [ngClass]="{ visible: (isVisible$ | async) }">
-  <div class="modal-border" [ngClass]="state">
+  <div class="modal-border" data-testid="modal-border" [ngClass]="state">
     <div class="modal-wrapper">
       <div class="modal-header">
         <h2 class="modal-title">{{ title }}</h2>
@@ -7,6 +7,7 @@
           icon="pi pi-times"
           [rounded]="true"
           [text]="true"
+          data-testid="close-button"
           ariaLabel="Close Modal"
           (click)="closeModal()" />
       </div>
@@ -18,4 +19,5 @@
   *ngIf="isVisible$ | async"
   class="modal-backdrop"
   aria-label="Close modal"
+  data-testid="modal-backdrop"
   (click)="closeModal()"></button>
