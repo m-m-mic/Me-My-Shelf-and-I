@@ -7,9 +7,11 @@ export function fillGameForm(userGameData?: UserGame) {
     return {
       format: [
         { value: userGameData.format, disabled: !userGameData.in_collection },
+        Validators.required,
       ],
       progress: [
         { value: userGameData.progress, disabled: !userGameData.in_collection },
+        Validators.required,
       ],
       notes: [
         { value: userGameData.notes, disabled: !userGameData.in_collection },
