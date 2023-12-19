@@ -4,6 +4,7 @@ import { map, take } from 'rxjs';
 import { GamesService } from '../../core/services/games.service';
 import { AuthenticationService } from '../../core/services/authentication.service';
 import { AsyncPipe } from '@angular/common';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   standalone: true,
@@ -17,6 +18,7 @@ import { AsyncPipe } from '@angular/common';
 export class GamesContainerComponent {
   gamesService = inject(GamesService);
   authenticationService = inject(AuthenticationService);
+  title = inject(Title);
 
   gamesList$ = this.gamesService.getAll();
   uid$ = this.authenticationService.getUser().pipe(

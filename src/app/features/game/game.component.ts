@@ -20,7 +20,10 @@ import { Score } from '../../core/models/rating.interface';
 import { SliderModule } from 'primeng/slider';
 import { convertScoreToColor } from '../../shared/converters/score-color.converter';
 import { MediaDataComponent } from '../../core/components/media-data/media-data.component';
-import { PaginatorModule } from 'primeng/paginator';
+import { Title } from '@angular/platform-browser';
+import { convertTitle } from '../../shared/converters/title.converter';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { PageTitleService } from '../../core/services/page-title.service';
 
 @Component({
   selector: 'app-game',
@@ -33,9 +36,9 @@ import { PaginatorModule } from 'primeng/paginator';
     SelectButtonModule,
     InputTextareaModule,
     ChipModule,
-    PaginatorModule,
     SliderModule,
     MediaDataComponent,
+    InputNumberModule,
   ],
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.scss'],
@@ -43,6 +46,7 @@ import { PaginatorModule } from 'primeng/paginator';
 export class GameComponent implements OnChanges {
   formBuilder = inject(FormBuilder);
   usersService = inject(UsersService);
+  pageTitle = inject(PageTitleService);
 
   @Input() gameData?: Game;
   @Input() userGameData?: UserGame;
@@ -55,6 +59,9 @@ export class GameComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     this.initialScore = this.userGameData?.score ?? 0;
+    if (this.gameData) {
+      this.pageTitle.pageTitle.next(this.gameData.title);
+    }
     this.gameForm = this.formBuilder.group(fillGameForm(this.userGameData));
   }
 

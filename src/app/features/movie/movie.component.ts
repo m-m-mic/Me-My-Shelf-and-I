@@ -18,6 +18,8 @@ import { Score } from '../../core/models/rating.interface';
 import { convertScoreToColor } from '../../shared/converters/score-color.converter';
 import { SliderModule } from 'primeng/slider';
 import { MediaDataComponent } from '../../core/components/media-data/media-data.component';
+import { Title } from '@angular/platform-browser';
+import { convertTitle } from '../../shared/converters/title.converter';
 
 @Component({
   selector: 'app-movie',
@@ -37,6 +39,7 @@ import { MediaDataComponent } from '../../core/components/media-data/media-data.
 export class MovieComponent implements OnChanges {
   formBuilder = inject(FormBuilder);
   usersService = inject(UsersService);
+  title = inject(Title);
 
   @Input() movieData?: Movie;
   @Input() userMovieData?: UserMovie;
@@ -49,6 +52,9 @@ export class MovieComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     this.initialScore = this.userMovieData?.score ?? 0;
+    if (this.movieData) {
+      this.title.setTitle(convertTitle(this.movieData.title));
+    }
     this.movieForm = this.formBuilder.group(fillMovieForm(this.userMovieData));
   }
 

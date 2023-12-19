@@ -17,7 +17,6 @@ import { MoviesService } from '../../core/services/movies.service';
 export class MoviesContainerComponent {
   moviesService = inject(MoviesService);
   authenticationService = inject(AuthenticationService);
-
   moviesList$ = this.moviesService.getAll();
   uid$ = this.authenticationService.getUser().pipe(
     take(1),

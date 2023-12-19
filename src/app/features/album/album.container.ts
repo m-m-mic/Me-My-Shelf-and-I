@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { AlbumComponent } from './album.component';
-import { filter, map, Observable, of, switchMap } from 'rxjs';
+import { filter, map, Observable, switchMap } from 'rxjs';
 import { Album, UserAlbum } from '../../core/models/album.interface';
 import { UsersService } from '../../core/services/users.service';
 import { ActivatedRoute } from '@angular/router';
