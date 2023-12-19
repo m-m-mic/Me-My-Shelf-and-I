@@ -1,5 +1,5 @@
 import { DocumentReference } from '@angular/fire/compat/firestore';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 import { Album, UserAlbum } from '../../core/models/album.interface';
 
 export function fillAlbumForm(userAlbumData?: UserAlbum) {
@@ -7,12 +7,14 @@ export function fillAlbumForm(userAlbumData?: UserAlbum) {
     return {
       format: [
         { value: userAlbumData.format, disabled: !userAlbumData.in_collection },
+        Validators.required,
       ],
       progress: [
         {
           value: userAlbumData.progress,
           disabled: !userAlbumData.in_collection,
         },
+        Validators.required,
       ],
       notes: [
         { value: userAlbumData.notes, disabled: !userAlbumData.in_collection },

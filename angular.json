@@ -72,10 +72,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "me-my-shelf-and-i:build:production"
+              "buildTarget": "me-my-shelf-and-i:build:production"
             },
             "development": {
-              "browserTarget": "me-my-shelf-and-i:build:development"
+              "buildTarget": "me-my-shelf-and-i:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -83,7 +83,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "me-my-shelf-and-i:build"
+            "buildTarget": "me-my-shelf-and-i:build"
           }
         },
         "lint": {

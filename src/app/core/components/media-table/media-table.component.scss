@@ -1,3 +1,5 @@
+$table-foreground: #362d4f;
+
 .table {
   container: table / inline-size;
   background: var(--primary-900);
@@ -22,8 +24,8 @@
   padding: 0 12px;
   font-family: inherit;
   font-size: inherit;
-  border: 2px solid #413b54;
-  background: #413b54;
+  border: 2px solid $table-foreground;
+  background: $table-foreground;
   transition: 0.2s;
 
   &:focus {
@@ -51,7 +53,7 @@
   display: flex;
   gap: 8px;
   height: 50px;
-  background: #413b54;
+  background: $table-foreground;
 }
 
 .header-row {
@@ -122,7 +124,7 @@
   text-align: center;
   font-weight: 600;
   height: 50px;
-  background: #413b54;
+  background: $table-foreground;
 }
 
 .underline {
@@ -137,7 +139,7 @@
   font-family: inherit;
   font-size: inherit;
   font-weight: 600;
-  background: #413b54;
+  background: $table-foreground;
   min-width: 30px;
   height: 30px;
   border-radius: 4px;
@@ -146,17 +148,14 @@
   transition: 0.2s;
 
   &:hover,
-  &:focus {
-    background: #7f74a8;
+  &:focus,
+  &.active {
+    background: #8170b6;
   }
 
   &:active {
     background: #8f7dc9;
   }
-}
-
-.page-button.active {
-  background: #7f74a8;
 }
 
 @container table (max-width: 950px) {

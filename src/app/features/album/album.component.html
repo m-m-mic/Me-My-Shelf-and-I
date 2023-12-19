@@ -32,7 +32,7 @@
   <div class="form-header">
     <h2>Your Details</h2>
     <p-button
-      [disabled]="!userAlbumData?.in_collection"
+      [disabled]="!userAlbumData?.in_collection || albumForm.valid"
       label="Save"
       icon="pi pi-check"
       size="small"

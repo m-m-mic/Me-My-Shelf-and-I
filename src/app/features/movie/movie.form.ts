@@ -1,4 +1,4 @@
-import { FormGroup } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 import { DocumentReference } from '@angular/fire/compat/firestore';
 import { Movie, UserMovie } from '../../core/models/movie.interface';
 
@@ -7,12 +7,14 @@ export function fillMovieForm(userMovieData?: UserMovie) {
     return {
       format: [
         { value: userMovieData.format, disabled: !userMovieData.in_collection },
+        Validators.required,
       ],
       progress: [
         {
           value: userMovieData.progress,
           disabled: !userMovieData.in_collection,
         },
+        Validators.required,
       ],
       notes: [
         { value: userMovieData.notes, disabled: !userMovieData.in_collection },
