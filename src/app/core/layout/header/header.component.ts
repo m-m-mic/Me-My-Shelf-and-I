@@ -2,13 +2,14 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
-import { HeaderButtonComponent } from '../../components/header-button/header-button.component';
+import { AccountButtonComponent } from '../../components/header-button/account-button.component';
 import { MenuItem } from 'primeng/api';
 import { Store } from '@ngrx/store';
 import { signOut } from '../../states/auth/auth.actions';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MainNavigationComponent } from '../../components/main-navigation/main-navigation.component';
 import { map, Observable } from 'rxjs';
+import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-header',
@@ -16,8 +17,9 @@ import { map, Observable } from 'rxjs';
   imports: [
     CommonModule,
     RouterLink,
-    HeaderButtonComponent,
+    AccountButtonComponent,
     MainNavigationComponent,
+    SidebarComponent,
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],

@@ -7,6 +7,27 @@
   position: absolute;
   width: 100%;
   display: flex;
-  gap: 8px;
   justify-content: right;
+}
+
+.header-account-button {
+  margin-left: 8px;
+  display: unset;
+  visibility: visible;
+
+  @include breakpoint-max(780px) {
+    display: none;
+    visibility: hidden;
+  }
+}
+
+.header-sidebar {
+  display: none;
+  visibility: hidden;
+
+  @include breakpoint-max(780px) {
+    margin-left: 8px;
+    display: unset;
+    visibility: visible;
+  }
 }

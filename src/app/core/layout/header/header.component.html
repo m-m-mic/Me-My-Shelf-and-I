@@ -1,4 +1,8 @@
 <app-main-navigation *ngIf="displayName$ | async" />
-<app-header-button
+<app-account-button
+  class="header-account-button"
   [menuItems]="(menuItems$ | async) ?? []"
+  [account]="(displayName$ | async) ?? undefined" />
+<app-sidebar
+  class="header-sidebar"
   [account]="(displayName$ | async) ?? undefined" />

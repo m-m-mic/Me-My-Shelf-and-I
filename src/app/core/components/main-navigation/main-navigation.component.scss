@@ -13,7 +13,7 @@
   align-items: center;
   border-radius: 12px;
   gap: 12px;
-  @include breakpoint-max(786px) {
+  @include breakpoint-max(780px) {
     justify-content: space-between;
   }
 }
@@ -27,7 +27,7 @@
   background: var(--text-color);
   border-radius: 20px;
   height: 30px;
-  @include breakpoint-max(786px) {
+  @include breakpoint-max(780px) {
     display: none;
   }
 }
@@ -45,7 +45,7 @@
   border-radius: 6px;
   transition: 0.2s;
 
-  @include breakpoint-max(786px) {
+  @include breakpoint-max(780px) {
     display: none;
   }
 

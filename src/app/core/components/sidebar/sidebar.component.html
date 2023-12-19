@@ -1,44 +1,32 @@
-<button type="button" class="account-button" (click)="menu.toggle($event)">
-  <span class="account-button-label">{{ account ?? 'Account' }}</span>
-  <span class="account-icon">
-    <ng-icon name="ionPerson" size="24" />
-  </span>
-</button>
-<p-menu
-  #menu
-  [model]="menuItems"
-  styleClass="account-button-menu"
-  [popup]="true" />
-
-<button class="burger-menu" (click)="sidebarVisible = true">
+<button class="sidebar-menu-button" (click)="sidebarVisible = true">
   <ng-icon name="ionMenu" size="24" />
 </button>
 <p-sidebar [(visible)]="sidebarVisible" position="right">
   <div class="sidebar-content">
     <ng-template [ngIf]="account">
       <a
-        class="sidebar-button"
+        class="sidebar-link"
         [routerLink]="['/dashboard']"
         [routerLinkActive]="['active']"
         (click)="sidebarVisible = false">
         Dashboard
       </a>
       <a
-        class="sidebar-button"
+        class="sidebar-link"
         [routerLink]="['/games']"
         [routerLinkActive]="['active']"
         (click)="sidebarVisible = false">
         Games
       </a>
       <a
-        class="sidebar-button"
+        class="sidebar-link"
         [routerLink]="['/movies']"
         [routerLinkActive]="['active']"
         (click)="sidebarVisible = false">
         Movies
       </a>
       <a
-        class="sidebar-button"
+        class="sidebar-link"
         [routerLink]="['/albums']"
         [routerLinkActive]="['active']"
         (click)="sidebarVisible = false">
@@ -46,24 +34,24 @@
       </a>
       <p-divider></p-divider>
       <a
-        class="sidebar-button"
+        class="sidebar-link"
         [routerLink]="['/settings']"
         [routerLinkActive]="['active']"
         (click)="sidebarVisible = false">
         Settings
       </a>
-      <button class="sidebar-button" (click)="signOut()">Sign Out</button>
+      <button class="sidebar-link" (click)="signOut()">Sign Out</button>
     </ng-template>
     <ng-template [ngIf]="!account">
       <a
-        class="sidebar-button"
+        class="sidebar-link"
         [routerLink]="['/sign-in']"
         [routerLinkActive]="['active']"
         (click)="sidebarVisible = false">
         Sign In
       </a>
       <a
-        class="sidebar-button"
+        class="sidebar-link"
         [routerLink]="['/sign-up']"
         [routerLinkActive]="['active']"
         (click)="sidebarVisible = false">
