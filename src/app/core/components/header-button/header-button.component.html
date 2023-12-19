@@ -1,5 +1,11 @@
-<button type="button" class="account-button" (click)="menu.toggle($event)">
-  <span class="account-button-label">{{ account ?? 'Account' }}</span>
+<button
+  data-testid="account-button"
+  type="button"
+  class="account-button"
+  (click)="menu.toggle($event)">
+  <span data-testid="account-label" class="account-button-label">
+    {{ account ?? 'Account' }}
+  </span>
   <span class="account-icon">
     <ng-icon name="ionPerson" size="24" />
   </span>

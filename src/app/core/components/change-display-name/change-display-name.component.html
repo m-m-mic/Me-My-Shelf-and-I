@@ -4,26 +4,11 @@
     <p-button
       *ngIf="displayNameFormControl.disabled; else displayNameEnabled"
       label="Change"
+      data-testid="change-button"
       [text]="true"
       size="small"
       icon="pi pi-pencil"
       (click)="toggleFormControlDisabled()" />
-    <ng-template #displayNameEnabled>
-      <div class="enabled-options">
-        <p-button
-          label="Discard"
-          [text]="true"
-          size="small"
-          icon="pi pi-times"
-          (click)="toggleFormControlDisabled()" />
-        <p-button
-          label="Update"
-          size="small"
-          [disabled]="!displayNameFormControl.valid"
-          icon="pi pi-check"
-          (click)="update()" />
-      </div>
-    </ng-template>
   </div>
 </div>
 
@@ -32,10 +17,12 @@
     pInputText
     type="text"
     id="displayName"
+    data-testid="display-name-input"
     [formControl]="displayNameFormControl" />
   <small
     class="validator-error"
-    *ngIf="displayNameFormControl.errors?.['maxlength']">
+    *ngIf="displayNameFormControl.errors?.['maxlength']"
+    data-testid="maxlength-error">
     Can't be longer than 12 characters
   </small>
 </div>
@@ -48,20 +35,23 @@
     size="small"
     icon="pi pi-pencil"
     (click)="toggleFormControlDisabled()" />
-  <ng-template #displayNameEnabled>
-    <div class="enabled-options">
-      <p-button
-        label="Discard"
-        [text]="true"
-        size="small"
-        icon="pi pi-times"
-        (click)="toggleFormControlDisabled()" />
-      <p-button
-        label="Update"
-        size="small"
-        [disabled]="!displayNameFormControl.valid"
-        icon="pi pi-check"
-        (click)="update()" />
-    </div>
-  </ng-template>
 </div>
+
+<ng-template #displayNameEnabled>
+  <div class="enabled-options">
+    <p-button
+      label="Discard"
+      data-testid="discard-button"
+      [text]="true"
+      size="small"
+      icon="pi pi-times"
+      (click)="toggleFormControlDisabled()" />
+    <p-button
+      label="Update"
+      data-testid="update-button"
+      size="small"
+      [disabled]="!displayNameFormControl.valid"
+      icon="pi pi-check"
+      (click)="update()" />
+  </div>
+</ng-template>

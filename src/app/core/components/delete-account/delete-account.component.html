@@ -1,5 +1,9 @@
 <h2>Delete Account</h2>
-<p-button label="Delete Account" severity="danger" (click)="openModal()" />
+<p-button
+  label="Delete Account"
+  severity="danger"
+  data-testid="open-button"
+  (click)="openModal()" />
 <app-modal title="Delete Account" state="danger">
   <div>
     Are you certain you want to delete your account?
@@ -12,11 +16,13 @@
   <input
     pInputText
     type="password"
+    data-testid="password-input"
     [formControl]="deletionFormControl"
     placeholder="Enter password..." />
   <div class="delete-button">
     <p-button
       label="Yes, delete my account"
+      data-testid="delete-button"
       severity="danger"
       [disabled]="!deletionFormControl.valid || isDeleting"
       (click)="deleteAccount()" />
