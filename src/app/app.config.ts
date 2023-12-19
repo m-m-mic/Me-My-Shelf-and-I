@@ -16,6 +16,7 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AuthenticationGuard } from './core/services/authentication.guard';
 import { errorReducer } from './core/states/error/error.reducer';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { searchReducer } from './core/states/search/search.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,7 +26,7 @@ export const appConfig: ApplicationConfig = {
       AngularFirestoreModule,
     ),
     provideRouter(ROUTES),
-    provideStore({ error: errorReducer }),
+    provideStore({ error: errorReducer, search: searchReducer }),
     provideEffects([AuthEffects]),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     provideAnimations(),

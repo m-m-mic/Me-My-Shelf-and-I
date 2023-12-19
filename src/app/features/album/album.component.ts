@@ -18,6 +18,7 @@ import { Score } from '../../core/models/rating.interface';
 import { convertScoreToColor } from '../../shared/converters/score-color.converter';
 import { MediaDataComponent } from '../../core/components/media-data/media-data.component';
 import { SliderModule } from 'primeng/slider';
+import { MediaCategory } from '../../core/models/media.interface';
 
 @Component({
   selector: 'app-album',
@@ -70,4 +71,6 @@ export class AlbumComponent implements OnChanges {
       );
     }
   }
+
+  protected readonly MediaCategory = MediaCategory;
 }

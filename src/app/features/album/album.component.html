@@ -2,7 +2,7 @@
   [data]="albumData"
   [score]="score"
   [inCollection]="userAlbumData?.in_collection"
-  mediaType="album"
+  [category]="MediaCategory.ALBUMS"
   [id]="id">
   <ng-template [ngIf]="albumData">
     <span>

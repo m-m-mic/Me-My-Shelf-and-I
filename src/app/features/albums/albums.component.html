@@ -1,4 +1,2 @@
 <h1>Albums</h1>
-<div class="albums-results">
-  <app-album-card *ngFor="let album of albumsList" [data]="album" [uid]="uid" />
-</div>
+<app-media-search [category]="MediaCategory.ALBUMS" [uid]="uid" />

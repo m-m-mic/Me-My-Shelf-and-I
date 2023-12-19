@@ -9,10 +9,6 @@ export interface Movie {
   saved_by: string[];
 }
 
-export interface MovieWithId extends Movie {
-  id: string;
-}
-
 export interface UserMovie {
   ref: DocumentReference<Movie>;
   in_collection: boolean;

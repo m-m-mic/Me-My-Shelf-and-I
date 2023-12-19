@@ -1,16 +1,16 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AlbumCardComponent } from '../../core/components/album-card/album-card.component';
-import { AlbumWithId } from '../../core/models/album.interface';
+import { MediaCategory } from '../../core/models/media.interface';
+import { MediaSearchComponent } from '../../core/components/media-search/media-search.component';
 
 @Component({
   selector: 'app-albums',
   standalone: true,
-  imports: [CommonModule, AlbumCardComponent],
+  imports: [CommonModule, MediaSearchComponent],
   templateUrl: './albums.component.html',
   styleUrls: ['./albums.component.scss'],
 })
 export class AlbumsComponent {
-  @Input() albumsList: AlbumWithId[] = [];
   @Input() uid = '';
+  protected readonly MediaCategory = MediaCategory;
 }

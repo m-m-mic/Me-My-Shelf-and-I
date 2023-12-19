@@ -10,10 +10,6 @@ export interface Album {
   saved_by: string[];
 }
 
-export interface AlbumWithId extends Album {
-  id: string;
-}
-
 export interface UserAlbum {
   ref: DocumentReference<Album>;
   in_collection: boolean;

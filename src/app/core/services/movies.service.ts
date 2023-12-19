@@ -1,4 +1,4 @@
-import { DestroyRef, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
@@ -6,8 +6,8 @@ import {
 import { UsersService } from './users.service';
 import { AuthenticationService } from './authentication.service';
 import { firstValueFrom, map } from 'rxjs';
-import { Movie, MovieWithId, UserMovie } from '../models/movie.interface';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Movie, UserMovie } from '../models/movie.interface';
+import { MediaCategory, MediaItem } from '../models/media.interface';
 
 const MOVIES_PATH = '/movies';
 
@@ -19,23 +19,38 @@ export class MoviesService {
   constructor(
     private usersService: UsersService,
     private authenticationService: AuthenticationService,
-    private destroyRef: DestroyRef,
     private db: AngularFirestore,
   ) {
     this.moviesRef = db.collection(MOVIES_PATH);
   }
-  getAll() {
-    return this.moviesRef.snapshotChanges().pipe(
-      takeUntilDestroyed(this.destroyRef),
-      map((movies) => {
-        return movies.map(
-          (movie): MovieWithId => ({
-            id: movie.payload.doc.id,
-            ...movie.payload.doc.data(),
+  async getSearchResults(query: string, filterSaved: boolean, uid: string) {
+    let results = await firstValueFrom(
+      this.db
+        .collection<Movie>(MOVIES_PATH, (ref) => {
+          if (query.trim() === '') {
+            return ref.orderBy('title');
+          }
+          return ref.where('title', '==', query).orderBy('title');
+        })
+        .snapshotChanges()
+        .pipe(
+          map((movies) => {
+            return movies.map(
+              (movie): MediaItem => ({
+                id: movie.payload.doc.id,
+                category: MediaCategory.MOVIES,
+                ...movie.payload.doc.data(),
+              }),
+            );
           }),
-        );
-      }),
+        ),
     );
+
+    if (filterSaved) {
+      results = results.filter((result) => !result.saved_by.includes(uid));
+    }
+
+    return results;
   }
 
   get(id: string) {

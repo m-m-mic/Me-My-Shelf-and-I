@@ -1,16 +1,16 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MovieWithId } from '../../core/models/movie.interface';
-import { MovieCardComponent } from '../../core/components/movie-card/movie-card.component';
+import { MediaCategory } from '../../core/models/media.interface';
+import { MediaSearchComponent } from '../../core/components/media-search/media-search.component';
 
 @Component({
   selector: 'app-movies',
   standalone: true,
-  imports: [CommonModule, MovieCardComponent],
+  imports: [CommonModule, MediaSearchComponent],
   templateUrl: './movies.component.html',
   styleUrls: ['./movies.component.scss'],
 })
 export class MoviesComponent {
-  @Input() moviesList: MovieWithId[] = [];
   @Input() uid = '';
+  protected readonly MediaCategory = MediaCategory;
 }

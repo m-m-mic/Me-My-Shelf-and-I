@@ -11,6 +11,7 @@ import { GamesService } from '../../services/games.service';
 import { MoviesService } from '../../services/movies.service';
 import { AlbumsService } from '../../services/albums.service';
 import { ionAdd, ionBookmark, ionRemove } from '@ng-icons/ionicons';
+import { MediaCategory } from '../../models/media.interface';
 
 @Component({
   selector: 'app-media-data',
@@ -29,15 +30,15 @@ export class MediaDataComponent {
   @Input() inCollection?: boolean;
   @Input() score?: Score;
   @Input() id?: string;
-  @Input() mediaType: 'game' | 'movie' | 'album' = 'game';
+  @Input() category: MediaCategory = MediaCategory.GAMES;
 
   get mediaService() {
-    switch (this.mediaType) {
-      case 'game':
+    switch (this.category) {
+      case MediaCategory.GAMES:
         return this.gamesService;
-      case 'movie':
+      case MediaCategory.MOVIES:
         return this.moviesService;
-      case 'album':
+      case MediaCategory.ALBUMS:
         return this.albumsService;
     }
   }

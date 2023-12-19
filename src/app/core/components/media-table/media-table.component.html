@@ -8,6 +8,7 @@
     <button
       *ngIf="queryFormControl.value"
       class="clear-button"
+      type="button"
       aria-label="Clear filter input"
       (click)="queryFormControl.setValue('')">
       <ng-icon size="20" name="ionClose" />
@@ -24,7 +25,7 @@
         <app-sort-button [sort]="sortBy" column="title" />
       </button>
       <button
-        *ngIf="mediaType === 'game'"
+        *ngIf="category === MediaCategory.GAMES"
         class="row-item header-row-item platform"
         role="columnheader"
         (click)="toggleSort('platform')">
@@ -32,7 +33,7 @@
         <app-sort-button [sort]="sortBy" column="platform" />
       </button>
       <button
-        *ngIf="mediaType === 'movie'"
+        *ngIf="category === MediaCategory.MOVIES"
         class="row-item header-row-item director"
         role="columnheader"
         (click)="toggleSort('director')">
@@ -40,7 +41,7 @@
         <app-sort-button [sort]="sortBy" column="director" />
       </button>
       <button
-        *ngIf="mediaType === 'album'"
+        *ngIf="category === MediaCategory.ALBUMS"
         class="row-item header-row-item artist"
         role="columnheader"
         (click)="toggleSort('artist')">
@@ -55,7 +56,7 @@
         <app-sort-button [sort]="sortBy" column="progress" />
       </button>
       <button
-        *ngIf="mediaType === 'game'"
+        *ngIf="category === MediaCategory.GAMES"
         class="row-item header-row-item time"
         role="columnheader"
         (click)="toggleSort('time')">
@@ -77,24 +78,36 @@
       role="row"
       *ngFor="let row of rowArray()[currentPage]; index as i">
       <div class="row-item index" role="cell">
-        {{ i + 1 }}
+        {{ getRowIndex(i) }}
       </div>
       <div class="row-item title" role="cell">
         <a class="item-link" [routerLink]="formatLink(row.id)">
           {{ row.title }}
         </a>
       </div>
-      <div class="row-item platform" role="cell" *ngIf="mediaType === 'game'">
+      <div
+        class="row-item platform"
+        role="cell"
+        *ngIf="category === MediaCategory.GAMES">
         {{ row.platform }}
       </div>
-      <div class="row-item director" role="cell" *ngIf="mediaType === 'movie'">
+      <div
+        class="row-item director"
+        role="cell"
+        *ngIf="category === MediaCategory.MOVIES">
         {{ row.director }}
       </div>
-      <div class="row-item artist" role="cell" *ngIf="mediaType === 'album'">
+      <div
+        class="row-item artist"
+        role="cell"
+        *ngIf="category === MediaCategory.ALBUMS">
         {{ row.artist }}
       </div>
       <div class="row-item progress" role="cell">{{ row.progress }}</div>
-      <div class="row-item time" role="cell" *ngIf="mediaType === 'game'">
+      <div
+        class="row-item time"
+        role="cell"
+        *ngIf="category === MediaCategory.GAMES">
         {{ row.time / 60 | number: '1.0-0' }}
         {{ row.time / 60 === 1 ? 'hour' : 'hours' }}
       </div>

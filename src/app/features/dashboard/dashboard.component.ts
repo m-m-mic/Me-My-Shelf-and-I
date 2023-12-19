@@ -2,12 +2,9 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { UsersService } from '../../core/services/users.service';
-import { GameCardComponent } from '../../core/components/game-card/game-card.component';
 import { UserCollection } from '../../core/models/user.interface';
 import { LoadingComponent } from '../../core/layout/loading/loading.component';
-import { ActivatedRoute, Params, Router, RouterLink } from '@angular/router';
-import { MovieCardComponent } from '../../core/components/movie-card/movie-card.component';
-import { AlbumCardComponent } from '../../core/components/album-card/album-card.component';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { GameStatisticsComponent } from '../../core/components/game-statistics/game-statistics.component';
@@ -16,7 +13,7 @@ import { AlbumStatisticsComponent } from '../../core/components/album-statistics
 import { MovieStatisticsComponent } from '../../core/components/movie-statistics/movie-statistics.component';
 import { MediaTableComponent } from '../../core/components/media-table/media-table.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { tap } from 'rxjs';
+import { MediaCategory } from '../../core/models/media.interface';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,11 +21,8 @@ import { tap } from 'rxjs';
   imports: [
     CommonModule,
     ButtonModule,
-    GameCardComponent,
     LoadingComponent,
     RouterLink,
-    MovieCardComponent,
-    AlbumCardComponent,
     TabMenuModule,
     GameStatisticsComponent,
     AlbumStatisticsComponent,
@@ -83,4 +77,6 @@ export class DashboardComponent {
       queryParams: { tab: event.label?.toLowerCase() },
     });
   }
+
+  protected readonly MediaCategory = MediaCategory;
 }

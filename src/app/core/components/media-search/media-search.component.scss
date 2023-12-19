@@ -1,0 +1,108 @@
+:host {
+  container: search / inline-size;
+  display: flex;
+  flex-flow: column;
+  gap: 16px;
+}
+
+.search-form {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.search {
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  border-radius: 12px;
+  height: 42px;
+  padding: 0 12px;
+  font-family: inherit;
+  font-size: inherit;
+  border: 2px solid var(--primary-900);
+  background: var(--primary-900);
+  transition: 0.2s;
+
+  &:focus {
+    border: 2px solid var(--text-color);
+    outline: none;
+  }
+}
+
+.clear-button {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  background: none;
+
+  ng-icon {
+    display: block;
+  }
+}
+
+.filter {
+  box-sizing: border-box;
+  padding: 0 12px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--primary-900);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  white-space: nowrap;
+}
+
+.search-results {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+.no-results {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 160px;
+}
+
+@container search (max-width: 1100px) {
+  .search-results {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
+
+@container search (max-width: 880px) {
+  .search-results {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@container search (max-width: 650px) {
+  .search-form {
+    flex-flow: column;
+  }
+
+  .filter {
+    width: 100%;
+  }
+
+  .search-results {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@container search (max-width: 440px) {
+  .search-results {
+    grid-template-columns: 1fr;
+  }
+}

@@ -9,10 +9,6 @@ export interface Game {
   saved_by: string[];
 }
 
-export interface GameWithId extends Game {
-  id: string;
-}
-
 export interface UserGame {
   ref: DocumentReference<Game>;
   in_collection: boolean;

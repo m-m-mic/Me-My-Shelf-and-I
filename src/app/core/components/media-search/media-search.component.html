@@ -1,0 +1,35 @@
+<form class="search-form" [formGroup]="searchFormControl">
+  <div class="search">
+    <input
+      class="search-input"
+      aria-label="Search for media"
+      formControlName="query"
+      [placeholder]="placeholder"
+      (blur)="triggerSearch()" />
+    <button
+      *ngIf="query"
+      class="clear-button"
+      type="button"
+      aria-label="Clear search input"
+      (click)="clearSearchInput()">
+      <ng-icon size="20" name="ionClose" />
+    </button>
+  </div>
+  <div class="filter">
+    <p-inputSwitch formControlName="filterSaved" (click)="getResults()" />
+    <span>Filter saved {{ category }}</span>
+  </div>
+</form>
+
+<app-loading *ngIf="loading; else loaded" />
+
+<ng-template #loaded>
+  <b>{{ results.length }} {{ results.length === 1 ? 'result' : 'results' }}</b>
+
+  <div class="search-results" *ngIf="results.length; else noResults">
+    <app-card *ngFor="let result of results" [data]="result" [uid]="uid" />
+  </div>
+  <ng-template #noResults>
+    <b class="no-results">No results found</b>
+  </ng-template>
+</ng-template>

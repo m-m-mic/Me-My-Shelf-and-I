@@ -1,9 +1,9 @@
 import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  MediaSortColumn,
   MediaRow,
   MediaSort,
+  MediaSortColumn,
 } from '../../models/table.interface';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { SortButtonComponent } from '../sort-button/sort-button.component';
@@ -11,6 +11,7 @@ import { RouterLink } from '@angular/router';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { ionClose } from '@ng-icons/ionicons';
 import { TableService } from '../../services/table.service';
+import { MediaCategory } from '../../models/media.interface';
 
 @Component({
   selector: 'app-media-table',
@@ -24,14 +25,13 @@ import { TableService } from '../../services/table.service';
   ],
   templateUrl: './media-table.component.html',
   styleUrls: ['./media-table.component.scss'],
-
   viewProviders: [provideIcons({ ionClose })],
 })
 export class MediaTableComponent {
   tableService = inject(TableService);
 
   @Input() rows: MediaRow[] = [];
-  @Input() mediaType: 'game' | 'movie' | 'album' = 'game';
+  @Input() category: MediaCategory = MediaCategory.GAMES;
   sortBy: MediaSort = { column: 'title', direction: 'asc' };
   queryFormControl = new FormControl('');
   currentPage = 0;
@@ -67,18 +67,22 @@ export class MediaTableComponent {
   }
 
   get placeholder() {
-    switch (this.mediaType) {
-      case 'game':
+    switch (this.category) {
+      case MediaCategory.GAMES:
         return 'Search for Games...';
-      case 'movie':
+      case MediaCategory.MOVIES:
         return 'Search for Movies...';
-      case 'album':
+      case MediaCategory.ALBUMS:
         return 'Search for Albums...';
     }
   }
 
+  getRowIndex(index: number) {
+    return index + 1 + this.currentPage * 100;
+  }
+
   formatLink(id: string) {
-    return `/${this.mediaType}s/${id}`;
+    return `/${this.category}/${id}`;
   }
 
   formatDate(date: number) {
@@ -88,4 +92,6 @@ export class MediaTableComponent {
       day: 'numeric',
     });
   }
+
+  protected readonly MediaCategory = MediaCategory;
 }
