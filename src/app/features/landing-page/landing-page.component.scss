@@ -3,3 +3,18 @@
 :host {
   @include flexContent;
 }
+
+.landing-page-header {
+  margin: 48px 0;
+  display: flex;
+  flex-flow: column;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.mmsai-title {
+  font-size: 48px;
+  font-family: 'Bungee Regular', sans-serif;
+}
