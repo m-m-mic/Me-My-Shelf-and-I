@@ -27,7 +27,7 @@ import { ionMenu } from '@ng-icons/ionicons';
 export class SidebarComponent {
   store = inject(Store);
 
-  @Input() account?: string;
+  @Input() accountName?: string;
 
   sidebarVisible = false;
 

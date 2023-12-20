@@ -3,7 +3,7 @@
 </button>
 <p-sidebar [(visible)]="sidebarVisible" position="right">
   <div class="sidebar-content">
-    <ng-template [ngIf]="account">
+    <ng-template [ngIf]="accountName">
       <a
         class="sidebar-link"
         [routerLink]="['/dashboard']"
@@ -42,7 +42,7 @@
       </a>
       <button class="sidebar-link" (click)="signOut()">Sign Out</button>
     </ng-template>
-    <ng-template [ngIf]="!account">
+    <ng-template [ngIf]="!accountName">
       <a
         class="sidebar-link"
         [routerLink]="['/sign-in']"

@@ -13,5 +13,5 @@ import { PopoverComponent } from '../popover/popover.component';
   viewProviders: [provideIcons({ ionPerson })],
 })
 export class AccountButtonComponent {
-  @Input() account?: string;
+  @Input() accountName?: string;
 }
