@@ -1,0 +1,28 @@
+.popover-button {
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  text-decoration: none;
+  border: none;
+  margin: 0;
+  box-sizing: border-box;
+  background: none;
+  cursor: pointer;
+  transition: 100ms ease-out;
+
+  &:focus,
+  &:hover {
+    background: gray;
+    border: none;
+    outline: none;
+  }
+
+  &:active {
+    background: black;
+    border: none;
+    outline: none;
+  }
+}

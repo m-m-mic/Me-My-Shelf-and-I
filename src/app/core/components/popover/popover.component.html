@@ -1,0 +1,6 @@
+<button class="popover-anchor" #anchor (click)="openPopover()">
+  <ng-content select="[anchor]" />
+</button>
+<div class="popover-content" [ngClass]="{ visible: isVisible }" #content>
+  <ng-content select="[content]" />
+</div>

@@ -1,10 +1,11 @@
+@import '../../../shared/styles/elevations';
+
 :host {
   position: relative;
   max-width: 220px;
   min-width: 140px;
 }
 
-// Account button for larger screen devices
 .account-button {
   min-width: 0;
   width: 100%;
@@ -23,6 +24,7 @@
   text-decoration: none;
   cursor: pointer;
   transition: 0.2s;
+  box-shadow: $primary-elevation;
 
   &:active {
     transform: scale(0.95);

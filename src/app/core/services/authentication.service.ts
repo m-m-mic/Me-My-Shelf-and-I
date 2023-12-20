@@ -1,6 +1,14 @@
 import { inject, Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { catchError, from, Observable, take, throwError } from 'rxjs';
+import {
+  catchError,
+  from,
+  Observable,
+  of,
+  switchMap,
+  take,
+  throwError,
+} from 'rxjs';
 import firebase from 'firebase/compat';
 import { Store } from '@ngrx/store';
 import { resolveError, setErrorMessage } from '../states/error/error.actions';
@@ -56,6 +64,10 @@ export class AuthenticationService {
 
   getUser() {
     return this.auth.authState;
+  }
+
+  loggedIn() {
+    return this.auth.authState.pipe(switchMap((user) => of(!!user)));
   }
 
   async initializeResetPassword(email: string) {

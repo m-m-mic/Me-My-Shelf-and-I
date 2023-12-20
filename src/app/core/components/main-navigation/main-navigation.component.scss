@@ -1,4 +1,5 @@
 @import '../../../shared/styles/breakpoints';
+@import '../../../shared/styles/elevations';
 
 :host {
   flex: 1;
@@ -13,6 +14,8 @@
   align-items: center;
   border-radius: 12px;
   gap: 12px;
+  box-shadow: $primary-elevation;
+
   @include breakpoint-max(780px) {
     justify-content: space-between;
   }

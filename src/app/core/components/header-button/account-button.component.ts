@@ -3,17 +3,15 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { ionPerson } from '@ng-icons/ionicons';
-import { MenuModule } from 'primeng/menu';
-import { MenuItem } from 'primeng/api';
+import { PopoverComponent } from '../popover/popover.component';
 @Component({
   selector: 'app-account-button',
   standalone: true,
-  imports: [CommonModule, RouterLink, NgIconComponent, MenuModule],
+  imports: [CommonModule, RouterLink, NgIconComponent, PopoverComponent],
   templateUrl: './account-button.component.html',
   styleUrls: ['./account-button.component.scss'],
   viewProviders: [provideIcons({ ionPerson })],
 })
 export class AccountButtonComponent {
   @Input() account?: string;
-  @Input({ required: true }) menuItems!: MenuItem[];
 }

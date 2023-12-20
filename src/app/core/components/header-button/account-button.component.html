@@ -1,11 +1,11 @@
-<button type="button" class="account-button" (click)="menu.toggle($event)">
-  <span class="account-button-label">{{ account ?? 'Account' }}</span>
-  <span class="account-icon">
-    <ng-icon name="ionPerson" size="24" />
-  </span>
-</button>
-<p-menu
-  #menu
-  [model]="menuItems"
-  styleClass="account-button-menu"
-  [popup]="true" />
+<app-popover>
+  <div anchor class="account-button">
+    <span class="account-button-label">{{ account ?? 'Account' }}</span>
+    <span class="account-icon">
+      <ng-icon name="ionPerson" size="24" />
+    </span>
+  </div>
+  <ng-container content>
+    <ng-content />
+  </ng-container>
+</app-popover>
