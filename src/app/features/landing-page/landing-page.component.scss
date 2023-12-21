@@ -28,14 +28,18 @@
 }
 
 .landing-page-image {
-  flex: 1;
+  flex: 5;
 }
 
 .landing-page-text {
-  flex: 1;
+  flex: 4;
   display: flex;
   flex-flow: column;
   gap: 16px;
+}
+
+.text-block {
+  line-height: 28px;
 }
 
 .landing-page-buttons {
