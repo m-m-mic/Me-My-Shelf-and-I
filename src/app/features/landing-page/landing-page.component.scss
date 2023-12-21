@@ -4,8 +4,9 @@
   @include flexContent;
 }
 
-.landing-page-header {
-  margin: 48px 0;
+.landing-page-header,
+.landing-page-cta {
+  margin: 64px 0;
   display: flex;
   flex-flow: column;
   gap: 16px;
@@ -17,4 +18,27 @@
 .mmsai-title {
   font-size: 48px;
   font-family: 'Bungee Regular', sans-serif;
+}
+
+.landing-page-section {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin: 64px 0;
+}
+
+.landing-page-image {
+  flex: 1;
+}
+
+.landing-page-text {
+  flex: 1;
+  display: flex;
+  flex-flow: column;
+  gap: 16px;
+}
+
+.landing-page-buttons {
+  display: flex;
+  gap: 16px;
 }
