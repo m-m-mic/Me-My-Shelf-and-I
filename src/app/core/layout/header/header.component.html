@@ -1,4 +1,15 @@
-<app-main-navigation *ngIf="displayName$ | async" />
-<app-header-button
-  [menuItems]="(menuItems$ | async) ?? []"
-  [account]="(displayName$ | async) ?? undefined" />
+<app-main-navigation *ngIf="loggedIn$ | async" />
+<app-account-button
+  class="header-account-button"
+  [accountName]="(displayName$ | async) ?? undefined">
+  @if (loggedIn$ | async) {
+    <a class="popover-button" [routerLink]="['/settings']">Settings</a>
+    <button class="popover-button" (click)="signOut()">Sign Out</button>
+  } @else {
+    <a class="popover-button" [routerLink]="['/sign-in']">Sign In</a>
+    <a class="popover-button" [routerLink]="['/sign-up']">Sign Up</a>
+  }
+</app-account-button>
+<app-sidebar
+  class="header-sidebar"
+  [accountName]="(displayName$ | async) ?? undefined" />

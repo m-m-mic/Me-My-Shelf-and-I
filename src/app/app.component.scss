@@ -6,6 +6,15 @@
   align-items: center;
 }
 
+.header-container {
+  margin: 12px 0;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  position: fixed;
+  z-index: 14;
+}
+
 .app-content {
   flex: 1;
   display: flex;
