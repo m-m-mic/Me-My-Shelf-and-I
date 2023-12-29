@@ -1,5 +1,75 @@
 @import '../../shared/styles/flexContent';
+@import '../../shared/styles/breakpoints';
 
 :host {
   @include flexContent;
+}
+
+.landing-page-header,
+.landing-page-cta {
+  margin: 32px 0;
+  display: flex;
+  flex-flow: column;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.landing-page-header {
+  margin-top: 64px;
+}
+
+.mmsai-title {
+  font-size: 48px;
+  line-height: 64px;
+  font-family: 'Bungee Regular', sans-serif;
+}
+
+.landing-page-section {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  margin: 32px 0;
+
+  @include breakpoint-max(780px) {
+    flex-flow: column;
+
+    &.ratings {
+      flex-flow: column-reverse;
+    }
+  }
+}
+
+.landing-page-image-container {
+  flex: 5;
+}
+
+.landing-page-image {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 0 24px;
+}
+
+.landing-page-text {
+  flex: 4;
+  display: flex;
+  flex-flow: column;
+  gap: 16px;
+  box-sizing: border-box;
+  padding: 0 24px;
+}
+
+.text-headline {
+  line-height: 32px;
+}
+
+.text-block {
+  line-height: 28px;
+}
+
+.landing-page-buttons {
+  display: flex;
+  gap: 16px;
 }
