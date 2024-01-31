@@ -1,5 +1,60 @@
-<h1>ME, MY SHELF & I</h1>
-<h2>
-  Your resource for keeping track of your music, movie, and video game
-  collections.
-</h2>
+<div class="landing-page-header">
+  <h1 class="mmsai-title">ME, MY SHELF & I</h1>
+  <h2>
+    Your resource for keeping track of your music, movie, and video game
+    collections.
+  </h2>
+</div>
+
+<div class="landing-page-section">
+  <div class="landing-page-image-container">
+    <img
+      class="landing-page-image"
+      ngSrc="assets/images/landing_page_1.png"
+      alt="A game, album and movie cover"
+      height="400"
+      width="650" />
+  </div>
+  <div class="landing-page-text">
+    <h3 class="text-headline">
+      All of your Collections, contained within one Dashboard
+    </h3>
+    <div class="text-block">
+      Me, My Shelf & I allows you to to keep track of all your Video Games,
+      Movies, and Albums in your collection.
+    </div>
+    <div class="text-block">
+      Add personal data to each entry within your collection, such as whether
+      you own the media item digitally or physically.
+    </div>
+  </div>
+</div>
+
+<div class="landing-page-section ratings">
+  <div class="landing-page-text">
+    <h3 class="text-headline">Rate your Video Games, Movies, and Albums</h3>
+    <div class="text-block">
+      Give every media entry you own a score from 1 to 10 and see how your
+      scores compare to the average among other users!
+    </div>
+  </div>
+  <div class="landing-page-image-container">
+    <img
+      class="landing-page-image"
+      ngSrc="assets/images/landing_page_2.png"
+      alt="A game, album and movie cover"
+      height="400"
+      width="650" />
+  </div>
+</div>
+
+<div class="landing-page-cta">
+  <h2>Get started here!</h2>
+  <div class="landing-page-buttons">
+    <p-button (click)="toSignUp()" label="Sign Up"></p-button>
+    <p-button
+      (click)="toSignIn()"
+      label="Sign In"
+      severity="secondary"></p-button>
+  </div>
+</div>
