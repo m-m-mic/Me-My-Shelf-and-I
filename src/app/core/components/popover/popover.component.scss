@@ -1,0 +1,38 @@
+@import '../../../shared/styles/elevations';
+
+:host {
+  position: relative;
+}
+
+.popover-anchor {
+  width: 100%;
+  padding: 0;
+  background: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  margin: 0;
+  border: none;
+}
+
+.popover-content {
+  z-index: 15;
+  width: 100%;
+  position: absolute;
+  display: flex;
+  visibility: hidden;
+  flex-flow: column;
+  border-radius: 12px;
+  overflow: hidden;
+  opacity: 0;
+  transform: scale(0.9);
+  transition: 100ms ease-out;
+  box-shadow: $panel-elevation;
+}
+
+.popover-content.visible {
+  background-color: #362d4f;
+  transform: scale(1);
+  visibility: visible;
+  opacity: 1;
+}
