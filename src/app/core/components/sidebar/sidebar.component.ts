@@ -3,7 +3,6 @@ import { DividerModule } from 'primeng/divider';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { SidebarModule } from 'primeng/sidebar';
 import { Store } from '@ngrx/store';
-import { MenuItem } from 'primeng/api';
 import { NgIf } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { signOut } from '../../states/auth/auth.actions';
