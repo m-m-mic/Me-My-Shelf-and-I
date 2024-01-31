@@ -3,6 +3,7 @@
 :host {
   max-width: 1270px;
   box-sizing: border-box;
+  padding: 12px;
   position: absolute;
   width: 100%;
   display: flex;
@@ -26,7 +27,7 @@
 
   @include breakpoint-max(780px) {
     margin-left: 8px;
-    display: unset;
+    display: block;
     visibility: visible;
   }
 }

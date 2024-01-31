@@ -28,7 +28,7 @@ export class HeaderComponent {
 
   displayName$ = this.authenticationService.authUser$.pipe(
     map((user) => {
-      return user?.displayName ?? user?.email ?? 'Account';
+      return user?.displayName ?? user?.email ?? undefined;
     }),
   );
   loggedIn$ = this.authenticationService.loggedIn();
